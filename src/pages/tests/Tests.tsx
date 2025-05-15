@@ -3,51 +3,45 @@ import { GridColDef } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
 import Add from "../../components/add/Add";
 import DataTable from "../../components/dataTable/DataTable";
-import "./students.scss";
+import "./tests.scss";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 250 },
   {
     field: "img",
-    headerName: "Avatar",
+    headerName: "Icon",
     width: 75,
     renderCell: (params) => {
       return <img src={params.row.img || "/noavatar.png"} alt="" />;
     },
   },
   {
+    field: "category",
+    headerName: "Test Category",
+    width: 200,
+    type: "string",
+  },
+  {
     field: "name",
     type: "string",
-    headerName: "Full Name",
-    width: 175,
+    headerName: "Test Name",
+    width: 200,
   },
   {
     field: "email",
     type: "string",
-    headerName: "Email",
-    width: 200,
+    headerName: "Duration",
+    width: 150,
   },
   {
     field: "phone",
-    type: "string",
-    headerName: "Phone",
-    width: 120,
-  },
-  {
-    field: "gender",
-    type: "string",
-    headerName: "Gender",
-    width: 100,
-  },
-  {
-    field: "course",
-    headerName: "Course Name",
-    width: 120,
-    type: "string",
+    type: "number",
+    headerName: "Free/Paid",
+    width: 150,
   },
 ];
 
-const Students = () => {
+const Tests = () => {
   const [open, setOpen] = useState(false);
 
   // CALL THE API
@@ -60,8 +54,8 @@ const Students = () => {
   return (
     <div className="users">
       <div className="info">
-        <h1>Students</h1>
-        <button onClick={() => setOpen(true)}>Add New Student</button>
+        <h1>Tests</h1>
+        <button onClick={() => setOpen(true)}>Add New Test</button>
       </div>
       <p className="noData">No data</p>
       {/* CALL THE API */}
@@ -87,4 +81,4 @@ const Students = () => {
   );
 };
 
-export default Students;
+export default Tests;

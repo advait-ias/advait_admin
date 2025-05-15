@@ -5,10 +5,6 @@ import Menu from "./components/menu/Menu";
 import Login from "./pages/login/Login";
 import Navbar from "./components/navbar/Navbar";
 import Footer from "./components/footer/Footer";
-import Drivers from "./pages/drivers/Drivers";
-import Mechanics from "./pages/mechanics/Mechanics";
-import Driver from "./pages/driver/Driver";
-import Mechanic from "./pages/mechanic/Mechanic";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   createBrowserRouter,
@@ -16,6 +12,9 @@ import {
   Outlet,
   Navigate,
 } from "react-router-dom";
+import Courses from "./pages/courses/Courses";
+import Tests from "./pages/tests/Tests";
+import LiveClasses from "./pages/liveclasses/LiveClasses";
 
 const queryClient = new QueryClient();
 
@@ -62,20 +61,16 @@ const router = createBrowserRouter([
         element: <Student />,
       },
       {
-        path: "/drivers",
-        element: <Drivers />,
+        path: "/courses",
+        element: <Courses />,
       },
       {
-        path: "/driver/:id",
-        element: <Driver />,
+        path: "/tests",
+        element: <Tests />,
       },
       {
-        path: "/mechanics",
-        element: <Mechanics />,
-      },
-      {
-        path: "/mechanic/:id",
-        element: <Mechanic />,
+        path: "/liveclasses",
+        element: <LiveClasses />,
       },
     ],
   },
