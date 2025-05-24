@@ -1,8 +1,9 @@
+import DataTable from "../../components/dataTable/DataTable";
+import AddStudentDialog from "./AddStudentDialog";
 import { useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
-import Add from "../../components/add/Add";
-import DataTable from "../../components/dataTable/DataTable";
+import { fetchAllStudents } from "../../api/services/studentService";
 import "./students.scss";
 
 const columns: GridColDef[] = [
@@ -11,9 +12,7 @@ const columns: GridColDef[] = [
     field: "img",
     headerName: "Avatar",
     width: 75,
-    renderCell: (params) => {
-      return <img src={params.row.img || "/noavatar.png"} alt="" />;
-    },
+    renderCell: () => <img src={"/noavatar.png"} alt="" />,
   },
   {
     field: "name",
@@ -28,7 +27,7 @@ const columns: GridColDef[] = [
     width: 200,
   },
   {
-    field: "phone",
+    field: "mobile",
     type: "string",
     headerName: "Phone",
     width: 120,
@@ -42,20 +41,27 @@ const columns: GridColDef[] = [
   {
     field: "course",
     headerName: "Course Name",
-    width: 120,
-    type: "string",
+    width: 150,
   },
 ];
 
 const Students = () => {
   const [open, setOpen] = useState(false);
 
-  // CALL THE API
   const { isLoading, data } = useQuery({
-    queryKey: ["allusers"],
-    queryFn: () =>
-      fetch("https://api.mfeel.co.in/mechanic").then((res) => res.json()),
+    queryKey: ["students"],
+    queryFn: fetchAllStudents,
   });
+
+  const formattedData =
+    data?.map((student: any, index: number) => ({
+      id: student._id || index,
+      name: student.name,
+      email: student.email,
+      mobile: student.mobile,
+      gender: student.gender,
+      course: student.courses[0] || "N/A",
+    })) || [];
 
   return (
     <div className="users">
@@ -63,26 +69,14 @@ const Students = () => {
         <h1>Students</h1>
         <button onClick={() => setOpen(true)}>Add New Student</button>
       </div>
-      <p className="noData">No data</p>
-      {/* CALL THE API */}
+
       {isLoading ? (
         "Loading..."
       ) : (
-        <DataTable
-          slug="user"
-          columns={columns}
-          rows={data.map((user: any, index: number) => ({
-            id: user._id || index, // Ensure each row has a unique 'id'
-            img: user.profilePic,
-            name: user.name,
-            phone: user.mobile,
-            gender: user.gender,
-            createdAt: new Date(user.createdAt).toLocaleDateString("en-GB"),
-          }))}
-        />
+        <DataTable slug="student" columns={columns} rows={formattedData} />
       )}
 
-      {open && <Add slug="student" columns={columns} setOpen={setOpen} />}
+      <AddStudentDialog open={open} onClose={() => setOpen(false)} />
     </div>
   );
 };

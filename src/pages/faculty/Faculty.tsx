@@ -1,10 +1,10 @@
+import axios from "axios";
+import Single from "../../components/single/MechanicSingle";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Single from "../../components/single/MechanicSingle";
-import "./mechanic.scss";
-import axios from "axios";
+import "./faculty.scss";
 
-const Mechanic = () => {
+const Faculty = () => {
   const { id } = useParams(); // Get the ID from the URL
   const [user, setUser] = useState(null);
 
@@ -30,4 +30,4 @@ const Mechanic = () => {
   );
 };
 
-export default Mechanic;
+export default Faculty;

@@ -1,33 +1,41 @@
 import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import "./dataTable.scss";
-// import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type Props = {
   columns: GridColDef[];
   rows: object[];
-  slug: string;
+  slug: string; // e.g., "faculty" or "student"
 };
 
 const DataTable = (props: Props) => {
-  // TEST THE API
+  const queryClient = useQueryClient();
 
-  // const queryClient = useQueryClient();
-  // // const mutation = useMutation({
-  // //   mutationFn: (id: number) => {
-  // //     return fetch(`http://localhost:8800/api/${props.slug}/${id}`, {
-  // //       method: "delete",
-  // //     });
-  // //   },
-  // //   onSuccess: ()=>{
-  // //     queryClient.invalidateQueries([`all${props.slug}`]);
-  // //   }
-  // // });
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const res = await fetch(
+        `https://api.advaitias.co.in/${props.slug}/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
 
-  // const handleDelete = (id: number) => {
-  //   //delete the item
-  //   // mutation.mutate(id)
-  // };
+      if (!res.ok) throw new Error("Failed to delete item");
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [props.slug] });
+    },
+  });
+
+  const handleDelete = (id: string) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this entry?"
+    );
+    if (confirmDelete) {
+      deleteMutation.mutate(id);
+    }
+  };
 
   const actionColumn: GridColDef = {
     field: "action",
@@ -37,14 +45,11 @@ const DataTable = (props: Props) => {
       return (
         <div className="action">
           <Link to={`/${props.slug}/${params.row.id}`}>
-            <img src="/view.svg" alt="" />
+            <img src="/view.svg" alt="View" />
           </Link>
-          <div className="delete">
-            <img src="/delete.svg" alt="" />
+          <div className="delete" onClick={() => handleDelete(params.row.id)}>
+            <img src="/delete.svg" alt="Delete" />
           </div>
-          {/* <div className="delete" onClick={() => handleDelete(params.row.id)}>
-            <img src="/delete.svg" alt="" />
-          </div> */}
         </div>
       );
     },

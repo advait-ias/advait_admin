@@ -29,8 +29,26 @@ export const menu = [
       },
       {
         id: 2,
+        title: "Faculties",
+        url: "/faculties",
+        icon: "user.svg",
+      },
+      {
+        id: 2,
+        title: "Exams",
+        url: "/exams",
+        icon: "course.svg",
+      },
+      {
+        id: 2,
         title: "Courses",
         url: "/courses",
+        icon: "course.svg",
+      },
+      {
+        id: 2,
+        title: "Materials",
+        url: "/materials",
         icon: "course.svg",
       },
       {
