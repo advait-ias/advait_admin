@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import Add from "../../components/add/Add";
 import DataTable from "../../components/dataTable/DataTable";
 import "./materials.scss";
+import { fetchAllMaterials } from "../../api/services/materialService";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 250 },
@@ -44,18 +45,16 @@ const columns: GridColDef[] = [
 const Materials = () => {
   const [open, setOpen] = useState(false);
 
-  // CALL THE API
-  const { isLoading, data } = useQuery({
-    queryKey: ["allusers"],
-    queryFn: () =>
-      fetch("https://api.mfeel.co.in/mechanic").then((res) => res.json()),
+  const { isLoading, data, refetch } = useQuery({
+    queryKey: ["faculties"],
+    queryFn: fetchAllMaterials,
   });
 
   return (
     <div className="users">
       <div className="info">
-        <h1>Courses</h1>
-        <button onClick={() => setOpen(true)}>Add New Course</button>
+        <h1>Materials</h1>
+        <button onClick={() => setOpen(true)}>Add New Material</button>
       </div>
       <p className="noData">No data</p>
       {/* CALL THE API */}

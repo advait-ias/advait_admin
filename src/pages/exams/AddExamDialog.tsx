@@ -11,6 +11,7 @@ interface AddExamDialogProps {
 
 const AddExamDialog = ({ setOpen }: AddExamDialogProps) => {
   const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
 
   const queryClient = useQueryClient();
 
@@ -27,9 +28,10 @@ const AddExamDialog = ({ setOpen }: AddExamDialogProps) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (name.trim()) {
-      mutation.mutate({ name });
-    }
+    mutation.mutate({ name, description });
+    setName("");
+    setDescription("");
+    setOpen(false);
   };
 
   return (
@@ -48,6 +50,13 @@ const AddExamDialog = ({ setOpen }: AddExamDialogProps) => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
+            />
+            <label>Exam Description (optional)</label>
+            <input
+              type="text"
+              placeholder="Enter description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
             />
           </div>
           <button type="submit" disabled={mutation.isPending}>

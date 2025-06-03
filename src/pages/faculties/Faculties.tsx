@@ -41,6 +41,7 @@ const Faculties = () => {
   const formattedRows =
     data?.map((faculty: any, index: number) => ({
       id: faculty._id || index,
+      img: faculty.profilePic,
       name: faculty.name,
       mobile: faculty.mobile,
       education: faculty.education,

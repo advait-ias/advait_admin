@@ -23,7 +23,7 @@ const columns: GridColDef[] = [
   {
     field: "price",
     headerName: "Price (₹)",
-    width: 150,
+    width: 120,
     type: "number",
   },
   {

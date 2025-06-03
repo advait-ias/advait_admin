@@ -33,10 +33,15 @@ export const getFacultyById = async (id: string): Promise<Faculty> => {
 };
 
 // ✅ POST create a new faculty
-export const createFaculty = async (data: Partial<Faculty>): Promise<Faculty> => {
-    const res = await api.post<Faculty>(endpoints.faculty.create, data);
+export const createFaculty = async (data: FormData): Promise<Faculty> => {
+    const res = await api.post<Faculty>(endpoints.faculty.create, data, {
+        headers: {
+            "Content-Type": "multipart/form-data",
+        },
+    });
     return res.data;
 };
+
 
 // ✅ PUT update a faculty
 export const updateFaculty = async (id: string, data: Partial<Faculty>): Promise<Faculty> => {

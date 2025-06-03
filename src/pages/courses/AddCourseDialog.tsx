@@ -1,13 +1,10 @@
-import { useState } from "react";
-import "./add.scss";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createCourse } from "../../api/services/courseService"; // ✅ import your service
+import React, { useState } from "react";
+import { Autocomplete, CircularProgress, TextField } from "@mui/material";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { createCourse } from "../../api/services/courseService";
+import { fetchAllExams } from "../../api/services/examService";
 
-type Props = {
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-const AddCourseDialog = ({ setOpen }: Props) => {
+const AddCourseDialog = ({ setOpen }: { setOpen: (val: boolean) => void }) => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -16,25 +13,37 @@ const AddCourseDialog = ({ setOpen }: Props) => {
     duration: "",
     startDate: "",
     endDate: "",
-    faculties: "",
-    exams: "",
+    exams: [] as string[],
   });
+  const [thumbnail, setThumbnail] = useState<File | null>(null);
 
   const queryClient = useQueryClient();
 
+  // Fetch exams
+  const { data: examOptions = [], isLoading: loadingExams } = useQuery({
+    queryKey: ["exams"],
+    queryFn: fetchAllExams,
+  });
+
+  // Submit course (with image)
   const mutation = useMutation({
-    mutationFn: () =>
-      createCourse({
-        title: formData.title,
-        description: formData.description,
-        price: Number(formData.price),
-        discount: Number(formData.discount),
-        duration: Number(formData.duration),
-        startDate: formData.startDate,
-        endDate: formData.endDate,
-        faculties: [formData.faculties],
-        exams: [formData.exams],
-      }),
+    mutationFn: () => {
+      const form = new FormData();
+      form.append("title", formData.title);
+      form.append("description", formData.description);
+      form.append("price", String(formData.price));
+      form.append("discount", String(formData.discount));
+      form.append("duration", String(formData.duration));
+      form.append("startDate", formData.startDate);
+      form.append("endDate", formData.endDate);
+      form.append("exams", JSON.stringify(formData.exams));
+
+      if (thumbnail) {
+        form.append("coverImage", thumbnail);
+      }
+
+      return createCourse(form); // call your exported API function here
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["courses"] });
       setOpen(false);
@@ -44,7 +53,8 @@ const AddCourseDialog = ({ setOpen }: Props) => {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -68,8 +78,6 @@ const AddCourseDialog = ({ setOpen }: Props) => {
             { name: "duration", label: "Duration (months)", type: "number" },
             { name: "startDate", label: "Start Date", type: "date" },
             { name: "endDate", label: "End Date", type: "date" },
-            { name: "faculties", label: "Faculty ID" },
-            { name: "exams", label: "Exam ID" },
           ].map((input) => (
             <div className="item" key={input.name}>
               <label>{input.label}</label>
@@ -82,6 +90,57 @@ const AddCourseDialog = ({ setOpen }: Props) => {
               />
             </div>
           ))}
+
+          {/* Exams Multi-Select */}
+          <div className="item">
+            <label>Exams</label>
+            <Autocomplete
+              multiple
+              options={examOptions || []}
+              loading={loadingExams}
+              getOptionLabel={(option: any) => option.name}
+              onChange={(e, value) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  exams: value.map((v: any) => v._id),
+                }))
+              }
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Select Exams"
+                  placeholder="Exams"
+                  variant="outlined"
+                  InputProps={{
+                    ...params.InputProps,
+                    endAdornment: (
+                      <>
+                        {loadingExams ? (
+                          <CircularProgress color="inherit" size={20} />
+                        ) : null}
+                        {params.InputProps.endAdornment}
+                      </>
+                    ),
+                  }}
+                />
+              )}
+            />
+          </div>
+
+          {/* Thumbnail Upload */}
+          <div className="item">
+            <label>Course Thumbnail</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                if (e.target.files?.[0]) {
+                  setThumbnail(e.target.files[0]);
+                }
+              }}
+            />
+          </div>
+
           <button type="submit" disabled={mutation.isPending}>
             {mutation.isPending ? "Submitting..." : "Submit"}
           </button>

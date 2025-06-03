@@ -14,6 +14,11 @@ const columns: GridColDef[] = [
     width: 200,
   },
   {
+    field: "description",
+    headerName: "Description",
+    width: 200,
+  },
+  {
     field: "createdAt",
     headerName: "Created At",
     width: 150,
@@ -38,6 +43,7 @@ const Exams = () => {
     data?.map((exam: any, index: number) => ({
       id: exam._id || index,
       name: exam.name,
+      description: exam.description,
       isActive: exam.isActive,
       createdAt: new Date(exam.createdAt).toLocaleDateString("en-GB"),
     })) || [];

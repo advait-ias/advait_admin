@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <div className="footer">
       <span>Admin</span>
-      <span>© MFeel Admin Dashboard</span>
+      <span>© 2025 Admin Dashboard</span>
     </div>
   );
 };

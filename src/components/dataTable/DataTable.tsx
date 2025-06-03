@@ -25,6 +25,7 @@ const DataTable = (props: Props) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [props.slug] });
+      window.location.reload();
     },
   });
 
