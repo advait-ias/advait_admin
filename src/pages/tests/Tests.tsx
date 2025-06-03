@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import Add from "../../components/add/Add";
 import DataTable from "../../components/dataTable/DataTable";
 import "./tests.scss";
+import { fetchAllTests } from "../../api/services/testService";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 250 },
@@ -45,10 +46,9 @@ const Tests = () => {
   const [open, setOpen] = useState(false);
 
   // CALL THE API
-  const { isLoading, data } = useQuery({
-    queryKey: ["allusers"],
-    queryFn: () =>
-      fetch("https://api.mfeel.co.in/mechanic").then((res) => res.json()),
+  const { isLoading, data, refetch } = useQuery({
+    queryKey: ["tests"],
+    queryFn: fetchAllTests,
   });
 
   return (

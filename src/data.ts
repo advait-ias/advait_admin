@@ -45,24 +45,24 @@ export const menu = [
         url: "/faculties",
         icon: "user.svg",
       },
-      // {
-      //   id: 5,
-      //   title: "Materials",
-      //   url: "/materials",
-      //   icon: "course.svg",
-      // },
-      // {
-      //   id: 6,
-      //   title: "Tests",
-      //   url: "/tests",
-      //   icon: "test.svg",
-      // },
-      // {
-      //   id: 7,
-      //   title: "Live Class",
-      //   url: "/liveclasses",
-      //   icon: "live.svg",
-      // },
+      {
+        id: 5,
+        title: "Materials",
+        url: "/materials",
+        icon: "course.svg",
+      },
+      {
+        id: 6,
+        title: "Tests",
+        url: "/tests",
+        icon: "test.svg",
+      },
+      {
+        id: 7,
+        title: "Live Class",
+        url: "/liveclasses",
+        icon: "live.svg",
+      },
     ],
   },
   {
