@@ -77,7 +77,7 @@ const Courses = () => {
       ) : rows.length === 0 ? (
         <p className="noData">No data available.</p>
       ) : (
-        <DataTable slug="course" columns={columns} rows={rows} />
+        <DataTable slug="course" route="courses" columns={columns} rows={rows} />
       )}
 
       {open && <AddCourseDialog setOpen={setOpen} />}

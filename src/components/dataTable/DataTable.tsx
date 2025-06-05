@@ -6,7 +6,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 type Props = {
   columns: GridColDef[];
   rows: object[];
-  slug: string; // e.g., "faculty" or "student"
+  slug: string;
+  route: string;
 };
 
 const DataTable = (props: Props) => {
@@ -24,8 +25,7 @@ const DataTable = (props: Props) => {
       if (!res.ok) throw new Error("Failed to delete item");
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [props.slug] });
-      window.location.reload();
+      queryClient.invalidateQueries({ queryKey: [`${props.route}`] });
     },
   });
 

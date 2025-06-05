@@ -73,7 +73,7 @@ const Students = () => {
       {isLoading ? (
         "Loading..."
       ) : (
-        <DataTable slug="student" columns={columns} rows={formattedData} />
+        <DataTable slug="student" route="students" columns={columns} rows={formattedData} />
       )}
 
       <AddStudentDialog open={open} onClose={() => setOpen(false)} />

@@ -58,7 +58,7 @@ const Exams = () => {
       {isLoading ? (
         "Loading..."
       ) : (
-        <DataTable slug="exam" columns={columns} rows={formattedRows} />
+        <DataTable slug="exam" route="exams" columns={columns} rows={formattedRows} />
       )}
 
       {open && <AddExamDialog setOpen={setOpen} />}

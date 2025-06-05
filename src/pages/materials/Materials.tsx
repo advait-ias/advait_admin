@@ -62,7 +62,8 @@ const Materials = () => {
         "Loading..."
       ) : (
         <DataTable
-          slug="user"
+          slug="material"
+          route="materials"
           columns={columns}
           rows={data.map((user: any, index: number) => ({
             id: user._id || index, // Ensure each row has a unique 'id'

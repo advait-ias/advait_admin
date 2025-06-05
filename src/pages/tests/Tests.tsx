@@ -63,7 +63,8 @@ const Tests = () => {
         "Loading..."
       ) : (
         <DataTable
-          slug="user"
+          slug="test"
+          route="tests"
           columns={columns}
           rows={data.map((user: any, index: number) => ({
             id: user._id || index, // Ensure each row has a unique 'id'

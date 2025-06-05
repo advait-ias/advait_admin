@@ -59,7 +59,7 @@ const Faculties = () => {
       {isLoading ? (
         "Loading..."
       ) : (
-        <DataTable slug="faculty" columns={columns} rows={formattedRows} />
+        <DataTable slug="faculty" route="faculties" columns={columns} rows={formattedRows} />
       )}
 
       {open && <AddFacultyDialog setOpen={setOpen} />}
