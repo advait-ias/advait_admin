@@ -2,7 +2,7 @@ import { useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
 import DataTable from "../../components/dataTable/DataTable";
-import { fetchAllCourses } from "../../api/services/courseService"; // ✅ Use the service
+import { fetchAllCourses } from "../../api/services/courseService";
 import "./courses.scss";
 import AddCourseDialog from "./AddCourseDialog";
 
@@ -77,7 +77,12 @@ const Courses = () => {
       ) : rows.length === 0 ? (
         <p className="noData">No data available.</p>
       ) : (
-        <DataTable slug="course" route="courses" columns={columns} rows={rows} />
+        <DataTable
+          slug="course"
+          route="courses"
+          columns={columns}
+          rows={rows}
+        />
       )}
 
       {open && <AddCourseDialog setOpen={setOpen} />}

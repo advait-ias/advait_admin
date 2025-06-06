@@ -2,7 +2,7 @@ import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import "./pieChartBox.scss";
 
 const data = [
-  { name: "Offline", value: 1, color: "#0088FE" },
+  { name: "Offline", value: 0, color: "#0088FE" },
   { name: "Socials", value: 0, color: "#00C49F" },
   { name: "Telephone", value: 0, color: "#FFBB28" },
   { name: "Email", value: 0, color: "#FF8042" },
