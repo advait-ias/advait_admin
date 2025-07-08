@@ -19,7 +19,7 @@ export const menu = [
   },
   {
     id: 2,
-    title: "lists",
+    title: "common",
     listItems: [
       {
         id: 1,
@@ -67,29 +67,35 @@ export const menu = [
   },
   {
     id: 3,
-    title: "general",
+    title: "website",
     listItems: [
       {
         id: 1,
-        title: "Elements",
+        title: "Categories",
         url: "/",
         icon: "element.svg",
       },
       {
         id: 2,
-        title: "Notes",
+        title: "Sub Categories",
         url: "/",
         icon: "note.svg",
       },
       {
         id: 3,
-        title: "Forms",
+        title: "Articles",
         url: "/",
         icon: "form.svg",
       },
       {
         id: 4,
-        title: "Calendar",
+        title: "Blogs",
+        url: "/",
+        icon: "calendar.svg",
+      },
+      {
+        id: 4,
+        title: "Tags",
         url: "/",
         icon: "calendar.svg",
       },
