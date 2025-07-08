@@ -51,18 +51,24 @@
 // };
 
 const createCrudEndpoints = (base: string) => ({
-    list: base,
-    detail: (id: string) => `${base}/${id}`,
-    create: base,
-    update: (id: string) => `${base}/${id}`,
-    delete: (id: string) => `${base}/${id}`,
+  list: base,
+  detail: (id: string) => `${base}/${id}`,
+  create: base,
+  update: (id: string) => `${base}/${id}`,
+  delete: (id: string) => `${base}/${id}`,
 });
 
 export const endpoints = {
-    faculty: createCrudEndpoints('/faculty'),
-    student: createCrudEndpoints('/student'),
-    exam: createCrudEndpoints('/exam'),
-    course: createCrudEndpoints('/course'),
-    material: createCrudEndpoints('/material'),
-    test: createCrudEndpoints('/test'),
+  faculty: createCrudEndpoints("/faculty"),
+  student: createCrudEndpoints("/student"),
+  exam: createCrudEndpoints("/exam"),
+  course: createCrudEndpoints("/course"),
+  material: createCrudEndpoints("/material"),
+  test: createCrudEndpoints("/test"),
+  category: createCrudEndpoints("/category"),
+  subCategory: createCrudEndpoints("/sub-category"),
+  article: createCrudEndpoints("/article"),
+  blog: createCrudEndpoints("/blog"),
+  language: createCrudEndpoints("/language"),
+  tag: createCrudEndpoints("/tag"),
 };

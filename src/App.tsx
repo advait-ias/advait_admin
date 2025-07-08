@@ -23,6 +23,12 @@ import {
 } from "react-router-dom";
 import Materials from "./pages/materials/Materials";
 import Material from "./pages/material/Material";
+import Tags from "./pages/tags/Tags";
+import Languages from "./pages/languages/Languages";
+import Blogs from "./pages/blogs/Blogs";
+import Articles from "./pages/article/Article";
+import SubCategories from "./pages/sub-categories/SubCategories";
+import Categories from "./pages/categories/Categories";
 
 const queryClient = new QueryClient();
 
@@ -115,6 +121,31 @@ const router = createBrowserRouter([
       {
         path: "/liveclass/:id",
         element: <LiveClass />,
+      },
+
+      {
+        path: "/categories",
+        element: <Categories />,
+      },
+      {
+        path: "/sub-categories",
+        element: <SubCategories />,
+      },
+      {
+        path: "/articles",
+        element: <Articles />,
+      },
+      {
+        path: "/blogs",
+        element: <Blogs />,
+      },
+      {
+        path: "/languages",
+        element: <Languages />,
+      },
+      {
+        path: "/tags",
+        element: <Tags />,
       },
     ],
   },
