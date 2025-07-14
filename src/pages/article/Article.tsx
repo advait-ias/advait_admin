@@ -3,45 +3,24 @@ import DataTable from "../../components/dataTable/DataTable";
 import { useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
-import { fetchAllCourses } from "../../api/services/courseService";
+import { fetchAllArticles } from "../../api/services/articleService";
 import "./article.scss";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 250 },
   {
-    field: "category",
-    headerName: "Category Name",
-    width: 150,
-    type: "string",
+    field: "img",
+    headerName: "Image",
+    width: 75,
+    renderCell: () => <img src={"/noavatar.png"} alt="" />,
   },
-  {
-    field: "subCategory",
-    headerName: "Sub Category Name",
-    width: 150,
-    type: "string",
-  },
-  {
-    field: "language",
-    headerName: "Language",
-    width: 150,
-    type: "string",
-  },
-  {
-    field: "headline",
-    headerName: "Headline",
-    width: 150,
-    type: "string",
-  },
-  {
-    field: "content",
-    headerName: "Content",
-    width: 200,
-    type: "string",
-  },
+  { field: "headline", headerName: "Headline", width: 200 },
+  { field: "subHeadline", headerName: "Sub Headline", width: 200 },
+  { field: "content", headerName: "Content", width: 120 },
   {
     field: "createdAt",
     headerName: "Created At",
-    width: 150,
+    width: 120,
   },
   {
     field: "isActive",
@@ -54,21 +33,20 @@ const columns: GridColDef[] = [
 const Articles = () => {
   const [open, setOpen] = useState(false);
 
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["article"],
-    queryFn: fetchAllCourses,
+  const { isLoading, data, refetch } = useQuery({
+    queryKey: ["articles"],
+    queryFn: fetchAllArticles,
   });
 
-  const rows =
-    data?.map((article: any) => ({
-      id: article._id,
-      category: article.category,
-      subCategory: article.subCategory,
-      language: article.language,
+  const formattedRows =
+    data?.map((article: any, index: number) => ({
+      id: article._id || index,
+      image: article.image,
       headline: article.headline,
+      subHeadline: article.subHeadline,
       content: article.content,
-      isActive: article.isActive,
       createdAt: new Date(article.createdAt).toLocaleDateString("en-GB"),
+      isActive: article.isisActive,
     })) || [];
 
   return (
@@ -79,17 +57,13 @@ const Articles = () => {
       </div>
 
       {isLoading ? (
-        <p>Loading...</p>
-      ) : isError ? (
-        <p className="error">Failed to fetch articles.</p>
-      ) : rows.length === 0 ? (
-        <p className="noData">No data available.</p>
+        "Loading..."
       ) : (
         <DataTable
           slug="article"
           route="articles"
           columns={columns}
-          rows={rows}
+          rows={formattedRows}
         />
       )}
 

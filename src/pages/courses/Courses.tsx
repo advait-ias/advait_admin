@@ -1,66 +1,58 @@
+import AddCourseDialog from "./AddCourseDialog";
+import DataTable from "../../components/dataTable/DataTable";
 import { useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
-import DataTable from "../../components/dataTable/DataTable";
 import { fetchAllCourses } from "../../api/services/courseService";
 import "./courses.scss";
-import AddCourseDialog from "./AddCourseDialog";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 250 },
   {
-    field: "title",
-    headerName: "Course Name",
-    width: 200,
-    type: "string",
+    field: "coverImage",
+    headerName: "Cover Image",
+    width: 75,
+    renderCell: () => <img src={"/noavatar.png"} alt="" />,
   },
+  { field: "title", headerName: "Title", width: 200 },
+  { field: "description", headerName: "Description", width: 200 },
+  { field: "price", headerName: "Price", width: 120 },
+  { field: "duration", headerName: "Duration", width: 120 },
+  { field: "startDate", headerName: "Start Date", width: 120 },
+  { field: "endDate", headerName: "End Date", width: 120 },
   {
-    field: "duration",
-    headerName: "Duration (months)",
-    width: 150,
-    type: "number",
-  },
-  {
-    field: "price",
-    headerName: "Price (₹)",
-    width: 120,
-    type: "number",
-  },
-  {
-    field: "discount",
-    headerName: "Discount (₹)",
-    width: 150,
-    type: "number",
-  },
-  {
-    field: "startDate",
-    headerName: "Start Date",
+    field: "createdAt",
+    headerName: "Created At",
     width: 120,
   },
   {
-    field: "endDate",
-    headerName: "End Date",
-    width: 120,
+    field: "isActive",
+    headerName: "Active",
+    type: "boolean",
+    width: 100,
   },
 ];
 
 const Courses = () => {
   const [open, setOpen] = useState(false);
 
-  const { data, isLoading, isError } = useQuery({
+  const { isLoading, data, refetch } = useQuery({
     queryKey: ["courses"],
     queryFn: fetchAllCourses,
   });
 
-  const rows =
-    data?.map((course: any) => ({
-      id: course._id,
-      title: course.title,
-      duration: course.duration,
-      price: course.price,
-      discount: course.discount,
-      startDate: new Date(course.startDate).toLocaleDateString("en-GB"),
-      endDate: new Date(course.endDate).toLocaleDateString("en-GB"),
+  const formattedRows =
+    data?.map((article: any, index: number) => ({
+      id: article._id || index,
+      coverImage: article.coverImage,
+      title: article.title,
+      description: article.description,
+      price: article.price,
+      duration: article.duration,
+      startDate: new Date(article.startDate).toLocaleDateString("en-GB"),
+      endDate: new Date(article.endDate).toLocaleDateString("en-GB"),
+      createdAt: new Date(article.createdAt).toLocaleDateString("en-GB"),
+      isActive: article.isisActive,
     })) || [];
 
   return (
@@ -71,17 +63,13 @@ const Courses = () => {
       </div>
 
       {isLoading ? (
-        <p>Loading...</p>
-      ) : isError ? (
-        <p className="error">Failed to fetch courses.</p>
-      ) : rows.length === 0 ? (
-        <p className="noData">No data available.</p>
+        "Loading..."
       ) : (
         <DataTable
           slug="course"
           route="courses"
           columns={columns}
-          rows={rows}
+          rows={formattedRows}
         />
       )}
 

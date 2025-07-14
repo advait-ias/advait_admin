@@ -75,7 +75,11 @@ const AddCourseDialog = ({ setOpen }: { setOpen: (val: boolean) => void }) => {
             { name: "description", label: "Description" },
             { name: "price", label: "Price", type: "number" },
             { name: "discount", label: "Discount", type: "number" },
-            { name: "duration", label: "Duration (months)", type: "number" },
+            {
+              name: "duration",
+              label: `Duration (in Days) -\n0 for Lifetime`,
+              type: "number",
+            },
             { name: "startDate", label: "Start Date", type: "date" },
             { name: "endDate", label: "End Date", type: "date" },
           ].map((input) => (

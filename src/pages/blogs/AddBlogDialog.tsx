@@ -3,6 +3,7 @@ import { Autocomplete, CircularProgress, TextField } from "@mui/material";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchAllTests } from "../../api/services/testService";
 import { createBlog } from "../../api/services/blogService";
+import "./add.scss";
 
 const AddBlogDialog = ({ setOpen }: { setOpen: (val: boolean) => void }) => {
   const [formData, setFormData] = useState({
@@ -60,14 +61,12 @@ const AddBlogDialog = ({ setOpen }: { setOpen: (val: boolean) => void }) => {
         </span>
         <h1>Add New Blog</h1>
         <form onSubmit={handleSubmit}>
-          {[
-            { name: "headline", label: "Blog headline" },
-            { name: "content", label: "Blog content" },
-          ].map((input) => (
+          {/* Blog Headline */}
+          {[{ name: "headline", label: "Blog headline" }].map((input) => (
             <div className="item" key={input.name}>
               <label>{input.label}</label>
               <input
-                type={"text"}
+                type="text"
                 name={input.name}
                 value={formData[input.name as keyof typeof formData]}
                 onChange={handleChange}
@@ -76,7 +75,7 @@ const AddBlogDialog = ({ setOpen }: { setOpen: (val: boolean) => void }) => {
             </div>
           ))}
 
-          {/* Blogs Multi-Select */}
+          {/* Blog Tags */}
           <div className="item">
             <label>Blog Tags</label>
             <Autocomplete
@@ -112,7 +111,7 @@ const AddBlogDialog = ({ setOpen }: { setOpen: (val: boolean) => void }) => {
             />
           </div>
 
-          {/* image Upload */}
+          {/* Blog Image */}
           <div className="item">
             <label>Blog Image</label>
             <input
@@ -126,6 +125,19 @@ const AddBlogDialog = ({ setOpen }: { setOpen: (val: boolean) => void }) => {
             />
           </div>
 
+          {/* Blog Content - moved to bottom and textarea */}
+          <div className="item">
+            <label>Blog Content</label>
+            <textarea
+              name="content"
+              value={formData.content}
+              onChange={handleChange}
+              required
+              rows={6}
+            />
+          </div>
+
+          {/* Submit Button */}
           <button type="submit" disabled={mutation.isPending}>
             {mutation.isPending ? "Submitting..." : "Submit"}
           </button>

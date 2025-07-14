@@ -3,6 +3,7 @@ import { Autocomplete, CircularProgress, TextField } from "@mui/material";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchAllTests } from "../../api/services/testService";
 import { createArticle } from "../../api/services/articleService";
+import "./add.scss";
 
 const AddArticleDialog = ({ setOpen }: { setOpen: (val: boolean) => void }) => {
   const [formData, setFormData] = useState({
@@ -68,27 +69,27 @@ const AddArticleDialog = ({ setOpen }: { setOpen: (val: boolean) => void }) => {
         </span>
         <h1>Add New Article</h1>
         <form onSubmit={handleSubmit}>
+          {/* Render all inputs except 'content' */}
           {[
             { name: "category", label: "Article category" },
             { name: "subCategory", label: "Article subCategory" },
             { name: "language", label: "Article language" },
             { name: "headline", label: "Article headline" },
             { name: "subHeadline", label: "Article subHeadline (optional)" },
-            { name: "content", label: "Article content" },
           ].map((input) => (
             <div className="item" key={input.name}>
               <label>{input.label}</label>
               <input
-                type={"text"}
+                type="text"
                 name={input.name}
                 value={formData[input.name as keyof typeof formData]}
                 onChange={handleChange}
-                required
+                required={input.name !== "subHeadline"} // Optional field check
               />
             </div>
           ))}
 
-          {/* Article Multi-Select */}
+          {/* Article Tags */}
           <div className="item">
             <label>Article Tags</label>
             <Autocomplete
@@ -124,7 +125,7 @@ const AddArticleDialog = ({ setOpen }: { setOpen: (val: boolean) => void }) => {
             />
           </div>
 
-          {/* image Upload */}
+          {/* Image Upload */}
           <div className="item">
             <label>Article Image</label>
             <input
@@ -138,6 +139,19 @@ const AddArticleDialog = ({ setOpen }: { setOpen: (val: boolean) => void }) => {
             />
           </div>
 
+          {/* Article Content TextArea */}
+          <div className="item">
+            <label>Article Content</label>
+            <textarea
+              name="content"
+              value={formData.content}
+              onChange={handleChange}
+              required
+              rows={6}
+            />
+          </div>
+
+          {/* Submit Button */}
           <button type="submit" disabled={mutation.isPending}>
             {mutation.isPending ? "Submitting..." : "Submit"}
           </button>

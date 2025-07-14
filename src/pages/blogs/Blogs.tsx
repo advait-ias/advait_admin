@@ -1,5 +1,5 @@
-import AddBlogDialog from "./AddBlogDialog";
 import DataTable from "../../components/dataTable/DataTable";
+import AddBlogDialog from "./AddBlogDialog";
 import { useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
@@ -9,16 +9,17 @@ import "./blogs.scss";
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 250 },
   {
-    field: "headline",
-    headerName: "Headline",
-    width: 150,
-    type: "string",
+    field: "img",
+    headerName: "Image",
+    width: 75,
+    renderCell: () => <img src={"/noavatar.png"} alt="" />,
   },
+  { field: "headline", headerName: "Headline", width: 200 },
+  { field: "content", headerName: "Content", width: 120 },
   {
-    field: "content",
-    headerName: "Content",
-    width: 200,
-    type: "string",
+    field: "createdAt",
+    headerName: "Created At",
+    width: 120,
   },
   {
     field: "isActive",
@@ -26,28 +27,24 @@ const columns: GridColDef[] = [
     type: "boolean",
     width: 100,
   },
-  {
-    field: "createdAt",
-    headerName: "Created At",
-    width: 150,
-  },
 ];
 
 const Blogs = () => {
   const [open, setOpen] = useState(false);
 
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["blog"],
+  const { isLoading, data, refetch } = useQuery({
+    queryKey: ["blogs"],
     queryFn: fetchAllBlogs,
   });
 
-  const rows =
-    data?.map((blog: any) => ({
-      id: blog._id,
+  const formattedRows =
+    data?.map((blog: any, index: number) => ({
+      id: blog._id || index,
+      image: blog.image,
       headline: blog.headline,
       content: blog.content,
-      isActive: blog.isActive,
       createdAt: new Date(blog.createdAt).toLocaleDateString("en-GB"),
+      isActive: blog.isisActive,
     })) || [];
 
   return (
@@ -58,13 +55,14 @@ const Blogs = () => {
       </div>
 
       {isLoading ? (
-        <p>Loading...</p>
-      ) : isError ? (
-        <p className="error">Failed to fetch blogs.</p>
-      ) : rows.length === 0 ? (
-        <p className="noData">No data available.</p>
+        "Loading..."
       ) : (
-        <DataTable slug="blog" route="blogs" columns={columns} rows={rows} />
+        <DataTable
+          slug="blog"
+          route="blogs"
+          columns={columns}
+          rows={formattedRows}
+        />
       )}
 
       {open && <AddBlogDialog setOpen={setOpen} />}
