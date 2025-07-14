@@ -1,0 +1,19 @@
+.articles {
+  .info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+
+    button {
+      padding: 5px;
+      cursor: pointer;
+    }
+  }
+  .noData {
+    font-size: 14px;
+    color: gray;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+}

@@ -1,51 +1,50 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Autocomplete, CircularProgress, TextField } from "@mui/material";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createCourse } from "../../api/services/courseService";
-import { fetchAllExams } from "../../api/services/examService";
+import { fetchAllTests } from "../../api/services/testService";
+import { createArticle } from "../../api/services/articleService";
+import "./add.scss";
 
-const AddCourseDialog = ({ setOpen }: { setOpen: (val: boolean) => void }) => {
+const AddArticleDialog = ({ setOpen }: { setOpen: (val: boolean) => void }) => {
   const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    price: "",
-    discount: "",
-    duration: "",
-    startDate: "",
-    endDate: "",
-    exams: [] as string[],
+    category: "",
+    subCategory: "",
+    language: "",
+    headline: "",
+    subHeadline: "",
+    content: "",
+    tags: [] as string[],
   });
-  const [thumbnail, setThumbnail] = useState<File | null>(null);
+  const [image, setImage] = useState<File | null>(null);
 
   const queryClient = useQueryClient();
 
-  // Fetch exams
-  const { data: examOptions = [], isLoading: loadingExams } = useQuery({
-    queryKey: ["exams"],
-    queryFn: fetchAllExams,
+  // Fetch tags
+  const { data: tagOptions = [], isLoading: loadingTags } = useQuery({
+    queryKey: ["tags"],
+    queryFn: fetchAllTests,
   });
 
   // Submit course (with image)
   const mutation = useMutation({
     mutationFn: () => {
       const form = new FormData();
-      form.append("title", formData.title);
-      form.append("description", formData.description);
-      form.append("price", String(formData.price));
-      form.append("discount", String(formData.discount));
-      form.append("duration", String(formData.duration));
-      form.append("startDate", formData.startDate);
-      form.append("endDate", formData.endDate);
-      form.append("exams", JSON.stringify(formData.exams));
+      form.append("category", formData.category);
+      form.append("subCategory", formData.subCategory);
+      form.append("language", formData.language);
+      form.append("headline", formData.headline);
+      form.append("subHeadline", formData.subHeadline);
+      form.append("content", formData.content);
+      form.append("tags", JSON.stringify(formData.tags));
 
-      if (thumbnail) {
-        form.append("coverImage", thumbnail);
+      if (image) {
+        form.append("image", image);
       }
 
-      return createCourse(form); // call your exported API function here
+      return createArticle(form); // call your exported API function here
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["courses"] });
+      queryClient.invalidateQueries({ queryKey: ["articles"] });
       setOpen(false);
     },
   });
@@ -68,58 +67,53 @@ const AddCourseDialog = ({ setOpen }: { setOpen: (val: boolean) => void }) => {
         <span className="close" onClick={() => setOpen(false)}>
           X
         </span>
-        <h1>Add New Course</h1>
+        <h1>Add New Article</h1>
         <form onSubmit={handleSubmit}>
+          {/* Render all inputs except 'content' */}
           {[
-            { name: "title", label: "Course Title" },
-            { name: "description", label: "Description" },
-            { name: "price", label: "Price", type: "number" },
-            { name: "discount", label: "Discount", type: "number" },
-            {
-              name: "duration",
-              label: `Duration (in Days) -\n0 for Lifetime`,
-              type: "number",
-            },
-            { name: "startDate", label: "Start Date", type: "date" },
-            { name: "endDate", label: "End Date", type: "date" },
+            { name: "category", label: "Article category" },
+            { name: "subCategory", label: "Article subCategory" },
+            { name: "language", label: "Article language" },
+            { name: "headline", label: "Article headline" },
+            { name: "subHeadline", label: "Article subHeadline (optional)" },
           ].map((input) => (
             <div className="item" key={input.name}>
               <label>{input.label}</label>
               <input
-                type={input.type || "text"}
+                type="text"
                 name={input.name}
                 value={formData[input.name as keyof typeof formData]}
                 onChange={handleChange}
-                required
+                required={input.name !== "subHeadline"} // Optional field check
               />
             </div>
           ))}
 
-          {/* Exams Multi-Select */}
+          {/* Article Tags */}
           <div className="item">
-            <label>Exams</label>
+            <label>Article Tags</label>
             <Autocomplete
               multiple
-              options={examOptions || []}
-              loading={loadingExams}
+              options={tagOptions || []}
+              loading={loadingTags}
               getOptionLabel={(option: any) => option.name}
               onChange={(e, value) =>
                 setFormData((prev) => ({
                   ...prev,
-                  exams: value.map((v: any) => v._id),
+                  article: value.map((v: any) => v._id),
                 }))
               }
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="Select Exams"
-                  placeholder="Exams"
+                  label="Select Tags"
+                  placeholder="Tags"
                   variant="outlined"
                   InputProps={{
                     ...params.InputProps,
                     endAdornment: (
                       <>
-                        {loadingExams ? (
+                        {loadingTags ? (
                           <CircularProgress color="inherit" size={20} />
                         ) : null}
                         {params.InputProps.endAdornment}
@@ -131,20 +125,33 @@ const AddCourseDialog = ({ setOpen }: { setOpen: (val: boolean) => void }) => {
             />
           </div>
 
-          {/* Thumbnail Upload */}
+          {/* Image Upload */}
           <div className="item">
-            <label>Course Thumbnail</label>
+            <label>Article Image</label>
             <input
               type="file"
               accept="image/*"
               onChange={(e) => {
                 if (e.target.files?.[0]) {
-                  setThumbnail(e.target.files[0]);
+                  setImage(e.target.files[0]);
                 }
               }}
             />
           </div>
 
+          {/* Article Content TextArea */}
+          <div className="item">
+            <label>Article Content</label>
+            <textarea
+              name="content"
+              value={formData.content}
+              onChange={handleChange}
+              required
+              rows={6}
+            />
+          </div>
+
+          {/* Submit Button */}
           <button type="submit" disabled={mutation.isPending}>
             {mutation.isPending ? "Submitting..." : "Submit"}
           </button>
@@ -154,4 +161,4 @@ const AddCourseDialog = ({ setOpen }: { setOpen: (val: boolean) => void }) => {
   );
 };
 
-export default AddCourseDialog;
+export default AddArticleDialog;

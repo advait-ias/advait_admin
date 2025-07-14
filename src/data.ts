@@ -72,71 +72,77 @@ export const menu = [
       {
         id: 1,
         title: "Categories",
-        url: "/",
+        url: "/categories",
         icon: "element.svg",
       },
       {
         id: 2,
         title: "Sub Categories",
-        url: "/",
-        icon: "note.svg",
+        url: "/sub-categories",
+        icon: "element.svg",
       },
       {
         id: 3,
         title: "Articles",
-        url: "/",
-        icon: "form.svg",
+        url: "/articles",
+        icon: "note.svg",
       },
       {
         id: 4,
         title: "Blogs",
-        url: "/",
-        icon: "calendar.svg",
+        url: "/blogs",
+        icon: "note.svg",
       },
       {
-        id: 4,
-        title: "Tags",
-        url: "/",
-        icon: "calendar.svg",
-      },
-    ],
-  },
-  {
-    id: 4,
-    title: "Maintenance",
-    listItems: [
-      {
-        id: 1,
-        title: "Settings",
-        url: "/",
+        id: 5,
+        title: "Lanaguages",
+        url: "/languages",
         icon: "setting.svg",
       },
       {
-        id: 2,
-        title: "Backups",
-        url: "/",
-        icon: "backup.svg",
+        id: 6,
+        title: "Tags",
+        url: "/tags",
+        icon: "note.svg",
       },
     ],
   },
-  {
-    id: 5,
-    title: "analytics",
-    listItems: [
-      {
-        id: 1,
-        title: "Charts",
-        url: "/",
-        icon: "chart.svg",
-      },
-      {
-        id: 2,
-        title: "Logs",
-        url: "/",
-        icon: "log.svg",
-      },
-    ],
-  },
+  // {
+  //   id: 4,
+  //   title: "Maintenance",
+  //   listItems: [
+  //     {
+  //       id: 1,
+  //       title: "Settings",
+  //       url: "/",
+  //       icon: "setting.svg",
+  //     },
+  //     {
+  //       id: 2,
+  //       title: "Backups",
+  //       url: "/",
+  //       icon: "backup.svg",
+  //     },
+  //   ],
+  // },
+  // {
+  //   id: 5,
+  //   title: "analytics",
+  //   listItems: [
+  //     {
+  //       id: 1,
+  //       title: "Charts",
+  //       url: "/",
+  //       icon: "chart.svg",
+  //     },
+  //     {
+  //       id: 2,
+  //       title: "Logs",
+  //       url: "/",
+  //       icon: "log.svg",
+  //     },
+  //   ],
+  // },
 ];
 
 export const topDealUsers = [
@@ -578,8 +584,6 @@ export const products = [
     inStock: true,
   },
 ];
-
-
 
 export const singleUser = {
   id: 1,

@@ -14,6 +14,13 @@ import Exams from "./pages/exams/Exams";
 import Exam from "./pages/exam/Exam";
 import Test from "./pages/test/Test";
 import LiveClass from "./pages/liveclass/LiveClass";
+import Materials from "./pages/materials/Materials";
+import Material from "./pages/material/Material";
+import Tags from "./pages/tags/Tags";
+import Languages from "./pages/languages/Languages";
+import Articles from "./pages/article/Article";
+import SubCategories from "./pages/sub-categories/SubCategories";
+import Categories from "./pages/categories/Categories";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   createBrowserRouter,
@@ -21,8 +28,7 @@ import {
   Outlet,
   Navigate,
 } from "react-router-dom";
-import Materials from "./pages/materials/Materials";
-import Material from "./pages/material/Material";
+import Blogs from "./pages/blogs/Blogs";
 
 const queryClient = new QueryClient();
 
@@ -115,6 +121,31 @@ const router = createBrowserRouter([
       {
         path: "/liveclass/:id",
         element: <LiveClass />,
+      },
+
+      {
+        path: "/categories",
+        element: <Categories />,
+      },
+      {
+        path: "/sub-categories",
+        element: <SubCategories />,
+      },
+      {
+        path: "/articles",
+        element: <Articles />,
+      },
+      {
+        path: "/blogs",
+        element: <Blogs />,
+      },
+      {
+        path: "/languages",
+        element: <Languages />,
+      },
+      {
+        path: "/tags",
+        element: <Tags />,
       },
     ],
   },
