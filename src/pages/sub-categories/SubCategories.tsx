@@ -1,9 +1,8 @@
-import AddExamDialog from "./AddSubCategoryDialog";
 import DataTable from "../../components/dataTable/DataTable";
-import { useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
-import { fetchAllSubCategories } from "../../api/services/subCategoryService";
+import { Link } from "react-router-dom";
+import { fetchAllCategories } from "../../api/services/categoryService";
 import "./subCategories.scss";
 
 const columns: GridColDef[] = [
@@ -32,11 +31,9 @@ const columns: GridColDef[] = [
 ];
 
 const SubCategories = () => {
-  const [open, setOpen] = useState(false);
-
   const { isLoading, data } = useQuery({
     queryKey: ["sub-category"],
-    queryFn: fetchAllSubCategories,
+    queryFn: fetchAllCategories,
   });
 
   const formattedRows =
@@ -52,7 +49,9 @@ const SubCategories = () => {
     <div className="sub-categories">
       <div className="info">
         <h1>Sub Categories</h1>
-        <button onClick={() => setOpen(true)}>Add New Sub Category</button>
+        <Link to="/sub-categories/add">
+          <button>Add New Sub Category</button>
+        </Link>
       </div>
 
       {isLoading ? (
@@ -65,8 +64,6 @@ const SubCategories = () => {
           rows={formattedRows}
         />
       )}
-
-      {open && <AddExamDialog setOpen={setOpen} />}
     </div>
   );
 };

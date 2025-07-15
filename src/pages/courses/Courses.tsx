@@ -1,10 +1,11 @@
-import AddCourseDialog from "./AddCourseDialog";
+import AddCourseDialog from "./AddCoursePage";
 import DataTable from "../../components/dataTable/DataTable";
 import { useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
 import { fetchAllCourses } from "../../api/services/courseService";
 import "./courses.scss";
+import { Link } from "react-router-dom";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 250 },
@@ -59,7 +60,9 @@ const Courses = () => {
     <div className="courses">
       <div className="info">
         <h1>Courses</h1>
-        <button onClick={() => setOpen(true)}>Add New Course</button>
+        <Link to="/courses/add">
+          <button>Add New Course</button>
+        </Link>
       </div>
 
       {isLoading ? (
@@ -72,8 +75,6 @@ const Courses = () => {
           rows={formattedRows}
         />
       )}
-
-      {open && <AddCourseDialog setOpen={setOpen} />}
     </div>
   );
 };
