@@ -1,10 +1,10 @@
-import AddArticleDialog from "./AddArticleDialog";
 import DataTable from "../../components/dataTable/DataTable";
 import { useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
 import { fetchAllArticles } from "../../api/services/articleService";
 import "./article.scss";
+import { Link } from "react-router-dom";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 250 },
@@ -53,7 +53,9 @@ const Articles = () => {
     <div className="articles">
       <div className="info">
         <h1>Articles</h1>
-        <button onClick={() => setOpen(true)}>Add New Article</button>
+        <Link to="/articles/add">
+          <button>Add New Article</button>
+        </Link>
       </div>
 
       {isLoading ? (
@@ -66,8 +68,6 @@ const Articles = () => {
           rows={formattedRows}
         />
       )}
-
-      {open && <AddArticleDialog setOpen={setOpen} />}
     </div>
   );
 };

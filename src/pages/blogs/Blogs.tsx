@@ -1,10 +1,11 @@
 import DataTable from "../../components/dataTable/DataTable";
-import AddBlogDialog from "./AddBlogDialog";
+import AddBlogDialog from "./AddBlogPage";
 import { useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
 import { fetchAllBlogs } from "../../api/services/blogService";
 import "./blogs.scss";
+import { Link } from "react-router-dom";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 250 },
@@ -51,7 +52,9 @@ const Blogs = () => {
     <div className="blogs">
       <div className="info">
         <h1>Blogs</h1>
-        <button onClick={() => setOpen(true)}>Add New Blog</button>
+        <Link to="/blogs/add">
+          <button>Add New Blog</button>
+        </Link>
       </div>
 
       {isLoading ? (
@@ -64,8 +67,6 @@ const Blogs = () => {
           rows={formattedRows}
         />
       )}
-
-      {open && <AddBlogDialog setOpen={setOpen} />}
     </div>
   );
 };

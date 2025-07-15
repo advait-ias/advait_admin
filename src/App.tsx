@@ -29,6 +29,10 @@ import {
   Navigate,
 } from "react-router-dom";
 import Blogs from "./pages/blogs/Blogs";
+import AddBlogPage from "./pages/blogs/AddBlogPage";
+import AddArticlePage from "./pages/article/AddArticlePage";
+import AddCoursePage from "./pages/courses/AddCoursePage";
+import AddSubCategoryPage from "./pages/sub-categories/AddSubCategoryPage";
 
 const queryClient = new QueryClient();
 
@@ -95,6 +99,10 @@ const router = createBrowserRouter([
         element: <Courses />,
       },
       {
+        path: "/courses/add",
+        element: <AddCoursePage />,
+      },
+      {
         path: "/course/:id",
         element: <Courses />,
       },
@@ -122,7 +130,6 @@ const router = createBrowserRouter([
         path: "/liveclass/:id",
         element: <LiveClass />,
       },
-
       {
         path: "/categories",
         element: <Categories />,
@@ -132,12 +139,24 @@ const router = createBrowserRouter([
         element: <SubCategories />,
       },
       {
+        path: "/sub-categories/add",
+        element: <AddSubCategoryPage />,
+      },
+      {
         path: "/articles",
         element: <Articles />,
       },
       {
+        path: "/articles/add",
+        element: <AddArticlePage />,
+      },
+      {
         path: "/blogs",
         element: <Blogs />,
+      },
+      {
+        path: "/blogs/add",
+        element: <AddBlogPage />,
       },
       {
         path: "/languages",
