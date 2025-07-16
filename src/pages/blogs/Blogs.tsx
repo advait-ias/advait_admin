@@ -1,26 +1,25 @@
 import DataTable from "../../components/dataTable/DataTable";
-import AddBlogDialog from "./AddBlogPage";
 import { useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
 import { fetchAllBlogs } from "../../api/services/blogService";
-import "./blogs.scss";
 import { Link } from "react-router-dom";
+import "./blogs.scss";
 
 const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 250 },
+  { field: "id", headerName: "ID", width: 220 },
   {
     field: "img",
     headerName: "Image",
     width: 75,
     renderCell: () => <img src={"/noavatar.png"} alt="" />,
   },
-  { field: "headline", headerName: "Headline", width: 200 },
-  { field: "content", headerName: "Content", width: 120 },
+  { field: "headline", headerName: "Headline", width: 250 },
+  { field: "content", headerName: "Content", width: 350 },
   {
     field: "createdAt",
     headerName: "Created At",
-    width: 120,
+    width: 100,
   },
   {
     field: "isActive",
@@ -31,8 +30,6 @@ const columns: GridColDef[] = [
 ];
 
 const Blogs = () => {
-  const [open, setOpen] = useState(false);
-
   const { isLoading, data, refetch } = useQuery({
     queryKey: ["blogs"],
     queryFn: fetchAllBlogs,

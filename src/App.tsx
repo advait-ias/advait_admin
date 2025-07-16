@@ -33,6 +33,7 @@ import AddBlogPage from "./pages/blogs/AddBlogPage";
 import AddArticlePage from "./pages/article/AddArticlePage";
 import AddCoursePage from "./pages/courses/AddCoursePage";
 import AddSubCategoryPage from "./pages/sub-categories/AddSubCategoryPage";
+import AddCategoryPage from "./pages/categories/AddCategoryPage";
 
 const queryClient = new QueryClient();
 
@@ -133,6 +134,10 @@ const router = createBrowserRouter([
       {
         path: "/categories",
         element: <Categories />,
+      },
+      {
+        path: "/categories/add",
+        element: <AddCategoryPage />,
       },
       {
         path: "/sub-categories",

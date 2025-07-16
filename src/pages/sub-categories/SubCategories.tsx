@@ -1,8 +1,8 @@
 import DataTable from "../../components/dataTable/DataTable";
+import { Link } from "react-router-dom";
 import { GridColDef } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
-import { fetchAllCategories } from "../../api/services/categoryService";
+import { fetchAllSubCategories } from "../../api/services/subCategoryService";
 import "./subCategories.scss";
 
 const columns: GridColDef[] = [
@@ -13,7 +13,7 @@ const columns: GridColDef[] = [
     width: 200,
   },
   {
-    field: "subCategory",
+    field: "name",
     headerName: "Sub Category Name",
     width: 200,
   },
@@ -33,13 +33,13 @@ const columns: GridColDef[] = [
 const SubCategories = () => {
   const { isLoading, data } = useQuery({
     queryKey: ["sub-category"],
-    queryFn: fetchAllCategories,
+    queryFn: fetchAllSubCategories,
   });
 
   const formattedRows =
     data?.map((exam: any, index: number) => ({
       id: exam._id || index,
-      category: exam.category,
+      category: exam.category.name,
       name: exam.name,
       isActive: exam.isActive,
       createdAt: new Date(exam.createdAt).toLocaleDateString("en-GB"),

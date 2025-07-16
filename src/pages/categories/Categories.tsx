@@ -1,6 +1,5 @@
-import AddExamDialog from "./AddCategoryDialog";
 import DataTable from "../../components/dataTable/DataTable";
-import { useState } from "react";
+import { Link } from "react-router-dom";
 import { GridColDef } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
 import { fetchAllCategories } from "../../api/services/categoryService";
@@ -9,7 +8,7 @@ import "./categories.scss";
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 250 },
   {
-    field: "category",
+    field: "name",
     headerName: "Category Name",
     width: 200,
   },
@@ -27,26 +26,26 @@ const columns: GridColDef[] = [
 ];
 
 const Categories = () => {
-  const [open, setOpen] = useState(false);
-
   const { isLoading, data } = useQuery({
     queryKey: ["category"],
     queryFn: fetchAllCategories,
   });
 
   const formattedRows =
-    data?.map((exam: any, index: number) => ({
-      id: exam._id || index,
-      name: exam.name,
-      isActive: exam.isActive,
-      createdAt: new Date(exam.createdAt).toLocaleDateString("en-GB"),
+    data?.map((category: any, index: number) => ({
+      id: category._id || index,
+      name: category.name,
+      isActive: category.isActive,
+      createdAt: new Date(category.createdAt).toLocaleDateString("en-GB"),
     })) || [];
 
   return (
     <div className="categories">
       <div className="info">
         <h1>Categories</h1>
-        <button onClick={() => setOpen(true)}>Add New Category</button>
+        <Link to="/categories/add">
+          <button>Add New Category</button>
+        </Link>
       </div>
 
       {isLoading ? (
@@ -59,8 +58,6 @@ const Categories = () => {
           rows={formattedRows}
         />
       )}
-
-      {open && <AddExamDialog setOpen={setOpen} />}
     </div>
   );
 };

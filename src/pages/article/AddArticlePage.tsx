@@ -11,55 +11,49 @@ import "./add.scss";
 
 const AddArticlePage = () => {
   const [formData, setFormData] = useState({
-    category: [] as string[],
-    subCategory: [] as string[],
-    language: [] as string[],
+    category: null as any,
+    subCategory: null as any,
+    language: null as any,
     headline: "",
     subHeadline: "",
     content: "",
-    tags: [] as string[],
+    tags: [] as any[],
   });
   const [image, setImage] = useState<File | null>(null);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
+  // Queries
   const { data: categoryOptions = [], isLoading: loadingCategory } = useQuery({
     queryKey: ["categories"],
     queryFn: fetchAllCategories,
   });
-
   const { data: subCategoryOptions = [], isLoading: loadingSubCategory } =
     useQuery({
       queryKey: ["sub-category"],
       queryFn: fetchAllSubCategories,
     });
-
   const { data: tagOptions = [], isLoading: loadingTags } = useQuery({
     queryKey: ["tags"],
     queryFn: fetchAllTags,
   });
-
   const { data: languageOptions = [], isLoading: loadingLanguage } = useQuery({
     queryKey: ["languages"],
     queryFn: fetchAllLanguages,
   });
 
+  // Mutation
   const mutation = useMutation({
     mutationFn: () => {
       const form = new FormData();
 
-      Object.entries(formData).forEach(([key, val]) => {
-        if (
-          key === "tags" ||
-          key === "category" ||
-          key === "subCategory" ||
-          key === "language"
-        ) {
-          form.append(key, JSON.stringify(val)); // Convert array to JSON string
-        } else {
-          form.append(key, val as string); // Explicitly cast to string
-        }
-      });
+      form.append("category", formData.category?._id);
+      form.append("subCategory", formData.subCategory?._id);
+      form.append("language", formData.language?._id);
+      form.append("headline", formData.headline);
+      form.append("subHeadline", formData.subHeadline);
+      form.append("content", formData.content);
+      form.append("tags", JSON.stringify(formData.tags.map((tag) => tag._id)));
 
       if (image) form.append("image", image);
 
@@ -71,6 +65,7 @@ const AddArticlePage = () => {
     },
   });
 
+  // Handlers
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -90,24 +85,21 @@ const AddArticlePage = () => {
       </button>
       <h1>Add New Article</h1>
       <form onSubmit={handleSubmit}>
+        {/* Category */}
         <div className="item">
           <label>Article Category</label>
           <Autocomplete
-            multiple
             options={categoryOptions}
+            getOptionLabel={(opt: any) => opt.name}
             loading={loadingCategory}
-            getOptionLabel={(option: any) => option.name}
-            onChange={(e, value) =>
-              setFormData((prev) => ({
-                ...prev,
-                tags: value.map((v: any) => v._id),
-              }))
+            onChange={(e, val) =>
+              setFormData((prev) => ({ ...prev, category: val }))
             }
             renderInput={(params) => (
               <TextField
                 {...params}
-                label="Select Categories"
-                placeholder="Categories"
+                label="Select Category"
+                placeholder="Category"
                 variant="outlined"
                 InputProps={{
                   ...params.InputProps,
@@ -123,24 +115,21 @@ const AddArticlePage = () => {
           />
         </div>
 
+        {/* SubCategory */}
         <div className="item">
           <label>Article Sub Category</label>
           <Autocomplete
-            multiple
             options={subCategoryOptions}
+            getOptionLabel={(opt: any) => opt.name}
             loading={loadingSubCategory}
-            getOptionLabel={(option: any) => option.name}
-            onChange={(e, value) =>
-              setFormData((prev) => ({
-                ...prev,
-                tags: value.map((v: any) => v._id),
-              }))
+            onChange={(e, val) =>
+              setFormData((prev) => ({ ...prev, subCategory: val }))
             }
             renderInput={(params) => (
               <TextField
                 {...params}
-                label="Select Sub Categories"
-                placeholder="Sub Categories"
+                label="Select Sub Category"
+                placeholder="Sub Category"
                 variant="outlined"
                 InputProps={{
                   ...params.InputProps,
@@ -156,6 +145,7 @@ const AddArticlePage = () => {
           />
         </div>
 
+        {/* Headline and SubHeadline */}
         {[
           { name: "headline", label: "Article Headline" },
           { name: "subHeadline", label: "Subheadline (Optional)" },
@@ -172,24 +162,21 @@ const AddArticlePage = () => {
           </div>
         ))}
 
+        {/* Language */}
         <div className="item">
           <label>Article Language</label>
           <Autocomplete
-            multiple
             options={languageOptions}
+            getOptionLabel={(opt: any) => opt.name}
             loading={loadingLanguage}
-            getOptionLabel={(option: any) => option.name}
-            onChange={(e, value) =>
-              setFormData((prev) => ({
-                ...prev,
-                tags: value.map((v: any) => v._id),
-              }))
+            onChange={(e, val) =>
+              setFormData((prev) => ({ ...prev, language: val }))
             }
             renderInput={(params) => (
               <TextField
                 {...params}
-                label="Select Languages"
-                placeholder="Languages"
+                label="Select Language"
+                placeholder="Language"
                 variant="outlined"
                 InputProps={{
                   ...params.InputProps,
@@ -205,18 +192,16 @@ const AddArticlePage = () => {
           />
         </div>
 
+        {/* Tags */}
         <div className="item">
           <label>Article Tags</label>
           <Autocomplete
             multiple
             options={tagOptions}
+            getOptionLabel={(opt: any) => opt.name}
             loading={loadingTags}
-            getOptionLabel={(option: any) => option.name}
-            onChange={(e, value) =>
-              setFormData((prev) => ({
-                ...prev,
-                tags: value.map((v: any) => v._id),
-              }))
+            onChange={(e, val) =>
+              setFormData((prev) => ({ ...prev, tags: val }))
             }
             renderInput={(params) => (
               <TextField
@@ -238,6 +223,7 @@ const AddArticlePage = () => {
           />
         </div>
 
+        {/* Image Upload */}
         <div className="item">
           <label>Article Image</label>
           <input
@@ -251,6 +237,7 @@ const AddArticlePage = () => {
           />
         </div>
 
+        {/* Content */}
         <div className="item">
           <label>Article Content</label>
           <textarea

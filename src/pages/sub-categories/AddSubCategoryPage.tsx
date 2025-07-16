@@ -8,7 +8,7 @@ import "./add.scss"; // updated stylesheet path
 
 const AddSubCategoryPage = () => {
   const [formData, setFormData] = useState({
-    category: [] as string[],
+    category: "", // single category ID
     name: "",
   });
 
@@ -23,13 +23,13 @@ const AddSubCategoryPage = () => {
   const mutation = useMutation({
     mutationFn: () => {
       const form = new FormData();
-      form.append("category", JSON.stringify(formData.category));
+      form.append("category", formData.category); // single string now
       form.append("name", formData.name);
       return createSubCategory(form);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["sub-category"] });
-      navigate("/sub-categories"); // redirect back to blog list
+      navigate("/sub-categories");
     },
   });
 
@@ -40,37 +40,41 @@ const AddSubCategoryPage = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    mutation.mutate();
-  };
-
   return (
     <div className="add-sub-category-page">
       <button className="close-btn" onClick={() => navigate("/sub-categories")}>
         ×
       </button>
       <h1>Add New Sub Category</h1>
-      <form onSubmit={handleSubmit}>
-        {/* Tags */}
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          mutation.mutate();
+        }}
+      >
+        {/* Single Category Select */}
         <div className="item">
-          <label>Categories</label>
+          <label>Category</label>
           <Autocomplete
-            multiple
             options={categoryOptions}
             loading={loadingCategory}
             getOptionLabel={(option: any) => option.name}
+            value={
+              categoryOptions.find(
+                (opt: any) => opt._id === formData.category
+              ) || null
+            }
             onChange={(e, value) =>
               setFormData((prev) => ({
                 ...prev,
-                tags: value.map((v: any) => v._id),
+                category: value?._id || "",
               }))
             }
             renderInput={(params) => (
               <TextField
                 {...params}
-                label="Select Categories"
-                placeholder="Categories"
+                label="Select Category"
+                placeholder="Category"
                 variant="outlined"
                 InputProps={{
                   ...params.InputProps,
@@ -86,12 +90,12 @@ const AddSubCategoryPage = () => {
           />
         </div>
 
-        {/* Headline */}
+        {/* Sub Category Name */}
         <div className="item">
           <label>Sub Category Name</label>
           <input
             type="text"
-            name="headline"
+            name="name"
             value={formData.name}
             onChange={handleChange}
             required
