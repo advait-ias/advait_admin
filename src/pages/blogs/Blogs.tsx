@@ -1,5 +1,4 @@
 import DataTable from "../../components/dataTable/DataTable";
-import { useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
 import { fetchAllBlogs } from "../../api/services/blogService";
@@ -8,14 +7,9 @@ import "./blogs.scss";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 220 },
-  {
-    field: "img",
-    headerName: "Image",
-    width: 75,
-    renderCell: () => <img src={"/noavatar.png"} alt="" />,
-  },
+
   { field: "headline", headerName: "Headline", width: 250 },
-  { field: "content", headerName: "Content", width: 350 },
+  { field: "content", headerName: "Content", width: 400 },
   {
     field: "createdAt",
     headerName: "Created At",
@@ -38,7 +32,6 @@ const Blogs = () => {
   const formattedRows =
     data?.map((blog: any, index: number) => ({
       id: blog._id || index,
-      image: blog.image,
       headline: blog.headline,
       content: blog.content,
       createdAt: new Date(blog.createdAt).toLocaleDateString("en-GB"),

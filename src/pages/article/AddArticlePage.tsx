@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import MDEditor from "@uiw/react-md-editor";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -20,6 +21,7 @@ const AddArticlePage = () => {
     content: "",
     tags: [] as any[],
   });
+  const [errorMessage, setErrorMessage] = useState("");
   const [image, setImage] = useState<File | null>(null);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -63,6 +65,12 @@ const AddArticlePage = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["articles"] });
       navigate("/articles");
+    },
+    onError: (error: any) => {
+      const message =
+        error?.response?.data?.error ||
+        "Something went wrong. Please try again.";
+      toast.error(message);
     },
   });
 

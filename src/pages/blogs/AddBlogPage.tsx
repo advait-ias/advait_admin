@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import MDEditor from "@uiw/react-md-editor";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -35,6 +36,12 @@ const AddBlogPage = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["blogs"] });
       navigate("/blogs"); // redirect back to blog list
+    },
+    onError: (error: any) => {
+      const message =
+        error?.response?.data?.error ||
+        "Something went wrong. Please try again.";
+      toast.error(message);
     },
   });
 

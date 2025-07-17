@@ -21,6 +21,13 @@ import Languages from "./pages/languages/Languages";
 import Articles from "./pages/article/Article";
 import SubCategories from "./pages/sub-categories/SubCategories";
 import Categories from "./pages/categories/Categories";
+import Blogs from "./pages/blogs/Blogs";
+import AddBlogPage from "./pages/blogs/AddBlogPage";
+import AddArticlePage from "./pages/article/AddArticlePage";
+import AddCoursePage from "./pages/courses/AddCoursePage";
+import AddSubCategoryPage from "./pages/sub-categories/AddSubCategoryPage";
+import AddCategoryPage from "./pages/categories/AddCategoryPage";
+import { Toaster } from "react-hot-toast";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   createBrowserRouter,
@@ -28,12 +35,6 @@ import {
   Outlet,
   Navigate,
 } from "react-router-dom";
-import Blogs from "./pages/blogs/Blogs";
-import AddBlogPage from "./pages/blogs/AddBlogPage";
-import AddArticlePage from "./pages/article/AddArticlePage";
-import AddCoursePage from "./pages/courses/AddCoursePage";
-import AddSubCategoryPage from "./pages/sub-categories/AddSubCategoryPage";
-import AddCategoryPage from "./pages/categories/AddCategoryPage";
 
 const queryClient = new QueryClient();
 
@@ -46,6 +47,7 @@ const Layout = () => {
 
   return (
     <div className="main">
+      <Toaster position="top-center" reverseOrder={false} />
       <Navbar />
       <div className="container">
         <div className="menuContainer">

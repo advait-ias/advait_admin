@@ -1,21 +1,19 @@
 import DataTable from "../../components/dataTable/DataTable";
-import { useState } from "react";
+import { Link } from "react-router-dom";
 import { GridColDef } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
 import { fetchAllArticles } from "../../api/services/articleService";
 import "./article.scss";
-import { Link } from "react-router-dom";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 250 },
   {
-    field: "img",
-    headerName: "Image",
-    width: 75,
-    renderCell: () => <img src={"/noavatar.png"} alt="" />,
+    field: "category",
+    headerName: "Category Name",
+    width: 150,
   },
+  { field: "subCategory", headerName: "Sub Category", width: 150 },
   { field: "headline", headerName: "Headline", width: 200 },
-  { field: "subHeadline", headerName: "Sub Headline", width: 200 },
   { field: "content", headerName: "Content", width: 120 },
   {
     field: "createdAt",
@@ -31,8 +29,6 @@ const columns: GridColDef[] = [
 ];
 
 const Articles = () => {
-  const [open, setOpen] = useState(false);
-
   const { isLoading, data, refetch } = useQuery({
     queryKey: ["articles"],
     queryFn: fetchAllArticles,
@@ -41,9 +37,9 @@ const Articles = () => {
   const formattedRows =
     data?.map((article: any, index: number) => ({
       id: article._id || index,
-      image: article.image,
+      category: article.category.name,
+      subCategory: article.subCategory.name,
       headline: article.headline,
-      subHeadline: article.subHeadline,
       content: article.content,
       createdAt: new Date(article.createdAt).toLocaleDateString("en-GB"),
       isActive: article.isisActive,
