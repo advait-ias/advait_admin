@@ -1,4 +1,4 @@
-// src/pages/AddBlogPage.tsx
+import MDEditor from "@uiw/react-md-editor";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Autocomplete, CircularProgress, TextField } from "@mui/material";
@@ -117,16 +117,18 @@ const AddBlogPage = () => {
           />
         </div>
 
-        {/* Content */}
+        {/* Markdown Content */}
         <div className="item">
           <label>Blog Content</label>
-          <textarea
-            name="content"
-            value={formData.content}
-            onChange={handleChange}
-            required
-            rows={20}
-          />
+          <div data-color-mode="light">
+            <MDEditor
+              value={formData.content}
+              onChange={(val) =>
+                setFormData((prev) => ({ ...prev, content: val || "" }))
+              }
+              height={1000}
+            />
+          </div>
         </div>
 
         <button type="submit" disabled={mutation.isPending}>
