@@ -1,0 +1,86 @@
+/* RichEditor.css */
+.editor-wrapper {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  font-family: 'Inter', sans-serif;
+  background-color: #f9fafb;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  background-color: #f1f5f9;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.toolbar button,
+.toolbar select,
+.toolbar input[type="color"] {
+  padding: 6px 10px;
+  font-size: 14px;
+  background-color: #fff;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.toolbar button:hover,
+.toolbar select:hover,
+.toolbar input[type="color"]:hover {
+  background-color: #e2e8f0;
+}
+
+.toolbar select {
+  font-family: inherit;
+}
+
+.editor-content {
+  padding: 20px;
+  background-color: #fff;
+  color: #111827;
+  outline: none;
+  line-height: 1.6;
+  white-space: pre-wrap; /* For handling line breaks */
+}
+
+
+.editor-content h1,
+.editor-content h2,
+.editor-content h3 {
+  font-weight: 600;
+  margin-top: 24px;
+  margin-bottom: 12px;
+}
+
+.editor-content a {
+  color: #3b82f6;
+  text-decoration: underline;
+}
+
+.editor-content ul,
+.editor-content ol {
+  padding-left: 1.5rem;
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.editor-content img {
+  max-width: 100%;
+  height: auto;
+  margin-top: 12px;
+  margin-bottom: 12px;
+  border-radius: 4px;
+}
+
+.editor-content blockquote {
+  border-left: 4px solid #e2e8f0;
+  padding-left: 16px;
+  color: #6b7280;
+  font-style: italic;
+}

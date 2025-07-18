@@ -1,5 +1,5 @@
 import toast from "react-hot-toast";
-import MDEditor from "@uiw/react-md-editor";
+import RichEditor from "../../components/RichEditor/RichEditor";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Autocomplete, CircularProgress, TextField } from "@mui/material";
@@ -250,13 +250,12 @@ const AddArticlePage = () => {
         <div className="item">
           <label>Article Content</label>
           <div data-color-mode="light">
-            <MDEditor
-              value={formData.content}
-              onChange={(val) =>
-                setFormData((prev) => ({ ...prev, content: val || "" }))
-              }
-              height={1000}
-            />
+            <RichEditor
+                        content={formData.content}
+                        onChange={(html: any) =>
+                          setFormData((prev) => ({ ...prev, content: html }))
+                        }
+                      />
           </div>
         </div>
 

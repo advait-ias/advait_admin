@@ -7,6 +7,7 @@ import { createBlog } from "../../api/services/blogService"; // replace with you
 import { fetchAllTags } from "../../api/services/tagService";
 import { useNavigate } from "react-router-dom";
 import "./add.scss"; // updated stylesheet path
+import RichEditor from "../../components/RichEditor/RichEditor";
 
 const AddBlogPage = () => {
   const [formData, setFormData] = useState({
@@ -127,6 +128,16 @@ const AddBlogPage = () => {
         {/* Markdown Content */}
         <div className="item">
           <label>Blog Content</label>
+          <RichEditor
+            content={formData.content}
+            onChange={(html: any) =>
+              setFormData((prev) => ({ ...prev, content: html }))
+            }
+          />
+        </div>
+
+        {/* <div className="item">
+          <label>Blog Content</label>
           <div data-color-mode="light">
             <MDEditor
               value={formData.content}
@@ -136,7 +147,7 @@ const AddBlogPage = () => {
               height={1000}
             />
           </div>
-        </div>
+        </div> */}
 
         <button type="submit" disabled={mutation.isPending}>
           {mutation.isPending ? "Submitting..." : "Submit"}
