@@ -2,7 +2,7 @@
 
 .add-article-page {
   padding: 40px;
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
   color: white;
   position: relative;
@@ -67,4 +67,32 @@
       }
     }
   }
+}
+
+.custom-md-editor,
+.prose,
+.markdown-preview {
+  .font-times {
+    font-family: "Times New Roman", Times, serif;
+  }
+
+  .font-arial {
+    font-family: Arial, sans-serif;
+  }
+
+  .font-helvetica {
+    font-family: Helvetica, sans-serif;
+  }
+
+  .font-georgia {
+    font-family: Georgia, serif;
+  }
+
+  .font-roboto {
+    font-family: "Roboto", sans-serif;
+  }
+}
+
+.tiptap {
+  outline: none;
 }

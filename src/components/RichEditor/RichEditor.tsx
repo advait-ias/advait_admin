@@ -10,6 +10,8 @@ import Link from "@tiptap/extension-link";
 import Image from "@tiptap/extension-image";
 import BulletList from "@tiptap/extension-bullet-list";
 import OrderedList from "@tiptap/extension-ordered-list";
+import TextAlign from "@tiptap/extension-text-align";
+import ListItem from "@tiptap/extension-list-item";
 import "./RichEditor.css";
 
 const fontOptions = [
@@ -27,7 +29,13 @@ const fontOptions = [
 export default function RichEditor({ content, onChange }: any) {
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      StarterKit.configure({
+        paragraph: {
+          HTMLAttributes: {
+            class: "text-left",
+          },
+        },
+      }),
       TextStyle,
       Color,
       FontFamily,
@@ -38,53 +46,138 @@ export default function RichEditor({ content, onChange }: any) {
       Image,
       BulletList,
       OrderedList,
+      ListItem,
+      TextAlign.configure({
+        types: ["heading", "paragraph"],
+      }),
     ],
     content,
+    editorProps: {
+      attributes: {
+        class:
+          "prose prose-sm sm:prose lg:prose-lg xl:prose-xl focus:outline-none min-h-[300px] p-4 bg-white text-black rounded border border-gray-300",
+      },
+    },
     onUpdate: ({ editor }) => onChange(editor.getHTML()),
   });
 
   return (
-    <div className="editor-wrapper">
+    <div className="editor-wrapper border rounded shadow-sm bg-white text-black">
       {editor && (
-        <div className="toolbar">
-          <button onClick={() => editor.chain().focus().toggleBold().run()}>
+        <div className="toolbar flex flex-wrap gap-2 p-2 border-b bg-gray-100">
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              editor.chain().focus().toggleBold().run();
+            }}
+          >
             B
           </button>
-          <button onClick={() => editor.chain().focus().toggleItalic().run()}>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              editor.chain().focus().toggleItalic().run();
+            }}
+          >
             I
           </button>
           <button
-            onClick={() => editor.chain().focus().toggleUnderline().run()}
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              editor.chain().focus().toggleUnderline().run();
+            }}
           >
             U
           </button>
-          <button onClick={() => editor.chain().focus().toggleStrike().run()}>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              editor.chain().focus().toggleStrike().run();
+            }}
+          >
             S
           </button>
           <button
-            onClick={() => editor.chain().focus().toggleBulletList().run()}
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              editor.chain().focus().toggleBulletList().run();
+            }}
           >
             • List
           </button>
           <button
-            onClick={() => editor.chain().focus().toggleOrderedList().run()}
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              editor.chain().focus().toggleOrderedList().run();
+            }}
           >
             1. List
           </button>
-          <button onClick={() => editor.chain().focus().setHighlight().run()}>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              editor.chain().focus().setHighlight().run();
+            }}
+          >
             ✱
           </button>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              editor.chain().focus().setTextAlign("left").run();
+            }}
+          >
+            ⬅️
+          </button>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              editor.chain().focus().setTextAlign("center").run();
+            }}
+          >
+            ⬆️
+          </button>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              editor.chain().focus().setTextAlign("right").run();
+            }}
+          >
+            ➡️
+          </button>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              editor.chain().focus().setTextAlign("justify").run();
+            }}
+          >
+            📏
+          </button>
+
           <input
             type="color"
-            onChange={(e) =>
-              editor.chain().focus().setColor(e.target.value).run()
-            }
+            onChange={(e) => {
+              e.preventDefault();
+              editor.chain().focus().setColor(e.target.value).run();
+            }}
             title="Text Color"
           />
           <select
-            onChange={(e) =>
-              editor.chain().focus().setFontFamily(e.target.value).run()
-            }
+            onChange={(e) => {
+              e.preventDefault();
+              editor.chain().focus().setFontFamily(e.target.value).run();
+            }}
           >
             <option value="">Font</option>
             {fontOptions.map((f) => (
@@ -93,20 +186,45 @@ export default function RichEditor({ content, onChange }: any) {
               </option>
             ))}
           </select>
-          <button onClick={() => editor.chain().focus().toggleLink().run()}>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              editor.chain().focus().toggleLink().run();
+            }}
+          >
             🔗 Link
           </button>
           <button
-            onClick={() => {
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
               const url = prompt("Image URL");
-              if (url) editor.chain().focus().setImage({ src: url }).run();
+              if (url) {
+                editor.chain().focus().setImage({ src: url }).run();
+              }
             }}
           >
             🖼️
           </button>
         </div>
       )}
-      <EditorContent editor={editor} className="editor-content" />
+      <EditorContent
+        editor={editor}
+        className="editor-content"
+        onKeyDown={(e) => {
+          if (e.key === "Tab") {
+            e.preventDefault();
+            if (editor?.isActive("listItem")) {
+              if (e.shiftKey) {
+                editor.chain().focus().liftListItem("listItem").run(); // outdent
+              } else {
+                editor.chain().focus().sinkListItem("listItem").run(); // indent
+              }
+            }
+          }
+        }}
+      />
     </div>
   );
 }

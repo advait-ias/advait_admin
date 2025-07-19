@@ -251,11 +251,11 @@ const AddArticlePage = () => {
           <label>Article Content</label>
           <div data-color-mode="light">
             <RichEditor
-                        content={formData.content}
-                        onChange={(html: any) =>
-                          setFormData((prev) => ({ ...prev, content: html }))
-                        }
-                      />
+              content={formData.content}
+              onChange={(html: any) =>
+                setFormData((prev) => ({ ...prev, content: html }))
+              }
+            />
           </div>
         </div>
 
