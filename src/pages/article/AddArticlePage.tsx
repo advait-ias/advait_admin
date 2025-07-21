@@ -22,6 +22,7 @@ const AddArticlePage = () => {
     tags: [] as any[],
   });
   const [errorMessage, setErrorMessage] = useState("");
+  const [useRichEditor, setUseRichEditor] = useState(false);
   const [image, setImage] = useState<File | null>(null);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -247,15 +248,51 @@ const AddArticlePage = () => {
         </div>
 
         {/* Content */}
-        <div className="item">
+        <div className="item content-editor">
+          <div className="editor-toggle">
+            <label className={`toggle-label ${useRichEditor ? "active" : ""}`}>
+              <input
+                type="radio"
+                name="editorMode"
+                checked={useRichEditor}
+                onChange={() => setUseRichEditor(true)}
+              />
+              Rich Editor
+            </label>
+            <label className={`toggle-label ${!useRichEditor ? "active" : ""}`}>
+              <input
+                type="radio"
+                name="editorMode"
+                checked={!useRichEditor}
+                onChange={() => setUseRichEditor(false)}
+              />
+              Textarea
+            </label>
+          </div>
+
           <label>Article Content</label>
-          <div data-color-mode="light">
-            <RichEditor
-              content={formData.content}
-              onChange={(html: any) =>
-                setFormData((prev) => ({ ...prev, content: html }))
-              }
-            />
+          <div className="editor-body">
+            {useRichEditor ? (
+              <RichEditor
+                content={formData.content}
+                onChange={(html: string) =>
+                  setFormData((prev: any) => ({ ...prev, content: html }))
+                }
+              />
+            ) : (
+              <textarea
+                name="content"
+                value={formData.content}
+                onChange={(e) =>
+                  setFormData((prev: any) => ({
+                    ...prev,
+                    content: e.target.value,
+                  }))
+                }
+                rows={20}
+                className="plain-textarea"
+              />
+            )}
           </div>
         </div>
 

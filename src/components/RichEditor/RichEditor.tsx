@@ -46,19 +46,29 @@ export default function RichEditor({ content, onChange }: any) {
       Image,
       BulletList,
       OrderedList,
-      ListItem,
+      ListItem.extend({
+        addKeyboardShortcuts() {
+          return {
+            Tab: () => this.editor.commands.sinkListItem("listItem"),
+            "Shift-Tab": () => this.editor.commands.liftListItem("listItem"),
+          };
+        },
+      }),
       TextAlign.configure({
         types: ["heading", "paragraph"],
       }),
     ],
     content,
+    onUpdate: ({ editor }) => onChange(editor.getHTML()),
     editorProps: {
-      attributes: {
-        class:
-          "prose prose-sm sm:prose lg:prose-lg xl:prose-xl focus:outline-none min-h-[300px] p-4 bg-white text-black rounded border border-gray-300",
+      handlePaste(view, event, slice) {
+        // Optional: You can modify paste behavior here
+        return false;
+      },
+      transformPastedText(text) {
+        return text.replace(/\n{2,}/g, "\n"); // Reduce multiple newlines
       },
     },
-    onUpdate: ({ editor }) => onChange(editor.getHTML()),
   });
 
   return (

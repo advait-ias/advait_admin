@@ -15,6 +15,7 @@ const AddBlogPage = () => {
     content: "",
     tags: [] as string[],
   });
+  const [useRichEditor, setUseRichEditor] = useState(false);
   const [image, setImage] = useState<File | null>(null);
 
   const queryClient = useQueryClient();
@@ -126,7 +127,55 @@ const AddBlogPage = () => {
         </div>
 
         {/* Markdown Content */}
-        <div className="item">
+
+        <div className="item blog-editor">
+          <div className="editor-toggle">
+            <label className={`toggle-label ${useRichEditor ? "active" : ""}`}>
+              <input
+                type="radio"
+                name="blogEditorMode"
+                checked={useRichEditor}
+                onChange={() => setUseRichEditor(true)}
+              />
+              Rich Editor
+            </label>
+            <label className={`toggle-label ${!useRichEditor ? "active" : ""}`}>
+              <input
+                type="radio"
+                name="blogEditorMode"
+                checked={!useRichEditor}
+                onChange={() => setUseRichEditor(false)}
+              />
+              Textarea
+            </label>
+          </div>
+
+          <label>Blog Content</label>
+          <div className="editor-body">
+            {useRichEditor ? (
+              <RichEditor
+                content={formData.content}
+                onChange={(html: string) =>
+                  setFormData((prev: any) => ({ ...prev, content: html }))
+                }
+              />
+            ) : (
+              <textarea
+                name="content"
+                value={formData.content}
+                onChange={(e) =>
+                  setFormData((prev: any) => ({
+                    ...prev,
+                    content: e.target.value,
+                  }))
+                }
+                rows={20}
+                className="plain-textarea"
+              />
+            )}
+          </div>
+        </div>
+        {/* <div className="item">
           <label>Blog Content</label>
           <RichEditor
             content={formData.content}
@@ -134,19 +183,6 @@ const AddBlogPage = () => {
               setFormData((prev) => ({ ...prev, content: html }))
             }
           />
-        </div>
-
-        {/* <div className="item">
-          <label>Blog Content</label>
-          <div data-color-mode="light">
-            <MDEditor
-              value={formData.content}
-              onChange={(val) =>
-                setFormData((prev) => ({ ...prev, content: val || "" }))
-              }
-              height={1000}
-            />
-          </div>
         </div> */}
 
         <button type="submit" disabled={mutation.isPending}>
