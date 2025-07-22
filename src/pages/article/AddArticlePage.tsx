@@ -21,8 +21,7 @@ const AddArticlePage = () => {
     content: "",
     tags: [] as any[],
   });
-  const [errorMessage, setErrorMessage] = useState("");
-  const [useRichEditor, setUseRichEditor] = useState(false);
+  const [useRichEditor, setUseRichEditor] = useState(true);
   const [image, setImage] = useState<File | null>(null);
   const queryClient = useQueryClient();
   const navigate = useNavigate();

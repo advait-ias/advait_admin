@@ -61,13 +61,58 @@ export default function RichEditor({ content, onChange }: any) {
     content,
     onUpdate: ({ editor }) => onChange(editor.getHTML()),
     editorProps: {
-      handlePaste(view, event, slice) {
-        // Optional: You can modify paste behavior here
-        return false;
-      },
-      transformPastedText(text) {
-        return text.replace(/\n{2,}/g, "\n"); // Reduce multiple newlines
-      },
+transformPastedHTML(html) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, "text/html");
+
+  const paragraphs = Array.from(doc.querySelectorAll("p"));
+
+  const isBulletSymbol = (text: string) =>
+    /^([·•Ø\-*])(\s|&nbsp;)*$/.test(text.trim());
+
+  paragraphs.forEach((p) => {
+    const firstSpan = p.querySelector("span");
+    const spans = Array.from(p.childNodes);
+
+    const rawText = p.textContent?.trim() || "";
+    const bulletMatch = rawText.match(/^([·•Ø\-*])(\s|&nbsp;)*/);
+
+    if (bulletMatch) {
+      // Create <ul><li> and preserve styled content
+      const ul = document.createElement("ul");
+      const li = document.createElement("li");
+
+      // Build new content fragment excluding bullet symbols
+      const fragment = document.createDocumentFragment();
+
+      spans.forEach((node) => {
+        if (
+          node.nodeType === Node.TEXT_NODE &&
+          isBulletSymbol(node.textContent || "")
+        ) {
+          return; // skip bullet-like text
+        }
+
+        if (
+          node.nodeType === Node.ELEMENT_NODE &&
+          node instanceof HTMLElement &&
+          isBulletSymbol(node.textContent || "")
+        ) {
+          return; // skip bullet-like spans
+        }
+
+        fragment.appendChild(node.cloneNode(true));
+      });
+
+      li.appendChild(fragment);
+      ul.appendChild(li);
+      p.replaceWith(ul);
+    }
+  });
+
+  return doc.body.innerHTML;
+}
+
     },
   });
 
@@ -225,12 +270,17 @@ export default function RichEditor({ content, onChange }: any) {
         onKeyDown={(e) => {
           if (e.key === "Tab") {
             e.preventDefault();
+
             if (editor?.isActive("listItem")) {
+              // Keep default list item indent/outdent behavior
               if (e.shiftKey) {
                 editor.chain().focus().liftListItem("listItem").run(); // outdent
               } else {
                 editor.chain().focus().sinkListItem("listItem").run(); // indent
               }
+            } else {
+              // Insert 2 or 4 spaces when not inside a list
+              editor.chain().focus().insertContent("\t").run();
             }
           }
         }}
