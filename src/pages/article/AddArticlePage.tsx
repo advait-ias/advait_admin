@@ -1,14 +1,19 @@
 import toast from "react-hot-toast";
 import RichEditor from "../../components/RichEditor/RichEditor";
 import { useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Autocomplete, CircularProgress, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { fetchAllTags } from "../../api/services/tagService";
 import { createArticle } from "../../api/services/articleService";
 import { fetchAllLanguages } from "../../api/services/languageService";
 import { fetchAllCategories } from "../../api/services/categoryService";
 import { fetchAllSubCategories } from "../../api/services/subCategoryService";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  Autocomplete,
+  Button,
+  Chip,
+  CircularProgress,
+  TextField,
+} from "@mui/material";
 import "./add.scss";
 
 const AddArticlePage = () => {
@@ -21,8 +26,8 @@ const AddArticlePage = () => {
     content: "",
     tags: [] as any[],
   });
-  const [errorMessage, setErrorMessage] = useState("");
-  const [useRichEditor, setUseRichEditor] = useState(false);
+  const [newTag, setNewTag] = useState("");
+  const [useRichEditor, setUseRichEditor] = useState(true);
   const [image, setImage] = useState<File | null>(null);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -37,10 +42,6 @@ const AddArticlePage = () => {
       queryKey: ["sub-category"],
       queryFn: fetchAllSubCategories,
     });
-  const { data: tagOptions = [], isLoading: loadingTags } = useQuery({
-    queryKey: ["tags"],
-    queryFn: fetchAllTags,
-  });
   const { data: languageOptions = [], isLoading: loadingLanguage } = useQuery({
     queryKey: ["languages"],
     queryFn: fetchAllLanguages,
@@ -57,7 +58,14 @@ const AddArticlePage = () => {
       form.append("headline", formData.headline);
       form.append("subHeadline", formData.subHeadline);
       form.append("content", formData.content);
-      form.append("tags", JSON.stringify(formData.tags.map((tag) => tag._id)));
+      form.append(
+        "tags",
+        JSON.stringify(
+          formData.tags.map((tag: any) =>
+            typeof tag === "string" ? tag : tag.name
+          )
+        )
+      );
 
       if (image) form.append("image", image);
 
@@ -124,7 +132,6 @@ const AddArticlePage = () => {
             )}
           />
         </div>
-
         {/* SubCategory */}
         <div className="item">
           <label>Article Sub Category</label>
@@ -154,7 +161,6 @@ const AddArticlePage = () => {
             )}
           />
         </div>
-
         {/* Headline and SubHeadline */}
         {[
           { name: "headline", label: "Article Headline" },
@@ -171,7 +177,6 @@ const AddArticlePage = () => {
             />
           </div>
         ))}
-
         {/* Language */}
         <div className="item">
           <label>Article Language</label>
@@ -201,38 +206,50 @@ const AddArticlePage = () => {
             )}
           />
         </div>
-
         {/* Tags */}
         <div className="item">
           <label>Article Tags</label>
-          <Autocomplete
-            multiple
-            options={tagOptions}
-            getOptionLabel={(opt: any) => opt.name}
-            loading={loadingTags}
-            onChange={(e, val) =>
-              setFormData((prev) => ({ ...prev, tags: val }))
-            }
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Select Tags"
-                placeholder="Tags"
-                variant="outlined"
-                InputProps={{
-                  ...params.InputProps,
-                  endAdornment: (
-                    <>
-                      {loadingTags && <CircularProgress size={20} />}
-                      {params.InputProps.endAdornment}
-                    </>
-                  ),
-                }}
-              />
-            )}
-          />
-        </div>
 
+          <div className="tag-input-wrapper">
+            <TextField
+              label="Enter a tag"
+              value={newTag}
+              onChange={(e) => setNewTag(e.target.value)}
+              variant="outlined"
+            />
+            <Button
+              variant="contained"
+              onClick={() => {
+                if (newTag.trim() && !formData.tags.includes(newTag.trim())) {
+                  setFormData((prev) => ({
+                    ...prev,
+                    tags: [...prev.tags, newTag.trim()],
+                  }));
+                  setNewTag("");
+                }
+              }}
+            >
+              Add Tag
+            </Button>
+          </div>
+
+          {/* Show Added Tags */}
+          <div className="tag-list">
+            {formData.tags.map((tag, index) => (
+              <Chip
+                key={index}
+                label={tag}
+                className="custom-chip"
+                onDelete={() =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    tags: [...prev.tags, newTag.trim()],
+                  }))
+                }
+              />
+            ))}
+          </div>
+        </div>
         {/* Image Upload */}
         <div className="item">
           <label>Article Image</label>
@@ -246,7 +263,6 @@ const AddArticlePage = () => {
             }}
           />
         </div>
-
         {/* Content */}
         <div className="item content-editor">
           <div className="editor-toggle">
@@ -295,7 +311,6 @@ const AddArticlePage = () => {
             )}
           </div>
         </div>
-
         <button type="submit" disabled={mutation.isPending}>
           {mutation.isPending ? "Submitting..." : "Submit"}
         </button>

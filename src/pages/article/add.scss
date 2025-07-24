@@ -96,3 +96,29 @@
 .tiptap {
   outline: none;
 }
+
+.tag-input-wrapper {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.custom-chip {
+  color: white !important;
+  background-color: #444 !important;
+  border-radius: 4px;
+
+  .MuiChip-deleteIcon {
+    color: #ccc !important;
+
+    &:hover {
+      color: white !important;
+    }
+  }
+}

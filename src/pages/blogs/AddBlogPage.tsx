@@ -1,5 +1,6 @@
 import toast from "react-hot-toast";
 import MDEditor from "@uiw/react-md-editor";
+import RichEditor from "../../components/RichEditor/RichEditor";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Autocomplete, CircularProgress, TextField } from "@mui/material";
@@ -7,7 +8,6 @@ import { createBlog } from "../../api/services/blogService"; // replace with you
 import { fetchAllTags } from "../../api/services/tagService";
 import { useNavigate } from "react-router-dom";
 import "./add.scss"; // updated stylesheet path
-import RichEditor from "../../components/RichEditor/RichEditor";
 
 const AddBlogPage = () => {
   const [formData, setFormData] = useState({
@@ -15,7 +15,7 @@ const AddBlogPage = () => {
     content: "",
     tags: [] as string[],
   });
-  const [useRichEditor, setUseRichEditor] = useState(false);
+  const [useRichEditor, setUseRichEditor] = useState(true);
   const [image, setImage] = useState<File | null>(null);
 
   const queryClient = useQueryClient();
@@ -54,6 +54,13 @@ const AddBlogPage = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleEditorChange = (editorState: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      content: editorState,
+    }));
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     mutation.mutate();
@@ -77,7 +84,6 @@ const AddBlogPage = () => {
             required
           />
         </div>
-
         {/* Tags */}
         <div className="item">
           <label>Blog Tags</label>
@@ -111,7 +117,6 @@ const AddBlogPage = () => {
             )}
           />
         </div>
-
         {/* Image Upload */}
         <div className="item">
           <label>Blog Image</label>
@@ -125,9 +130,7 @@ const AddBlogPage = () => {
             }}
           />
         </div>
-
         {/* Markdown Content */}
-
         <div className="item blog-editor">
           <div className="editor-toggle">
             <label className={`toggle-label ${useRichEditor ? "active" : ""}`}>
@@ -184,7 +187,6 @@ const AddBlogPage = () => {
             }
           />
         </div> */}
-
         <button type="submit" disabled={mutation.isPending}>
           {mutation.isPending ? "Submitting..." : "Submit"}
         </button>
