@@ -22,6 +22,7 @@ const AddArticlePage = () => {
     subCategory: null as any,
     language: null as any,
     headline: "",
+    url: "",
     subHeadline: "",
     content: "",
     tags: [] as any[],
@@ -56,6 +57,7 @@ const AddArticlePage = () => {
       form.append("subCategory", formData.subCategory?._id);
       form.append("language", formData.language?._id);
       form.append("headline", formData.headline);
+      form.append("url", formData.url);
       form.append("subHeadline", formData.subHeadline);
       form.append("content", formData.content);
       form.append(
@@ -95,6 +97,9 @@ const AddArticlePage = () => {
     e.preventDefault();
     mutation.mutate();
   };
+
+  const formatURL = (str: string) =>
+    str.trim().toLowerCase().replace(/\s+/g, "-"); // or remove spaces: .replace(/\s+/g, "")
 
   return (
     <div className="add-article-page">
@@ -177,6 +182,34 @@ const AddArticlePage = () => {
             />
           </div>
         ))}
+
+        {/* URL Slug (Auto-filled from headline, but editable) */}
+        <div className="item">
+          <label>URL Slug (Article URL) </label>
+          <input
+            type="text"
+            name="url"
+            value={formData.url}
+            onChange={(e) => {
+              const noSpaces = e.target.value.replace(/\s/g, ""); // Remove spaces
+              setFormData((prev) => ({ ...prev, url: noSpaces }));
+            }}
+            onFocus={() => {
+              // If user hasn’t edited URL, auto-fill from headline
+              if (
+                !formData.url ||
+                formData.url === formatURL(formData.headline)
+              ) {
+                setFormData((prev) => ({
+                  ...prev,
+                  url: formatURL(prev.headline),
+                }));
+              }
+            }}
+            required
+          />
+        </div>
+
         {/* Language */}
         <div className="item">
           <label>Article Language</label>
@@ -210,28 +243,29 @@ const AddArticlePage = () => {
         <div className="item">
           <label>Article Tags</label>
 
-          <div className="tag-input-wrapper">
+          <form
+            className="tag-input-wrapper"
+            onSubmit={(e) => {
+              e.preventDefault(); // prevent page reload
+              if (newTag.trim() && !formData.tags.includes(newTag.trim())) {
+                setFormData((prev) => ({
+                  ...prev,
+                  tags: [...prev.tags, newTag.trim()],
+                }));
+                setNewTag("");
+              }
+            }}
+          >
             <TextField
               label="Enter a tag"
               value={newTag}
               onChange={(e) => setNewTag(e.target.value)}
               variant="outlined"
             />
-            <Button
-              variant="contained"
-              onClick={() => {
-                if (newTag.trim() && !formData.tags.includes(newTag.trim())) {
-                  setFormData((prev) => ({
-                    ...prev,
-                    tags: [...prev.tags, newTag.trim()],
-                  }));
-                  setNewTag("");
-                }
-              }}
-            >
+            <Button type="submit" variant="contained">
               Add Tag
             </Button>
-          </div>
+          </form>
 
           {/* Show Added Tags */}
           <div className="tag-list">
@@ -243,13 +277,14 @@ const AddArticlePage = () => {
                 onDelete={() =>
                   setFormData((prev) => ({
                     ...prev,
-                    tags: [...prev.tags, newTag.trim()],
+                    tags: prev.tags.filter((t) => t !== tag),
                   }))
                 }
               />
             ))}
           </div>
         </div>
+
         {/* Image Upload */}
         <div className="item">
           <label>Article Image</label>
