@@ -6,20 +6,19 @@ import { fetchAllArticles } from "../../api/services/articleService";
 import "./article.scss";
 
 const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 250 },
+  { field: "id", headerName: "ID", width: 220 },
   {
     field: "category",
     headerName: "Category Name",
-    width: 150,
+    width: 140,
   },
-  { field: "subCategory", headerName: "Sub Category", width: 150 },
-  { field: "headline", headerName: "Headline", width: 250 },
+  { field: "subCategory", headerName: "Sub Category", width: 100 },
+  { field: "headline", headerName: "Headline", width: 200 },
   { field: "url", headerName: "Url", width: 200 },
-  { field: "content", headerName: "Content", width: 200 },
   {
     field: "createdAt",
     headerName: "Created At",
-    width: 120,
+    width: 100,
   },
   {
     field: "isActive",
@@ -42,7 +41,6 @@ const Articles = () => {
       subCategory: article.subCategory.name,
       headline: article.headline,
       url: article.url,
-      content: article.content,
       createdAt: new Date(article.createdAt).toLocaleDateString("en-GB"),
       isActive: article.isisActive,
     })) || [];

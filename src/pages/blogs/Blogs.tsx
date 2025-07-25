@@ -8,8 +8,8 @@ import "./blogs.scss";
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 220 },
 
-  { field: "headline", headerName: "Headline", width: 250 },
-  { field: "content", headerName: "Content", width: 400 },
+  { field: "headline", headerName: "Headline", width: 300 },
+  { field: "url", headerName: "Url", width: 300 },
   {
     field: "createdAt",
     headerName: "Created At",
@@ -33,7 +33,7 @@ const Blogs = () => {
     data?.map((blog: any, index: number) => ({
       id: blog._id || index,
       headline: blog.headline,
-      content: blog.content,
+      url: blog.url,
       createdAt: new Date(blog.createdAt).toLocaleDateString("en-GB"),
       isActive: blog.isisActive,
     })) || [];

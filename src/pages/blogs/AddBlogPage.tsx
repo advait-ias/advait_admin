@@ -12,6 +12,7 @@ import "./add.scss"; // updated stylesheet path
 const AddBlogPage = () => {
   const [formData, setFormData] = useState({
     headline: "",
+    url: "",
     content: "",
     tags: [] as string[],
   });
@@ -30,6 +31,7 @@ const AddBlogPage = () => {
     mutationFn: () => {
       const form = new FormData();
       form.append("headline", formData.headline);
+      form.append("url", formData.url);
       form.append("content", formData.content);
       form.append("tags", JSON.stringify(formData.tags));
       if (image) form.append("image", image);
@@ -54,17 +56,13 @@ const AddBlogPage = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleEditorChange = (editorState: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      content: editorState,
-    }));
-  };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     mutation.mutate();
   };
+
+  const formatURL = (str: string) =>
+    str.trim().toLowerCase().replace(/\s+/g, "-"); // or remove spaces: .replace(/\s+/g, "")
 
   return (
     <div className="add-blog-page">
@@ -84,6 +82,34 @@ const AddBlogPage = () => {
             required
           />
         </div>
+
+        {/* URL Slug (Auto-filled from headline, but editable) */}
+        <div className="item">
+          <label>URL Slug (Blog URL) </label>
+          <input
+            type="text"
+            name="url"
+            value={formData.url}
+            onChange={(e) => {
+              const noSpaces = e.target.value.replace(/\s/g, ""); // Remove spaces
+              setFormData((prev) => ({ ...prev, url: noSpaces }));
+            }}
+            onFocus={() => {
+              // If user hasn’t edited URL, auto-fill from headline
+              if (
+                !formData.url ||
+                formData.url === formatURL(formData.headline)
+              ) {
+                setFormData((prev) => ({
+                  ...prev,
+                  url: formatURL(prev.headline),
+                }));
+              }
+            }}
+            required
+          />
+        </div>
+
         {/* Tags */}
         <div className="item">
           <label>Blog Tags</label>
