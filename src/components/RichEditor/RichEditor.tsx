@@ -61,65 +61,65 @@ export default function RichEditor({ content, onChange }: any) {
     content,
     onUpdate: ({ editor }) => onChange(editor.getHTML()),
     editorProps: {
-transformPastedHTML(html) {
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(html, "text/html");
+      transformPastedHTML(html) {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, "text/html");
 
-  const paragraphs = Array.from(doc.querySelectorAll("p"));
+        const paragraphs = Array.from(doc.querySelectorAll("p"));
 
-  const isBulletSymbol = (text: string) =>
-    /^([·•Ø\-*])(\s|&nbsp;)*$/.test(text.trim());
+        const isBulletSymbol = (text: string) =>
+          /^([·•Ø\-*])(\s|&nbsp;)*$/.test(text.trim());
 
-  paragraphs.forEach((p) => {
-    const firstSpan = p.querySelector("span");
-    const spans = Array.from(p.childNodes);
+        paragraphs.forEach((p) => {
+          const firstSpan = p.querySelector("span");
+          const spans = Array.from(p.childNodes);
 
-    const rawText = p.textContent?.trim() || "";
-    const bulletMatch = rawText.match(/^([·•Ø\-*])(\s|&nbsp;)*/);
+          const rawText = p.textContent?.trim() || "";
+          const bulletMatch = rawText.match(/^([·•Ø\-*])(\s|&nbsp;)*/);
 
-    if (bulletMatch) {
-      // Create <ul><li> and preserve styled content
-      const ul = document.createElement("ul");
-      const li = document.createElement("li");
+          if (bulletMatch) {
+            // Create <ul><li> and preserve styled content
+            const ul = document.createElement("ul");
+            const li = document.createElement("li");
 
-      // Build new content fragment excluding bullet symbols
-      const fragment = document.createDocumentFragment();
+            // Build new content fragment excluding bullet symbols
+            const fragment = document.createDocumentFragment();
 
-      spans.forEach((node) => {
-        if (
-          node.nodeType === Node.TEXT_NODE &&
-          isBulletSymbol(node.textContent || "")
-        ) {
-          return; // skip bullet-like text
-        }
+            spans.forEach((node) => {
+              if (
+                node.nodeType === Node.TEXT_NODE &&
+                isBulletSymbol(node.textContent || "")
+              ) {
+                return; // skip bullet-like text
+              }
 
-        if (
-          node.nodeType === Node.ELEMENT_NODE &&
-          node instanceof HTMLElement &&
-          isBulletSymbol(node.textContent || "")
-        ) {
-          return; // skip bullet-like spans
-        }
+              if (
+                node.nodeType === Node.ELEMENT_NODE &&
+                node instanceof HTMLElement &&
+                isBulletSymbol(node.textContent || "")
+              ) {
+                return; // skip bullet-like spans
+              }
 
-        fragment.appendChild(node.cloneNode(true));
-      });
+              fragment.appendChild(node.cloneNode(true));
+            });
 
-      li.appendChild(fragment);
-      ul.appendChild(li);
-      p.replaceWith(ul);
-    }
-  });
+            li.appendChild(fragment);
+            ul.appendChild(li);
+            p.replaceWith(ul);
+          }
+        });
 
-  return doc.body.innerHTML;
-}
-
+        return doc.body.innerHTML;
+      },
     },
   });
 
   return (
-    <div className="editor-wrapper border rounded shadow-sm bg-white text-black">
+<div className="editor-wrapper border rounded shadow-sm bg-white text-black">
       {editor && (
         <div className="toolbar flex flex-wrap gap-2 p-2 border-b bg-gray-100">
+          
           <button
             type="button"
             onClick={(e) => {

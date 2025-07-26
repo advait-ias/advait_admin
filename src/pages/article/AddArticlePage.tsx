@@ -98,6 +98,17 @@ const AddArticlePage = () => {
     mutation.mutate();
   };
 
+  const handleAddTag = () => {
+    const trimmed = newTag.trim();
+    if (trimmed && !formData.tags.includes(trimmed)) {
+      setFormData((prev) => ({
+        ...prev,
+        tags: [...prev.tags, trimmed],
+      }));
+      setNewTag("");
+    }
+  };
+
   const formatURL = (str: string) =>
     str.trim().toLowerCase().replace(/\s+/g, "-"); // or remove spaces: .replace(/\s+/g, "")
 
@@ -239,33 +250,29 @@ const AddArticlePage = () => {
             )}
           />
         </div>
+
         {/* Tags */}
         <div className="item">
           <label>Article Tags</label>
 
-          <form
-            className="tag-input-wrapper"
-            onSubmit={(e) => {
-              e.preventDefault(); // prevent page reload
-              if (newTag.trim() && !formData.tags.includes(newTag.trim())) {
-                setFormData((prev) => ({
-                  ...prev,
-                  tags: [...prev.tags, newTag.trim()],
-                }));
-                setNewTag("");
-              }
-            }}
-          >
+          <div className="tag-input-wrapper">
             <TextField
               label="Enter a tag"
               value={newTag}
               onChange={(e) => setNewTag(e.target.value)}
               variant="outlined"
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault(); // Prevent form submission
+                  handleAddTag();
+                }
+              }}
             />
-            <Button type="submit" variant="contained">
+
+            <Button variant="contained" onClick={handleAddTag}>
               Add Tag
             </Button>
-          </form>
+          </div>
 
           {/* Show Added Tags */}
           <div className="tag-list">
@@ -277,7 +284,7 @@ const AddArticlePage = () => {
                 onDelete={() =>
                   setFormData((prev) => ({
                     ...prev,
-                    tags: prev.tags.filter((t) => t !== tag),
+                    tags: [...prev.tags, newTag.trim()],
                   }))
                 }
               />
