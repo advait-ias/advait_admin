@@ -1,71 +1,26 @@
-import DataTable from "../../components/dataTable/DataTable";
-import { Link } from "react-router-dom";
-import { GridColDef } from "@mui/x-data-grid";
+import UserSingle from "../../components/single/UserSingle";
+import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { fetchAllArticles } from "../../api/services/articleService";
+import { getArticleById } from "../../api/services/articleService";
 import "./article.scss";
 
-const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 220 },
-  {
-    field: "category",
-    headerName: "Category Name",
-    width: 140,
-  },
-  { field: "subCategory", headerName: "Sub Category", width: 100 },
-  { field: "headline", headerName: "Headline", width: 200 },
-  { field: "url", headerName: "Url", width: 200 },
-  {
-    field: "createdAt",
-    headerName: "Created At",
-    width: 100,
-  },
-  {
-    field: "isActive",
-    headerName: "Active",
-    type: "boolean",
-    width: 100,
-  },
-];
+const Article = () => {
+  const { id } = useParams();
 
-const Articles = () => {
-  const { isLoading, data, refetch } = useQuery({
-    queryKey: ["articles"],
-    queryFn: fetchAllArticles,
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["article", id],
+    queryFn: () => getArticleById(id as string),
+    enabled: !!id, // don't run until id is available
   });
 
-  const formattedRows =
-    data?.map((article: any, index: number) => ({
-      id: article._id || index,
-      category: article.category.name,
-      subCategory: article.subCategory.name,
-      headline: article.headline,
-      url: article.url,
-      createdAt: new Date(article.createdAt).toLocaleDateString("en-GB"),
-      isActive: article.isisActive,
-    })) || [];
+  if (isLoading) return <p>Loading article...</p>;
+  if (isError) return <p>Something went wrong fetching the article.</p>;
 
   return (
-    <div className="articles">
-      <div className="info">
-        <h1>Articles</h1>
-        <Link to="/articles/add">
-          <button>Add New Article</button>
-        </Link>
-      </div>
-
-      {isLoading ? (
-        "Loading..."
-      ) : (
-        <DataTable
-          slug="article"
-          route="articles"
-          columns={columns}
-          rows={formattedRows}
-        />
-      )}
+    <div className="article">
+      <UserSingle user={data?.data} />
     </div>
   );
 };
 
-export default Articles;
+export default Article;

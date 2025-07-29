@@ -18,12 +18,12 @@ import Materials from "./pages/materials/Materials";
 import Material from "./pages/material/Material";
 import Tags from "./pages/tags/Tags";
 import Languages from "./pages/languages/Languages";
-import Articles from "./pages/article/Article";
+import Articles from "./pages/articles/Article";
 import SubCategories from "./pages/sub-categories/SubCategories";
 import Categories from "./pages/categories/Categories";
 import Blogs from "./pages/blogs/Blogs";
 import AddBlogPage from "./pages/blogs/AddBlogPage";
-import AddArticlePage from "./pages/article/AddArticlePage";
+import AddArticlePage from "./pages/articles/AddArticlePage";
 import AddCoursePage from "./pages/courses/AddCoursePage";
 import AddSubCategoryPage from "./pages/sub-categories/AddSubCategoryPage";
 import AddCategoryPage from "./pages/categories/AddCategoryPage";
@@ -35,6 +35,8 @@ import {
   Outlet,
   Navigate,
 } from "react-router-dom";
+import Article from "./pages/article/Article";
+import Blog from "./pages/blog/Blog";
 
 const queryClient = new QueryClient();
 
@@ -154,12 +156,20 @@ const router = createBrowserRouter([
         element: <Articles />,
       },
       {
+        path: "/article/:id",
+        element: <Article />,
+      },
+      {
         path: "/articles/add",
         element: <AddArticlePage />,
       },
       {
         path: "/blogs",
         element: <Blogs />,
+      },
+      {
+        path: "/blog",
+        element: <Blog />,
       },
       {
         path: "/blogs/add",
