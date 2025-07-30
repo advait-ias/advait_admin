@@ -6,8 +6,35 @@ const ArticleSingle = ({ article }: { article: any }) => {
   const [editableArticle, setEditableArticle] = useState<any>(null);
   const [isEditing, setIsEditing] = useState(false);
 
+  const handleUpdate = async () => {
+    try {
+      const res = await axios.put(
+        `https://api.advaitias.co.in/article/${editableArticle._id}`,
+        {
+          category: editableArticle.category._id,
+          subCategory: editableArticle.subCategory._id,
+          language: editableArticle.language._id,
+          headline: editableArticle.headline,
+          url: editableArticle.url,
+          subHeadline: editableArticle.subHeadline,
+          content: editableArticle.content,
+          tags: editableArticle.tags, // ensure it's an array of strings
+        }
+      );
+
+      if (res.status === 200) {
+        alert("Article updated successfully!");
+      }
+    } catch (err) {
+      console.error("Update failed", err);
+      alert("Failed to update article");
+    }
+  };
+
   useEffect(() => {
-    setEditableArticle(article);
+    if (article) {
+      setEditableArticle(article);
+    }
   }, [article]);
 
   if (!editableArticle) {
@@ -81,6 +108,13 @@ const ArticleSingle = ({ article }: { article: any }) => {
             </div>
           </div>
           <hr />
+          <button
+            className="saveButton"
+            onClick={handleUpdate}
+            disabled={!editableArticle}
+          >
+            Update Article
+          </button>
         </div>
         <hr />
       </div>

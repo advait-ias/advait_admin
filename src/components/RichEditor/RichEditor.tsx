@@ -116,10 +116,9 @@ export default function RichEditor({ content, onChange }: any) {
   });
 
   return (
-<div className="editor-wrapper border rounded shadow-sm bg-white text-black">
+    <div className="editor-wrapper border rounded shadow-sm bg-white text-black">
       {editor && (
         <div className="toolbar flex flex-wrap gap-2 p-2 border-b bg-gray-100">
-          
           <button
             type="button"
             onClick={(e) => {
@@ -190,7 +189,12 @@ export default function RichEditor({ content, onChange }: any) {
               editor.chain().focus().setTextAlign("left").run();
             }}
           >
-            ⬅️
+            <img
+              src="/icons/left.svg"
+              alt="justify"
+              width="20px"
+              height="20px"
+            />
           </button>
           <button
             type="button"
@@ -199,7 +203,12 @@ export default function RichEditor({ content, onChange }: any) {
               editor.chain().focus().setTextAlign("center").run();
             }}
           >
-            ⬆️
+            <img
+              src="/icons/center.svg"
+              alt="justify"
+              width="20px"
+              height="20px"
+            />
           </button>
           <button
             type="button"
@@ -208,7 +217,12 @@ export default function RichEditor({ content, onChange }: any) {
               editor.chain().focus().setTextAlign("right").run();
             }}
           >
-            ➡️
+            <img
+              src="/icons/right.svg"
+              alt="justify"
+              width="20px"
+              height="20px"
+            />
           </button>
           <button
             type="button"
@@ -217,7 +231,12 @@ export default function RichEditor({ content, onChange }: any) {
               editor.chain().focus().setTextAlign("justify").run();
             }}
           >
-            📏
+            <img
+              src="/icons/justify.svg"
+              alt="justify"
+              width="20px"
+              height="20px"
+            />
           </button>
 
           <input

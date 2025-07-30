@@ -1,4 +1,4 @@
-import UserSingle from "../../components/single/UserSingle";
+import ArticleSingle from "../../components/single/ArticleSingle";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getArticleById } from "../../api/services/articleService";
@@ -18,7 +18,7 @@ const Article = () => {
 
   return (
     <div className="article">
-      <UserSingle user={data?.data} />
+      <ArticleSingle article={data?.data} />
     </div>
   );
 };

@@ -52,10 +52,10 @@
 
 const createCrudEndpoints = (base: string) => ({
   list: base,
-  detail: (id: string) => `${base}/${id}`,
+  detail: (id: string) => `${base}/id/${id}`,
   create: base,
-  update: (id: string) => `${base}/${id}`,
-  delete: (id: string) => `${base}/${id}`,
+  update: (id: string) => `${base}/id/${id}`,
+  delete: (id: string) => `${base}/id/${id}`,
 });
 
 export const endpoints = {

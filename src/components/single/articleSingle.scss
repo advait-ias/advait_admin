@@ -1,46 +1,58 @@
 .single {
-  padding: 40px;
-  background: #f9f9f9;
-
   .view {
-    background: white;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-
-    .topInfo {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-bottom: 20px;
-
-      img.article-image {
-        max-width: 100%;
-        height: auto;
-        margin-top: 10px;
-        border-radius: 8px;
-      }
-    }
-
-    .details {
-      .items {
-        display: flex;
+    .info {
+      .topInfo {
         flex-direction: column;
-        gap: 20px;
+        align-items: flex-start;
 
+        img.article-image {
+          width: 100%;
+          max-height: 400px;
+          object-fit: cover;
+          border-radius: 10px;
+          margin-top: 10px;
+        }
+
+        h1 {
+          font-size: 2rem;
+          font-weight: bold;
+          margin-top: 20px;
+        }
+      }
+
+      .details {
         .item {
-          display: flex;
           flex-direction: column;
+          align-items: flex-start;
+          gap: 6px;
 
           .itemTitle {
-            font-weight: bold;
-            color: #333;
+            font-weight: 600;
+            font-size: 1rem;
           }
 
-          .itemValue,
+          .itemValue {
+            font-size: 0.95rem;
+            color: #ccc;
+          }
+
           .itemContent {
-            margin-top: 5px;
-            color: #555;
+            background: #1c2535;
+            color: #eee;
+            padding: 15px;
+            border-radius: 8px;
+            width: 100%;
+            line-height: 1.7;
+            p {
+              margin-bottom: 10px;
+            }
+            ul {
+              margin-left: 20px;
+              list-style: disc;
+              li {
+                margin-bottom: 5px;
+              }
+            }
           }
 
           .tag-list {
@@ -49,15 +61,41 @@
             gap: 8px;
 
             .tag-chip {
-              background: #333;
+              background: #007bff;
               color: white;
               padding: 4px 10px;
               border-radius: 999px;
               font-size: 0.85rem;
+              text-transform: capitalize;
             }
           }
         }
       }
     }
+  }
+}
+
+.saveButton {
+  width: fit-content;
+  padding: 10px 20px;
+  background: #00d084; // primary green color for success
+  color: #000; // black text for contrast
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+
+  &:disabled {
+    background: #555;
+    color: #aaa;
+    cursor: not-allowed;
+    transform: none;
   }
 }
