@@ -27,6 +27,6 @@ export const createBlog = async (data: FormData): Promise<Blog> => {
 };
 
 export const updateBlog = (id: string, data: any) =>
-  api.put(endpoints.blog.update(id), data);
+  api.patch(endpoints.blog.update(id), data);
 
 export const deleteBlog = (id: string) => api.delete(endpoints.blog.delete(id));

@@ -13,7 +13,7 @@ export const createCategory = (data: any) =>
   api.post(endpoints.category.create, data);
 
 export const updateCategory = (id: string, data: any) =>
-  api.put(endpoints.category.update(id), data);
+  api.patch(endpoints.category.update(id), data);
 
 export const deleteCategory = (id: string) =>
   api.delete(endpoints.category.delete(id));

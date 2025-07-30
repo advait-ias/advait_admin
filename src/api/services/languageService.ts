@@ -13,7 +13,7 @@ export const createLanguage = (data: any) =>
   api.post(endpoints.language.create, data);
 
 export const updateLanguage = (id: string, data: any) =>
-  api.put(endpoints.language.update(id), data);
+  api.patch(endpoints.language.update(id), data);
 
 export const deleteLanguage = (id: string) =>
   api.delete(endpoints.language.delete(id));

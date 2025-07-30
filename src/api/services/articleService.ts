@@ -32,7 +32,7 @@ export const createArticle = async (data: FormData): Promise<Article> => {
 };
 
 export const updateArticle = (id: string, data: any) =>
-  api.put(endpoints.article.update(id), data);
+  api.patch(endpoints.article.update(id), data);
 
 export const deleteArticle = (id: string) =>
   api.delete(endpoints.article.delete(id));

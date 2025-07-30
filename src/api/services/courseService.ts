@@ -1,6 +1,6 @@
 // src/api/services/courseService.ts
-import api from '../axiosConfig';
-import { endpoints } from '../endpoints';
+import api from "../axiosConfig";
+import { endpoints } from "../endpoints";
 
 export interface Course extends Document {
   _id: string;
@@ -29,7 +29,6 @@ export const fetchAllCourses = async () => {
 export const getCourseById = (id: string) =>
   api.get(endpoints.course.detail(id));
 
-
 export const createCourse = async (data: FormData): Promise<Course> => {
   const res = await api.post<Course>(endpoints.course.create, data, {
     headers: {
@@ -40,7 +39,7 @@ export const createCourse = async (data: FormData): Promise<Course> => {
 };
 
 export const updateCourse = (id: string, data: any) =>
-  api.put(endpoints.course.update(id), data);
+  api.patch(endpoints.course.update(id), data);
 
 export const deleteCourse = (id: string) =>
   api.delete(endpoints.course.delete(id));

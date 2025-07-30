@@ -1,6 +1,6 @@
 // src/api/services/materialService.ts
-import api from '../axiosConfig';
-import { endpoints } from '../endpoints';
+import api from "../axiosConfig";
+import { endpoints } from "../endpoints";
 
 export const fetchAllMaterials = async () => {
   const res = await api.get(endpoints.material.list);
@@ -14,7 +14,7 @@ export const createMaterial = (data: any) =>
   api.post(endpoints.material.create, data);
 
 export const updateMaterial = (id: string, data: any) =>
-  api.put(endpoints.material.update(id), data);
+  api.patch(endpoints.material.update(id), data);
 
 export const deleteMaterial = (id: string) =>
   api.delete(endpoints.material.delete(id));

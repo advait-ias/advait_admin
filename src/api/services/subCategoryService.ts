@@ -13,7 +13,7 @@ export const createSubCategory = (data: any) =>
   api.post(endpoints.subCategory.create, data);
 
 export const updateSubCategory = (id: string, data: any) =>
-  api.put(endpoints.subCategory.update(id), data);
+  api.patch(endpoints.subCategory.update(id), data);
 
 export const deleteSubCategory = (id: string) =>
   api.delete(endpoints.subCategory.delete(id));
