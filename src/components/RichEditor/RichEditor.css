@@ -40,10 +40,14 @@
   font-family: inherit;
 }
 
+.toolbar img {
+  filter: invert(1) brightness(2);
+}
+
 .editor-content {
   padding: 20px;
-  background-color: #fff;
-  color: #111827;
+  background-color: #111827;
+  color: #fff;
   outline: none;
   line-height: 1.6;
   white-space: pre-wrap; /* For handling line breaks */
