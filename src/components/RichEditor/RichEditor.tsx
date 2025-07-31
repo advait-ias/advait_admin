@@ -1,5 +1,7 @@
-import { useEditor, EditorContent } from "@tiptap/react";
+import { Table } from "@tiptap/extension-table";
 import { TextStyle } from "@tiptap/extension-text-style";
+import { useEditor, EditorContent } from "@tiptap/react";
+import type { Level } from "@tiptap/extension-heading";
 import StarterKit from "@tiptap/starter-kit";
 import Color from "@tiptap/extension-color";
 import FontFamily from "@tiptap/extension-font-family";
@@ -12,7 +14,10 @@ import BulletList from "@tiptap/extension-bullet-list";
 import OrderedList from "@tiptap/extension-ordered-list";
 import TextAlign from "@tiptap/extension-text-align";
 import ListItem from "@tiptap/extension-list-item";
-import "./RichEditor.css";
+import TableRow from "@tiptap/extension-table-row";
+import TableCell from "@tiptap/extension-table-cell";
+import TableHeader from "@tiptap/extension-table-header";
+import "./RichEditor.scss";
 
 const fontOptions = [
   "Arial",
@@ -30,10 +35,19 @@ export default function RichEditor({ content, onChange }: any) {
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
+        heading: {
+          levels: [1, 2, 3, 4, 5],
+        },
         paragraph: {
           HTMLAttributes: {
             class: "text-left",
           },
+        },
+      }),
+      Table.configure({
+        resizable: true,
+        HTMLAttributes: {
+          class: "custom-table",
         },
       }),
       TextStyle,
@@ -46,6 +60,9 @@ export default function RichEditor({ content, onChange }: any) {
       Image,
       BulletList,
       OrderedList,
+      TableRow,
+      TableHeader,
+      TableCell,
       ListItem.extend({
         addKeyboardShortcuts() {
           return {
@@ -119,6 +136,23 @@ export default function RichEditor({ content, onChange }: any) {
     <div className="editor-wrapper border rounded shadow-sm bg-white text-black">
       {editor && (
         <div className="toolbar flex flex-wrap gap-2 p-2 border-b bg-gray-100">
+          {[1, 2, 3, 4, 5].map((level) => (
+            <button
+              key={level}
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                editor
+                  .chain()
+                  .focus()
+                  .toggleHeading({ level: level as Level })
+                  .run();
+              }}
+            >
+              H{level}
+            </button>
+          ))}
+
           <button
             type="button"
             onClick={(e) => {
@@ -237,6 +271,49 @@ export default function RichEditor({ content, onChange }: any) {
               width="20px"
               height="20px"
             />
+          </button>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              editor
+                .chain()
+                .focus()
+                .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+                .run();
+            }}
+          >
+            📊 Table
+          </button>
+
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              editor.chain().focus().addColumnBefore().run();
+            }}
+          >
+            ➕ Col
+          </button>
+
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              editor.chain().focus().addRowBefore().run();
+            }}
+          >
+            ➕ Row
+          </button>
+
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              editor.chain().focus().deleteTable().run();
+            }}
+          >
+            🗑️ Del Table
           </button>
 
           <input

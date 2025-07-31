@@ -1,0 +1,205 @@
+@use "../../styles//variables.scss" as variables;
+
+.editor-wrapper {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  font-family: "Inter", sans-serif;
+  background-color: #f9fafb;
+
+  @media (max-width: 1024px) {
+    // Tablet responsiveness
+    .toolbar {
+      padding: 8px;
+      gap: 6px;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+
+    .editor-content {
+      padding: 16px;
+    }
+
+    button,
+    select,
+    input[type="color"] {
+      font-size: 13px;
+      padding: 5px 8px;
+    }
+
+    img {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    // Small tablets or phablets
+    .toolbar {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .editor-content {
+      padding: 12px;
+    }
+
+    button,
+    select,
+    input[type="color"] {
+      width: 100%;
+    }
+  }
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  background-color: #f1f5f9;
+  border-bottom: 1px solid #e2e8f0;
+
+  button,
+  select,
+  input[type="color"] {
+    padding: 6px 10px;
+    font-size: 14px;
+    background-color: #fff;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  button:hover,
+  select:hover,
+  input[type="color"]:hover {
+    background-color: #e2e8f0;
+  }
+
+  select {
+    font-family: inherit;
+  }
+
+  img {
+    filter: invert(1) brightness(2);
+  }
+}
+
+.editor-content {
+  padding: 20px;
+  background-color: #fff !important;
+  color: #111827;
+  outline: none;
+  line-height: 1.6;
+  white-space: pre-wrap;
+
+  h1,
+  h2,
+  h3 {
+    font-weight: 600;
+    margin-top: 24px;
+    margin-bottom: 12px;
+  }
+
+  a {
+    color: #3b82f6;
+    text-decoration: underline;
+  }
+
+  ul,
+  ol {
+    padding-left: 1.5rem;
+    margin: 12px 0;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    margin: 12px 0;
+    border-radius: 4px;
+  }
+
+  blockquote {
+    border-left: 4px solid #e2e8f0;
+    padding-left: 16px;
+    color: #6b7280;
+    font-style: italic;
+  }
+}
+
+.editor-content h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 1rem 0;
+}
+.editor-content h2 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin: 1rem 0;
+}
+.editor-content h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 1rem 0;
+}
+.editor-content h4 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 1rem 0;
+}
+.editor-content h5 {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin: 1rem 0;
+}
+
+// .custom-table {
+//   width: 100%;
+//   border-collapse: collapse;
+//   margin-top: 1rem;
+
+//   th,
+//   td {
+//     border: 1px solid rgba(255, 255, 255, 0.2); // or black for light mode
+//     padding: 8px;
+//     text-align: left;
+//     color: black; // or black
+//     background-color: transparent; // optional dark background
+//   }
+
+//   th {
+//     font-weight: bold;
+//     background-color: #2a3447;
+//   }
+
+//   td {
+//     background-color: #1c2535;
+//   }
+// }
+
+// Global rule for ALL tables
+.editor-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  border: 1px solid black;
+}
+
+.editor-content th,
+.editor-content td {
+  border: 1px solid black;
+  padding: 8px;
+  color: black;
+  background-color: transparent;
+  text-align: left;
+}
+
+// Optional: override inline background styles pasted from Google Docs
+.editor-content table * {
+  background-color: transparent !important;
+  color: black !important;
+}
