@@ -82,6 +82,13 @@ export default function RichEditor({ content, onChange }: any) {
         const parser = new DOMParser();
         const doc = parser.parseFromString(html, "text/html");
 
+        doc.querySelectorAll("*").forEach((el) => {
+          if (el instanceof HTMLElement) {
+            el.style.color = "";
+            el.style.backgroundColor = "";
+          }
+        });
+
         const paragraphs = Array.from(doc.querySelectorAll("p"));
 
         const isBulletSymbol = (text: string) =>

@@ -89,6 +89,10 @@
   }
 }
 
+.editor-content * {
+  color: #111827 !important;
+}
+
 .editor-content {
   padding: 20px;
   background-color: #fff !important;
@@ -136,52 +140,31 @@
   font-weight: 700;
   margin: 1rem 0;
 }
+
 .editor-content h2 {
   font-size: 1.75rem;
   font-weight: 600;
   margin: 1rem 0;
 }
+
 .editor-content h3 {
   font-size: 1.5rem;
   font-weight: 600;
   margin: 1rem 0;
 }
+
 .editor-content h4 {
   font-size: 1.25rem;
   font-weight: 600;
   margin: 1rem 0;
 }
+
 .editor-content h5 {
   font-size: 1.1rem;
   font-weight: 500;
   margin: 1rem 0;
 }
 
-// .custom-table {
-//   width: 100%;
-//   border-collapse: collapse;
-//   margin-top: 1rem;
-
-//   th,
-//   td {
-//     border: 1px solid rgba(255, 255, 255, 0.2); // or black for light mode
-//     padding: 8px;
-//     text-align: left;
-//     color: black; // or black
-//     background-color: transparent; // optional dark background
-//   }
-
-//   th {
-//     font-weight: bold;
-//     background-color: #2a3447;
-//   }
-
-//   td {
-//     background-color: #1c2535;
-//   }
-// }
-
-// Global rule for ALL tables
 .editor-content table {
   width: 100%;
   border-collapse: collapse;
