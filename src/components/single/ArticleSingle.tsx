@@ -1,9 +1,19 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { TextField, Chip, Button } from "@mui/material";
-import { updateArticle } from "../../api/services/articleService";
 import toast from "react-hot-toast";
 import RichEditor from "../RichEditor/RichEditor";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { updateArticle } from "../../api/services/articleService";
+import { fetchAllCategories } from "../../api/services/categoryService";
+import { fetchAllSubCategories } from "../../api/services/subCategoryService";
+import { fetchAllLanguages } from "../../api/services/languageService";
+import { useQuery } from "@tanstack/react-query";
+import {
+  TextField,
+  Chip,
+  Button,
+  CircularProgress,
+  Autocomplete,
+} from "@mui/material";
 import "./articleSingle.scss";
 
 const ArticleSingle = ({ article }: any) => {
@@ -12,6 +22,21 @@ const ArticleSingle = ({ article }: any) => {
   const [loading, setLoading] = useState(false);
   const [newTag, setNewTag] = useState("");
   const navigate = useNavigate();
+
+  // Queries
+  const { data: categoryOptions = [], isLoading: loadingCategory } = useQuery({
+    queryKey: ["categories"],
+    queryFn: fetchAllCategories,
+  });
+  const { data: subCategoryOptions = [], isLoading: loadingSubCategory } =
+    useQuery({
+      queryKey: ["sub-category"],
+      queryFn: fetchAllSubCategories,
+    });
+  const { data: languageOptions = [], isLoading: loadingLanguage } = useQuery({
+    queryKey: ["languages"],
+    queryFn: fetchAllLanguages,
+  });
 
   useEffect(() => {
     if (article) setEditableData(article);
@@ -73,90 +98,160 @@ const ArticleSingle = ({ article }: any) => {
                 />
               </div>
 
-              {/* {["category", "subCategory", "language"].map((field) => (
-                <div className="item" key={field}>
-                  <span className="itemTitle">{field}</span>
-                  <TextField
-                    className="itemInput"
-                    value={editableData[field]?.name || ""}
-                    onChange={(e) =>
-                      handleChange(field, {
-                        ...editableData[field],
-                        name: e.target.value,
-                      })
-                    }
+              {/* Category */}
+              <div className="item">
+                <label>Article Category</label>
+                <div className="itemInput">
+                  <Autocomplete
+                    fullWidth
+                    options={categoryOptions}
+                    getOptionLabel={(opt: any) => opt.name}
+                    loading={loadingCategory}
+                    value={editableData.category || null}
+                    onChange={(e, val) => handleChange("category", val)}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Select Category"
+                        placeholder="Category"
+                        variant="outlined"
+                        InputProps={{
+                          ...params.InputProps,
+                          endAdornment: (
+                            <>
+                              {loadingCategory && (
+                                <CircularProgress size={20} />
+                              )}
+                              {params.InputProps.endAdornment}
+                            </>
+                          ),
+                        }}
+                      />
+                    )}
                   />
                 </div>
-              ))} */}
-              {["category", "subCategory", "language"].map((field) => (
-                <div className="item" key={field}>
-                  <span className="itemTitle">{field}</span>
-                  <TextField
-                    className="itemInput"
-                    value={editableData[field]?.name || ""}
-                    disabled
-                  />
-                </div>
-              ))}
+              </div>
 
-              {/* <div className="item">
-                <span className="itemTitle">Add Tag</span>
-                <TextField
-                  value={newTag}
-                  onChange={(e) => setNewTag(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" && newTag.trim()) {
-                      if (!editableData.tags.includes(newTag.trim())) {
+              {/* SubCategory */}
+              <div className="item">
+                <label>Article Sub Category</label>
+                <div className="itemInput">
+                  <Autocomplete
+                    fullWidth
+                    options={subCategoryOptions}
+                    getOptionLabel={(opt: any) => opt.name}
+                    loading={loadingSubCategory}
+                    value={editableData.subCategory || null}
+                    onChange={(e, val) => handleChange("subCategory", val)}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Select Sub Category"
+                        placeholder="Sub Category"
+                        variant="outlined"
+                        InputProps={{
+                          ...params.InputProps,
+                          endAdornment: (
+                            <>
+                              {loadingSubCategory && (
+                                <CircularProgress size={20} />
+                              )}
+                              {params.InputProps.endAdornment}
+                            </>
+                          ),
+                        }}
+                      />
+                    )}
+                  />
+                </div>
+              </div>
+
+              {/* Language */}
+              <div className="item">
+                <label>Article Language</label>
+                <div className="itemInput">
+                  <Autocomplete
+                    fullWidth
+                    options={languageOptions}
+                    getOptionLabel={(opt: any) => opt.name}
+                    loading={loadingLanguage}
+                    value={editableData.language || null}
+                    onChange={(e, val) => handleChange("language", val)}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Select Language"
+                        placeholder="Language"
+                        variant="outlined"
+                        InputProps={{
+                          ...params.InputProps,
+                          endAdornment: (
+                            <>
+                              {loadingLanguage && (
+                                <CircularProgress size={20} />
+                              )}
+                              {params.InputProps.endAdornment}
+                            </>
+                          ),
+                        }}
+                      />
+                    )}
+                  />
+                </div>
+              </div>
+
+              <div className="item">
+                <label>Article Tags</label>
+                <div className="tag-input-wrapper">
+                  <TextField
+                    label="Enter a tag"
+                    value={newTag}
+                    onChange={(e) => setNewTag(e.target.value)}
+                    variant="outlined"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && newTag.trim()) {
+                        e.preventDefault();
+                        if (!editableData.tags.includes(newTag.trim())) {
+                          handleChange("tags", [
+                            ...editableData.tags,
+                            newTag.trim(),
+                          ]);
+                          setNewTag("");
+                        }
+                      }
+                    }}
+                  />
+                  <Button
+                    variant="contained"
+                    onClick={() => {
+                      if (
+                        newTag.trim() &&
+                        !editableData.tags.includes(newTag.trim())
+                      ) {
                         handleChange("tags", [
                           ...editableData.tags,
                           newTag.trim(),
                         ]);
                         setNewTag("");
                       }
-                    }
-                  }}
-                />
-                <Button
-                  variant="contained"
-                  onClick={() => {
-                    if (
-                      newTag.trim() &&
-                      !editableData.tags.includes(newTag.trim())
-                    ) {
-                      handleChange("tags", [
-                        ...editableData.tags,
-                        newTag.trim(),
-                      ]);
-                      setNewTag("");
-                    }
-                  }}
-                >
-                  Add
-                </Button>
-              </div> */}
+                    }}
+                  >
+                    Add Tag
+                  </Button>
+                </div>
 
-              {/* <div className="item">
-                <span className="itemTitle">Add Tag</span>
-                <TextField value={newTag} className="itemInput" disabled />
-                <Button variant="contained" disabled>
-                  Add
-                </Button>
-              </div> */}
-
-              <div className="item">
-                <span className="itemTitle">Tags</span>
                 <div className="tag-list">
                   {editableData.tags.map((tag: string, index: number) => (
                     <Chip
                       key={index}
                       label={tag}
+                      className="custom-chip"
                       onDelete={() =>
                         handleChange(
                           "tags",
                           editableData.tags.filter((t: string) => t !== tag)
                         )
                       }
-                      className="custom-chip"
                     />
                   ))}
                 </div>

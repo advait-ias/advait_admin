@@ -148,6 +148,7 @@ const AddArticlePage = () => {
             )}
           />
         </div>
+
         {/* SubCategory */}
         <div className="item">
           <label>Article Sub Category</label>
@@ -177,6 +178,7 @@ const AddArticlePage = () => {
             )}
           />
         </div>
+
         {/* Headline and SubHeadline */}
         {[
           { name: "headline", label: "Article Headline" },
@@ -305,6 +307,7 @@ const AddArticlePage = () => {
             }}
           />
         </div>
+
         {/* Content */}
         <div className="item content-editor">
           <div className="editor-toggle">
