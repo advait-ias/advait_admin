@@ -2,7 +2,7 @@ import DriverSingle from "../../components/single/DriverSingle";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import "./test.scss";
+import "./quiz.scss";
 
 const Test = () => {
   const { id } = useParams(); // Get the ID from the URL
@@ -23,7 +23,7 @@ const Test = () => {
   }, []);
 
   return (
-    <div className="user">
+    <div className="quiz">
       <DriverSingle user={user} />
     </div>
   );

@@ -6,13 +6,11 @@ import Login from "./pages/login/Login";
 import Navbar from "./components/navbar/Navbar";
 import Footer from "./components/footer/Footer";
 import Courses from "./pages/courses/Courses";
-import Tests from "./pages/tests/Tests";
 import LiveClasses from "./pages/liveclasses/LiveClasses";
 import Faculties from "./pages/faculties/Faculties";
 import Faculty from "./pages/faculty/Faculty";
 import Exams from "./pages/exams/Exams";
 import Exam from "./pages/exam/Exam";
-import Test from "./pages/test/Test";
 import LiveClass from "./pages/liveclass/LiveClass";
 import Materials from "./pages/materials/Materials";
 import Material from "./pages/material/Material";
@@ -27,6 +25,10 @@ import AddArticlePage from "./pages/articles/AddArticlePage";
 import AddCoursePage from "./pages/courses/AddCoursePage";
 import AddSubCategoryPage from "./pages/sub-categories/AddSubCategoryPage";
 import AddCategoryPage from "./pages/categories/AddCategoryPage";
+import Article from "./pages/article/Article";
+import Blog from "./pages/blog/Blog";
+import Quizzes from "./pages/quizze/quizzes";
+import AddQuizPage from "./pages/quizze/AddQuizPage";
 import { Toaster } from "react-hot-toast";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
@@ -35,8 +37,6 @@ import {
   Outlet,
   Navigate,
 } from "react-router-dom";
-import Article from "./pages/article/Article";
-import Blog from "./pages/blog/Blog";
 
 const queryClient = new QueryClient();
 
@@ -120,12 +120,12 @@ const router = createBrowserRouter([
         element: <Material />,
       },
       {
-        path: "/tests",
-        element: <Tests />,
+        path: "/quizzes",
+        element: <Quizzes />,
       },
       {
-        path: "/test/:id",
-        element: <Test />,
+        path: "/quizzes/add",
+        element: <AddQuizPage />,
       },
       {
         path: "/liveclasses",

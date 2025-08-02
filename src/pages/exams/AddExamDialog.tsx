@@ -1,5 +1,3 @@
-// src/components/addExamDialog/AddExamDialog.tsx
-
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createExam } from "../../api/services/examService";

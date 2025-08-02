@@ -64,7 +64,7 @@ export const endpoints = {
   exam: createCrudEndpoints("/exam"),
   course: createCrudEndpoints("/course"),
   material: createCrudEndpoints("/material"),
-  test: createCrudEndpoints("/test"),
+  quiz: createCrudEndpoints("/quiz"),
   category: createCrudEndpoints("/category"),
   subCategory: createCrudEndpoints("/sub-category"),
   article: createCrudEndpoints("/article"),

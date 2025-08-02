@@ -1,7 +1,7 @@
+import DataTable from "../../components/dataTable/DataTable";
 import { useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
-import DataTable from "../../components/dataTable/DataTable";
 import { fetchAllExams } from "../../api/services/examService";
 import "./exams.scss";
 import AddExamDialog from "./AddExamDialog";
@@ -11,12 +11,12 @@ const columns: GridColDef[] = [
   {
     field: "name",
     headerName: "Exam Name",
-    width: 200,
+    width: 250,
   },
   {
     field: "description",
     headerName: "Description",
-    width: 200,
+    width: 300,
   },
   {
     field: "createdAt",
@@ -58,7 +58,12 @@ const Exams = () => {
       {isLoading ? (
         "Loading..."
       ) : (
-        <DataTable slug="exam" route="exams" columns={columns} rows={formattedRows} />
+        <DataTable
+          slug="exam"
+          route="exams"
+          columns={columns}
+          rows={formattedRows}
+        />
       )}
 
       {open && <AddExamDialog setOpen={setOpen} />}
