@@ -1,7 +1,8 @@
 import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteArticle } from "../../api/services/articleService";
 import { Link } from "react-router-dom";
 import "./dataTable.scss";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type Props = {
   columns: GridColDef[];
@@ -14,18 +15,9 @@ const DataTable = (props: Props) => {
   const queryClient = useQueryClient();
 
   const deleteMutation = useMutation({
-    mutationFn: async (id: string) => {
-      const res = await fetch(
-        `https://api.advaitias.co.in/${props.slug}/${id}`,
-        {
-          method: "DELETE",
-        }
-      );
-
-      if (!res.ok) throw new Error("Failed to delete item");
-    },
+    mutationFn: (id: string) => deleteArticle(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [`${props.route}`] });
+      queryClient.invalidateQueries({ queryKey: [props.route] });
     },
   });
 
