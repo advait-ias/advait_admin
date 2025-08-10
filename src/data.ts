@@ -46,12 +46,6 @@ export const menu = [
         icon: "course.svg",
       },
       {
-        id: 6,
-        title: "Quizzes",
-        url: "/quizzes",
-        icon: "test.svg",
-      },
-      {
         id: 7,
         title: "Live Class",
         url: "/liveclasses",
@@ -98,6 +92,30 @@ export const menu = [
         title: "Tags",
         url: "/tags",
         icon: "note.svg",
+      },
+      {
+        id: 7,
+        title: "Quizzes",
+        url: "/quizzes",
+        icon: "test.svg",
+      },
+      {
+        id: 8,
+        title: "Subjects",
+        url: "/subjects",
+        icon: "test.svg",
+      },
+      {
+        id: 9,
+        title: "PYQs",
+        url: "/pyqs",
+        icon: "test.svg",
+      },
+      {
+        id: 10,
+        title: "MCQs",
+        url: "/mcqs",
+        icon: "test.svg",
       },
     ],
   },

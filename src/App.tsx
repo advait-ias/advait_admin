@@ -27,8 +27,15 @@ import AddSubCategoryPage from "./pages/sub-categories/AddSubCategoryPage";
 import AddCategoryPage from "./pages/categories/AddCategoryPage";
 import Article from "./pages/article/Article";
 import Blog from "./pages/blog/Blog";
-import Quizzes from "./pages/quizze/quizzes";
-import AddQuizPage from "./pages/quizze/AddQuizPage";
+import Quizzes from "./pages/quizzes/quizzes";
+import AddQuizPage from "./pages/quizzes/AddQuizPage";
+import Subjects from "./pages/subjects/Subjects";
+import AddSubjectsPage from "./pages/subjects/AddSubjectPage";
+import PYQs from "./pages/pyqs/PYQs";
+import AddPYQsPage from "./pages/pyqs/AddPYQPage";
+import MCQs from "./pages/mcqs/mcqs";
+import AddMCQsPage from "./pages/mcqs/AddMcqsPage";
+import ScrollToTop from "./components/ScrollToTop";
 import { Toaster } from "react-hot-toast";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
@@ -57,6 +64,7 @@ const Layout = () => {
         </div>
         <div className="contentContainer">
           <QueryClientProvider client={queryClient}>
+            <ScrollToTop />
             <Outlet />
           </QueryClientProvider>
         </div>
@@ -126,6 +134,30 @@ const router = createBrowserRouter([
       {
         path: "/quizzes/add",
         element: <AddQuizPage />,
+      },
+      {
+        path: "/subjects",
+        element: <Subjects />,
+      },
+      {
+        path: "/subjects/add",
+        element: <AddSubjectsPage />,
+      },
+      {
+        path: "/pyqs",
+        element: <PYQs />,
+      },
+      {
+        path: "/pyqs/add",
+        element: <AddPYQsPage />,
+      },
+      {
+        path: "/mcqs",
+        element: <MCQs />,
+      },
+      {
+        path: "/mcqs/add",
+        element: <AddMCQsPage />,
       },
       {
         path: "/liveclasses",
