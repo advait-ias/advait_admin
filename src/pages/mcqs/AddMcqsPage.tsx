@@ -27,6 +27,7 @@ interface Question {
   questionText: string;
   options: string[];
   correctOptionIndex: number;
+  correctAnswerExplanation: string;
 }
 
 export default function AddMCQsPage() {
@@ -45,6 +46,7 @@ export default function AddMCQsPage() {
         questionText: "",
         options: ["", ""], // Only 2 default
         correctOptionIndex: 0,
+        correctAnswerExplanation: "", // NEW
       },
     ] as Question[],
   });
@@ -88,6 +90,7 @@ export default function AddMCQsPage() {
         questionText: "",
         options: ["", ""],
         correctOptionIndex: 0,
+        correctAnswerExplanation: "",
       },
     ]);
   };
@@ -373,6 +376,23 @@ export default function AddMCQsPage() {
                 clampedVal - 1
               ); // Subtract 1 for storage
             }}
+          />
+
+          {/* Correct Answer Explanation */}
+          <TextField
+            label="Correct Answer Explanation"
+            fullWidth
+            multiline
+            rows={2}
+            margin="normal"
+            value={q.correctAnswerExplanation}
+            onChange={(e) =>
+              handleQuestionChange(
+                qIndex,
+                "correctAnswerExplanation",
+                e.target.value
+              )
+            }
           />
 
           <IconButton

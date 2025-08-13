@@ -1,6 +1,6 @@
+import api from "../../api/axiosConfig";
 import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteArticle } from "../../api/services/articleService";
 import { Link } from "react-router-dom";
 import "./dataTable.scss";
 
@@ -15,7 +15,10 @@ const DataTable = (props: Props) => {
   const queryClient = useQueryClient();
 
   const deleteMutation = useMutation({
-    mutationFn: (id: string) => deleteArticle(id),
+    mutationFn: async (id: string) => {
+      const res = await api.delete(`/${props.slug}/id/${id}`);
+      return res.data;
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [props.route] });
     },

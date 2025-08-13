@@ -23,6 +23,7 @@ interface Question {
   questionText: string;
   options: string[];
   correctOptionIndex: number;
+  correctAnswerExplanation: string;
 }
 
 export default function AddQuizPage() {
@@ -39,6 +40,7 @@ export default function AddQuizPage() {
         questionText: "",
         options: ["", ""], // Only 2 default
         correctOptionIndex: 0,
+        correctAnswerExplanation: "", // NEW
       },
     ] as Question[],
   });
@@ -72,6 +74,7 @@ export default function AddQuizPage() {
         questionText: "",
         options: ["", ""],
         correctOptionIndex: 0,
+        correctAnswerExplanation: "",
       },
     ]);
   };
@@ -232,6 +235,7 @@ export default function AddQuizPage() {
             background: "#f9f9f9",
           }}
         >
+          {/* Question Text */}
           <TextField
             label={`Question ${qIndex + 1}`}
             fullWidth
@@ -242,6 +246,7 @@ export default function AddQuizPage() {
             }
           />
 
+          {/* Options */}
           {q.options.map((opt, optIndex) => (
             <div
               key={optIndex}
@@ -280,13 +285,14 @@ export default function AddQuizPage() {
             ➕ Add Option
           </Button>
 
+          {/* Correct Option Index */}
           <TextField
             label={`Correct Option Index (1-${q.options.length})`}
             type="number"
             fullWidth
             margin="dense"
             inputProps={{ min: 1, max: q.options.length }}
-            value={q.correctOptionIndex + 1} // Add 1 for display
+            value={q.correctOptionIndex + 1}
             onChange={(e) => {
               const inputVal = parseInt(e.target.value);
               const clampedVal = Math.max(
@@ -297,10 +303,28 @@ export default function AddQuizPage() {
                 qIndex,
                 "correctOptionIndex",
                 clampedVal - 1
-              ); // Subtract 1 for storage
+              );
             }}
           />
 
+          {/* Correct Answer Explanation */}
+          <TextField
+            label="Correct Answer Explanation"
+            fullWidth
+            multiline
+            rows={2}
+            margin="normal"
+            value={q.correctAnswerExplanation}
+            onChange={(e) =>
+              handleQuestionChange(
+                qIndex,
+                "correctAnswerExplanation",
+                e.target.value
+              )
+            }
+          />
+
+          {/* Remove Question */}
           <IconButton
             color="error"
             onClick={() => removeQuestion(qIndex)}

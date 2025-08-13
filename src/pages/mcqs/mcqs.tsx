@@ -14,12 +14,6 @@ const columns: GridColDef[] = [
     width: 250,
   },
   {
-    field: "description",
-    type: "string",
-    headerName: "Description",
-    width: 250,
-  },
-  {
     field: "totalTime",
     type: "string",
     headerName: "Duration",
@@ -77,7 +71,6 @@ const MCQs = () => {
           rows={data.map((quiz: any, index: number) => ({
             id: quiz._id || index, // Ensure each row has a unique 'id'
             title: quiz.title,
-            description: quiz.description,
             totalTime: quiz.totalTime,
             isPaid: quiz.isPaid,
             showIn: quiz.showIn,
