@@ -17,7 +17,7 @@ const columns: GridColDef[] = [
     field: "totalTime",
     type: "string",
     headerName: "Duration",
-    width: 150,
+    width: 100,
   },
   {
     field: "isPaid",
