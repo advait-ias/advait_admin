@@ -18,6 +18,7 @@ import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { createQuiz } from "../../api/services/quizService";
 import { useNavigate } from "react-router-dom";
+import RichEditor from "../../components/RichEditor/RichEditor";
 
 interface Question {
   questionText: string;
@@ -235,14 +236,14 @@ export default function AddQuizPage() {
             background: "#f9f9f9",
           }}
         >
-          {/* Question Text */}
-          <TextField
-            label={`Question ${qIndex + 1}`}
-            fullWidth
-            margin="normal"
-            value={q.questionText}
-            onChange={(e) =>
-              handleQuestionChange(qIndex, "questionText", e.target.value)
+          {/* Question Text - RichEditor */}
+          <Typography variant="subtitle1" sx={{ mb: 1 }}>
+            Question {qIndex + 1}
+          </Typography>
+          <RichEditor
+            content={q.questionText}
+            onChange={(html: string) =>
+              handleQuestionChange(qIndex, "questionText", html)
             }
           />
 
@@ -254,6 +255,7 @@ export default function AddQuizPage() {
                 display: "flex",
                 gap: "10px",
                 alignItems: "center",
+                marginTop: "10px",
                 marginBottom: "10px",
               }}
             >
@@ -307,20 +309,14 @@ export default function AddQuizPage() {
             }}
           />
 
-          {/* Correct Answer Explanation */}
-          <TextField
-            label="Correct Answer Explanation"
-            fullWidth
-            multiline
-            rows={2}
-            margin="normal"
-            value={q.correctAnswerExplanation}
-            onChange={(e) =>
-              handleQuestionChange(
-                qIndex,
-                "correctAnswerExplanation",
-                e.target.value
-              )
+          {/* Correct Answer Explanation - RichEditor */}
+          <Typography variant="subtitle1" sx={{ mt: 2, mb: 1 }}>
+            Correct Answer Explanation
+          </Typography>
+          <RichEditor
+            content={q.correctAnswerExplanation}
+            onChange={(html: string) =>
+              handleQuestionChange(qIndex, "correctAnswerExplanation", html)
             }
           />
 

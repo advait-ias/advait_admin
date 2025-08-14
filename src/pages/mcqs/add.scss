@@ -6,6 +6,57 @@
   color: white;
   min-height: 100vh;
 
+  .item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; // vertical space between label and Autocomplete
+    margin-bottom: 20px;
+
+    label {
+      font-size: 14px;
+      font-weight: 500;
+      color: variables.$soft-color;
+    }
+
+    // Target MUI TextField inside Autocomplete
+    .MuiOutlinedInput-root {
+      color: white; // text color
+      background-color: transparent;
+
+      input {
+        color: white; // input text color
+        &::placeholder {
+          color: variables.$soft-color;
+          opacity: 1; // make sure it's visible
+        }
+      }
+
+      // fieldset {
+      //   border-color: variables.$soft-color;
+      // }
+
+      // &:hover fieldset {
+      //   border-color: white;
+      // }
+
+      // &.Mui-focused fieldset {
+      //   border-color: white;
+      // }
+    }
+
+    // For the dropdown items
+    .MuiAutocomplete-popper {
+      .MuiAutocomplete-option {
+        background-color: variables.$main-bg;
+        color: white;
+
+        &[aria-selected="true"] {
+          background-color: #2a3a5a;
+        }
+      }
+    }
+  }
+
   h4 {
     font-size: 28px;
     color: variables.$soft-color;
@@ -21,6 +72,10 @@
     label {
       color: white;
     }
+  }
+
+  .MuiTypography-subtitle1 {
+    color: #666 !important;
   }
 
   .form-section {
