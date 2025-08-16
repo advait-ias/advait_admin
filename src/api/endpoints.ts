@@ -74,4 +74,5 @@ export const endpoints = {
   subject: createCrudEndpoints("/subject"),
   pyq: createCrudEndpoints("/pyq"),
   mcq: createCrudEndpoints("/mcq"),
+  homeCarousel: createCrudEndpoints("/home-carousel"),
 };

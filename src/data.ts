@@ -55,7 +55,7 @@ export const menu = [
   },
   {
     id: 3,
-    title: "website",
+    title: "website content",
     listItems: [
       {
         id: 1,
@@ -95,7 +95,7 @@ export const menu = [
       },
       {
         id: 7,
-        title: "Quizzes",
+        title: "Daily Current Affiars Quiz",
         url: "/quizzes",
         icon: "test.svg",
       },
@@ -113,30 +113,24 @@ export const menu = [
       },
       {
         id: 10,
-        title: "MCQs",
+        title: "Subjectwise MCQs",
         url: "/mcqs",
         icon: "test.svg",
       },
     ],
   },
-  // {
-  //   id: 4,
-  //   title: "Maintenance",
-  //   listItems: [
-  //     {
-  //       id: 1,
-  //       title: "Settings",
-  //       url: "/",
-  //       icon: "setting.svg",
-  //     },
-  //     {
-  //       id: 2,
-  //       title: "Backups",
-  //       url: "/",
-  //       icon: "backup.svg",
-  //     },
-  //   ],
-  // },
+  {
+    id: 4,
+    title: "website ui",
+    listItems: [
+      {
+        id: 1,
+        title: "Home Carousel",
+        url: "/home-carousel",
+        icon: "element.svg",
+      },
+    ],
+  },
   // {
   //   id: 5,
   //   title: "analytics",

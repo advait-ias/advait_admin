@@ -44,6 +44,7 @@ import {
   Outlet,
   Navigate,
 } from "react-router-dom";
+import HomeCarousel from "./pages/home_carousel/HomeCarousel";
 
 const queryClient = new QueryClient();
 
@@ -214,6 +215,10 @@ const router = createBrowserRouter([
       {
         path: "/tags",
         element: <Tags />,
+      },
+      {
+        path: "/home-carousel",
+        element: <HomeCarousel />,
       },
     ],
   },
