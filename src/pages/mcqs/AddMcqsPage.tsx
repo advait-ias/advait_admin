@@ -22,11 +22,13 @@ import {
   CircularProgress,
 } from "@mui/material";
 import "./add.scss";
+import RichEditor from "../../components/RichEditor/RichEditor";
 
 interface Question {
   questionText: string;
   options: string[];
   correctOptionIndex: number;
+  correctAnswerExplanation: string;
 }
 
 export default function AddMCQsPage() {
@@ -45,6 +47,7 @@ export default function AddMCQsPage() {
         questionText: "",
         options: ["", ""], // Only 2 default
         correctOptionIndex: 0,
+        correctAnswerExplanation: "", // NEW
       },
     ] as Question[],
   });
@@ -88,6 +91,7 @@ export default function AddMCQsPage() {
         questionText: "",
         options: ["", ""],
         correctOptionIndex: 0,
+        correctAnswerExplanation: "",
       },
     ]);
   };
@@ -306,13 +310,14 @@ export default function AddMCQsPage() {
             background: "#f9f9f9",
           }}
         >
-          <TextField
-            label={`Question ${qIndex + 1}`}
-            fullWidth
-            margin="normal"
-            value={q.questionText}
-            onChange={(e) =>
-              handleQuestionChange(qIndex, "questionText", e.target.value)
+          {/* Question Text - RichEditor */}
+          <Typography variant="subtitle1" sx={{ mb: 1 }}>
+            Question {qIndex + 1}
+          </Typography>
+          <RichEditor
+            content={q.questionText}
+            onChange={(html: string) =>
+              handleQuestionChange(qIndex, "questionText", html)
             }
           />
 
@@ -323,6 +328,7 @@ export default function AddMCQsPage() {
                 display: "flex",
                 gap: "10px",
                 alignItems: "center",
+                marginTop: "10px",
                 marginBottom: "10px",
               }}
             >
@@ -373,6 +379,17 @@ export default function AddMCQsPage() {
                 clampedVal - 1
               ); // Subtract 1 for storage
             }}
+          />
+
+          {/* Correct Answer Explanation - RichEditor */}
+          <Typography variant="subtitle1" sx={{ mt: 2, mb: 1 }}>
+            Correct Answer Explanation
+          </Typography>
+          <RichEditor
+            content={q.correctAnswerExplanation}
+            onChange={(html: string) =>
+              handleQuestionChange(qIndex, "correctAnswerExplanation", html)
+            }
           />
 
           <IconButton

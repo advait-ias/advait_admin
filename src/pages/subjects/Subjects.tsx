@@ -10,7 +10,7 @@ const columns: GridColDef[] = [
   {
     field: "name",
     headerName: "Category Name",
-    width: 200,
+    width: 300,
   },
   {
     field: "isActive",

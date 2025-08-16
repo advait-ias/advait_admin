@@ -15,7 +15,7 @@ const columns: GridColDef[] = [
   {
     field: "name",
     headerName: "PYQ Name",
-    width: 200,
+    width: 250,
   },
   {
     field: "isActive",
