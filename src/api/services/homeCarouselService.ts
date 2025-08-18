@@ -9,9 +9,11 @@ export const fetchAllHomeCarousel = async () => {
 export const getHomeCarouselById = (id: string) =>
   api.get(endpoints.homeCarousel.detail(id));
 
-export const addHomeCarousel = async (imageFile: File) => {
+export const addHomeCarousel = async (file: File, routeUrl?: string) => {
   const formData = new FormData();
-  formData.append("image", imageFile);
+  formData.append("image", file);
+  if (routeUrl) formData.append("routeUrl", routeUrl); // ✅ send routeUrl if provided
+
   const res = await api.post(endpoints.homeCarousel.create, formData, {
     headers: { "Content-Type": "multipart/form-data" },
   });

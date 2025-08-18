@@ -10,7 +10,7 @@ import "./homecarousel.scss";
 
 const HomeCarousel = () => {
   const queryClient = useQueryClient();
-  const [images, setImages] = useState<File[]>([]);
+  const [images, setImages] = useState<{ file: File; routeUrl: string }[]>([]);
 
   const { data: carouselImages, isLoading } = useQuery({
     queryKey: ["homeCarousel"],
@@ -18,7 +18,8 @@ const HomeCarousel = () => {
   });
 
   const { mutate: uploadImage } = useMutation({
-    mutationFn: (file: File) => addHomeCarousel(file),
+    mutationFn: ({ file, routeUrl }: { file: File; routeUrl?: string }) =>
+      addHomeCarousel(file, routeUrl),
     onSuccess: () => {
       toast.success("Image uploaded!");
       queryClient.invalidateQueries({ queryKey: ["homeCarousel"] });
@@ -38,7 +39,17 @@ const HomeCarousel = () => {
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
-    setImages(Array.from(e.target.files));
+    const files = Array.from(e.target.files).map((f) => ({
+      file: f,
+      routeUrl: "",
+    }));
+    setImages(files);
+  };
+
+  const handleRouteChange = (idx: number, value: string) => {
+    setImages((prev) =>
+      prev.map((img, i) => (i === idx ? { ...img, routeUrl: value } : img))
+    );
   };
 
   const handleSubmit = () => {
@@ -46,7 +57,7 @@ const HomeCarousel = () => {
       toast.error("Please pick an image first");
       return;
     }
-    images.forEach((img) => uploadImage(img));
+    images.forEach(({ file, routeUrl }) => uploadImage({ file, routeUrl }));
   };
 
   const handleDelete = (id: string) => {
@@ -75,12 +86,18 @@ const HomeCarousel = () => {
         </button>
       </div>
 
-      {/* Preview Section */}
+      {/* Preview Section with routeUrl input */}
       {images.length > 0 && (
         <div className="preview-section">
-          {images.map((file, idx) => (
+          {images.map((img, idx) => (
             <div key={idx} className="preview-card">
-              <img src={URL.createObjectURL(file)} alt="preview" />
+              <img src={URL.createObjectURL(img.file)} alt="preview" />
+              <input
+                type="text"
+                placeholder="Optional route URL"
+                value={img.routeUrl}
+                onChange={(e) => handleRouteChange(idx, e.target.value)}
+              />
             </div>
           ))}
         </div>
@@ -94,6 +111,9 @@ const HomeCarousel = () => {
           {carouselImages?.map((img: any) => (
             <div key={img._id} className="uploaded-card">
               <img src={img.imageUrl} alt="carousel" />
+              {img.routeUrl && (
+                <p className="route-label">Route: {img.routeUrl}</p>
+              )}
               <button
                 className="delete-btn"
                 onClick={() => handleDelete(img._id)}
