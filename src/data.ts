@@ -129,6 +129,12 @@ export const menu = [
         url: "/home-carousel",
         icon: "element.svg",
       },
+      {
+        id: 2,
+        title: "What's New",
+        url: "/whats-new",
+        icon: "element.svg",
+      },
     ],
   },
   // {
