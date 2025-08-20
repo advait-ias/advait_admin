@@ -68,7 +68,7 @@ const WhatsNewPage = () => {
 
   return (
     <div className="whats-new-page">
-      <h2>Manage WhatsNew Articles</h2>
+      <h2>Manage What's New Content</h2>
       <div className="article-list">
         {articles.map((article: any) => (
           <div key={article._id} className="article-item">
