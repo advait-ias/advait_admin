@@ -1,5 +1,6 @@
-import { useState } from "react";
+import toast from "react-hot-toast";
 import DeleteIcon from "@mui/icons-material/Delete";
+import RichEditor from "../../components/RichEditor/RichEditor";
 import {
   TextField,
   Button,
@@ -13,12 +14,11 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import "./add.scss";
-import { useMutation } from "@tanstack/react-query";
-import toast from "react-hot-toast";
-import { createQuiz } from "../../api/services/quizService";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import RichEditor from "../../components/RichEditor/RichEditor";
+import { useMutation } from "@tanstack/react-query";
+import { createQuiz } from "../../api/services/quizService";
+import "./add.scss";
 
 interface Question {
   questionText: string;
