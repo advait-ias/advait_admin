@@ -46,6 +46,9 @@ import {
 } from "react-router-dom";
 import HomeCarousel from "./pages/home_carousel/HomeCarousel";
 import WhatsNew from "./pages/whatsnew/WhatsNew";
+import Testimonials from "./pages/testimonials/Testimonials";
+import AddTestimonialPage from "./pages/testimonials/AddTestimonialPage";
+import AddFacultyPage from "./pages/faculties/AddFacultyPage";
 
 const queryClient = new QueryClient();
 
@@ -96,6 +99,10 @@ const router = createBrowserRouter([
       {
         path: "/faculties",
         element: <Faculties />,
+      },
+      {
+        path: "/faculties/add",
+        element: <AddFacultyPage />,
       },
       {
         path: "/faculty/:id",
@@ -224,6 +231,14 @@ const router = createBrowserRouter([
       {
         path: "/whats-new",
         element: <WhatsNew />,
+      },
+      {
+        path: "/testimonials",
+        element: <Testimonials />,
+      },
+      {
+        path: "/testimonials/add",
+        element: <AddTestimonialPage />,
       },
     ],
   },

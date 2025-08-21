@@ -4,12 +4,8 @@ import { endpoints } from "../endpoints";
 export interface Faculty {
   _id: string;
   name: string;
-  email: string;
-  mobile: number;
+  bio: string;
   gender: string;
-  exams: string[];
-  courses: string[];
-  tests: string[];
   experience: number;
   education: string;
   interviewAppeared: string;
@@ -41,6 +37,7 @@ export const createFaculty = async (data: FormData): Promise<Faculty> => {
   });
   return res.data;
 };
+
 
 // ✅ PUT update a faculty
 export const updateFaculty = async (

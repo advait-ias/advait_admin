@@ -9,7 +9,14 @@ export const fetchAllQuizzes = async () => {
 
 export const getQuizById = (id: string) => api.get(endpoints.quiz.detail(id));
 
-export const createQuiz = (data: any) => api.post(endpoints.quiz.create, data);
+export const createQuiz = async (data: FormData): Promise<any> => {
+  const res = await api.post(endpoints.quiz.create, data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return res.data;
+};
 
 export const updateQuiz = (id: string, data: any) =>
   api.patch(endpoints.quiz.update(id), data);

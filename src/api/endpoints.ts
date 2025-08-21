@@ -76,4 +76,5 @@ export const endpoints = {
   mcq: createCrudEndpoints("/mcq"),
   homeCarousel: createCrudEndpoints("/home-carousel"),
   whatsNew: createCrudEndpoints("/whats-new"),
+  testimonial: createCrudEndpoints("/testimonial"),
 };

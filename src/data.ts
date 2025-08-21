@@ -135,6 +135,12 @@ export const menu = [
         url: "/whats-new",
         icon: "element.svg",
       },
+      {
+        id: 2,
+        title: "Testimonials",
+        url: "/testimonials",
+        icon: "element.svg",
+      },
     ],
   },
   // {
