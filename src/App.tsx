@@ -44,11 +44,16 @@ import {
   Outlet,
   Navigate,
 } from "react-router-dom";
-import HomeCarousel from "./pages/home_carousel/HomeCarousel";
+import HomeCarousel from "./pages/home-carousel/HomeCarousel";
 import WhatsNew from "./pages/whatsnew/WhatsNew";
 import Testimonials from "./pages/testimonials/Testimonials";
 import AddTestimonialPage from "./pages/testimonials/AddTestimonialPage";
 import AddFacultyPage from "./pages/faculties/AddFacultyPage";
+import Faqs from "./pages/faq/Faqs";
+import TermsAndConditions from "./pages/terms-and-conditions/TermsAndConditions";
+import PrivacyPolicy from "./pages/privacy-policy/PrivacyPolicy";
+import Socials from "./pages/socials/Socials";
+import WhyChooseUs from "./pages/why-choose-us/WhyChooseUs";
 
 const queryClient = new QueryClient();
 
@@ -229,6 +234,10 @@ const router = createBrowserRouter([
         element: <HomeCarousel />,
       },
       {
+        path: "/why-choose-us",
+        element: <WhyChooseUs />,
+      },
+      {
         path: "/whats-new",
         element: <WhatsNew />,
       },
@@ -239,6 +248,22 @@ const router = createBrowserRouter([
       {
         path: "/testimonials/add",
         element: <AddTestimonialPage />,
+      },
+      {
+        path: "/socials",
+        element: <Socials />,
+      },
+      {
+        path: "/terms-and-conditions",
+        element: <TermsAndConditions />,
+      },
+      {
+        path: "/privacy-policy",
+        element: <PrivacyPolicy />,
+      },
+      {
+        path: "/faq",
+        element: <Faqs />,
       },
     ],
   },

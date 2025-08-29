@@ -1,0 +1,39 @@
+.why-choose-us-page {
+  padding: 30px;
+  background: #0f172a;
+  min-height: 100vh;
+  color: white;
+
+  .form-section {
+    background: #1c2535;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+
+    input[type="file"] {
+      margin-top: 15px;
+      color: white;
+    }
+
+    .preview {
+      margin-top: 15px;
+      img {
+        max-width: 200px;
+        border-radius: 6px;
+        margin-top: 10px;
+      }
+    }
+  }
+
+  .existing-card {
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 8px;
+
+    img {
+      margin-top: 10px;
+      max-width: 250px;
+      border-radius: 6px;
+    }
+  }
+}

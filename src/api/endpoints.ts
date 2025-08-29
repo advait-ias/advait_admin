@@ -52,8 +52,8 @@
 
 const createCrudEndpoints = (base: string) => ({
   list: base,
-  detail: (id: string) => `${base}/id/${id}`,
   create: base,
+  detail: (id: string) => `${base}/id/${id}`,
   update: (id: string) => `${base}/id/${id}`,
   delete: (id: string) => `${base}/id/${id}`,
 });
@@ -75,6 +75,11 @@ export const endpoints = {
   pyq: createCrudEndpoints("/pyq"),
   mcq: createCrudEndpoints("/mcq"),
   homeCarousel: createCrudEndpoints("/home-carousel"),
+  whyChooseUs: createCrudEndpoints("/why-choose-us"),
   whatsNew: createCrudEndpoints("/whats-new"),
   testimonial: createCrudEndpoints("/testimonial"),
+  faq: createCrudEndpoints("/faq"),
+  termsAndConditions: createCrudEndpoints("/terms-and-conditions"),
+  privacyPolicy: createCrudEndpoints("/privacy-policy"),
+  socials: createCrudEndpoints("/socials"),
 };

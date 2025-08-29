@@ -1,0 +1,41 @@
+.socials-page {
+  padding: 30px;
+  background: #0f172a;
+  min-height: 100vh;
+  color: white;
+
+  .social-form {
+    margin-top: 20px;
+    background: #1c2535;
+    padding: 20px;
+    border-radius: 8px;
+  }
+
+  .socials-list {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    .social-card {
+      background: #1e293b;
+      padding: 15px;
+      border-radius: 6px;
+
+      .social-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        a {
+          color: #60a5fa;
+          text-decoration: none;
+        }
+
+        .status {
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+}
