@@ -59,8 +59,9 @@ const createCrudEndpoints = (base: string) => ({
 });
 
 export const endpoints = {
-  faculty: createCrudEndpoints("/faculty"),
+  user: createCrudEndpoints("/user"),
   student: createCrudEndpoints("/student"),
+  faculty: createCrudEndpoints("/faculty"),
   exam: createCrudEndpoints("/exam"),
   course: createCrudEndpoints("/course"),
   material: createCrudEndpoints("/material"),

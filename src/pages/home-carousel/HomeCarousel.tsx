@@ -5,6 +5,7 @@ import {
   fetchAllHomeCarousel,
   addHomeCarousel,
   deleteHomeCarousel,
+  updateHomeCarousel,
 } from "../../api/services/homeCarouselService";
 import "./homecarousel.scss";
 
@@ -35,6 +36,23 @@ const HomeCarousel = () => {
       queryClient.invalidateQueries({ queryKey: ["homeCarousel"] });
     },
     onError: () => toast.error("Delete failed"),
+  });
+
+  const { mutate: editImage } = useMutation({
+    mutationFn: ({
+      id,
+      index,
+      routeUrl,
+    }: {
+      id: string;
+      index?: number;
+      routeUrl?: string;
+    }) => updateHomeCarousel(id, { index, routeUrl }),
+    onSuccess: () => {
+      toast.success("Carousel updated!");
+      queryClient.invalidateQueries({ queryKey: ["homeCarousel"] });
+    },
+    onError: () => toast.error("Update failed"),
   });
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -111,9 +129,34 @@ const HomeCarousel = () => {
           {carouselImages?.map((img: any) => (
             <div key={img._id} className="uploaded-card">
               <img src={img.imageUrl} alt="carousel" />
-              {img.routeUrl && (
-                <p className="route-label">Route: {img.routeUrl}</p>
-              )}
+
+              <div className="details">
+                <input
+                  type="number"
+                  min={1}
+                  value={img.index}
+                  onChange={(e) =>
+                    editImage({
+                      id: img._id,
+                      index: parseInt(e.target.value),
+                      routeUrl: img.routeUrl,
+                    })
+                  }
+                />
+                <input
+                  type="text"
+                  placeholder="Optional route URL"
+                  value={img.routeUrl || ""}
+                  onChange={(e) =>
+                    editImage({
+                      id: img._id,
+                      index: img.index,
+                      routeUrl: e.target.value,
+                    })
+                  }
+                />
+              </div>
+
               <button
                 className="delete-btn"
                 onClick={() => handleDelete(img._id)}

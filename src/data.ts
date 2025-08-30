@@ -17,30 +17,36 @@ export const menu = [
     listItems: [
       {
         id: 1,
+        title: "Users",
+        url: "/users",
+        icon: "user.svg",
+      },
+      {
+        id: 2,
         title: "Students",
         url: "/students",
         icon: "user.svg",
       },
       {
-        id: 2,
+        id: 3,
         title: "Exams",
         url: "/exams",
         icon: "course.svg",
       },
       {
-        id: 3,
+        id: 4,
         title: "Courses",
         url: "/courses",
         icon: "course.svg",
       },
       {
-        id: 4,
+        id: 5,
         title: "Faculties",
         url: "/faculties",
         icon: "user.svg",
       },
       {
-        id: 5,
+        id: 6,
         title: "Materials",
         url: "/materials",
         icon: "course.svg",

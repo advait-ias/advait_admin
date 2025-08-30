@@ -65,6 +65,7 @@ export default function Socials() {
             <MenuItem value="twitter">Twitter</MenuItem>
             <MenuItem value="linkedin">LinkedIn</MenuItem>
             <MenuItem value="youtube">YouTube</MenuItem>
+            <MenuItem value="telegram">Telegram</MenuItem>
           </Select>
         </FormControl>
 

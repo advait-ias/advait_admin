@@ -54,6 +54,7 @@ import TermsAndConditions from "./pages/terms-and-conditions/TermsAndConditions"
 import PrivacyPolicy from "./pages/privacy-policy/PrivacyPolicy";
 import Socials from "./pages/socials/Socials";
 import WhyChooseUs from "./pages/why-choose-us/WhyChooseUs";
+import Users from "./pages/users/Users";
 
 const queryClient = new QueryClient();
 
@@ -92,6 +93,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "/users",
+        element: <Users />,
       },
       {
         path: "/students",
