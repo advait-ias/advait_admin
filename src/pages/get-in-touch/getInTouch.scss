@@ -1,0 +1,86 @@
+@use "../../styles/variables.scss" as variables;
+
+.get-in-touch-page {
+  padding: 32px;
+  min-height: 100vh;
+  background: variables.$main-bg;
+  color: white;
+
+  .header {
+    margin-bottom: 16px;
+    h4,
+    h3,
+    h2 {
+      color: variables.$soft-color;
+    }
+  }
+
+  .loading,
+  .error {
+    padding: 20px;
+    text-align: center;
+  }
+
+  .form-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .label {
+      color: variables.$soft-color;
+      font-size: 13px;
+    }
+
+    .MuiFormControl-root {
+      width: 100%;
+    }
+
+    input,
+    textarea {
+      color: white;
+      background: transparent;
+    }
+
+    .MuiOutlinedInput-root {
+      background: #1c2535;
+      fieldset {
+        border-color: #3a4357;
+      }
+      &:hover fieldset {
+        border-color: #5a6576;
+      }
+      &.Mui-focused fieldset {
+        border-color: #007bff;
+      }
+    }
+
+    .MuiInputLabel-root {
+      color: variables.$soft-color;
+    }
+  }
+
+  .actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+
+    button {
+      padding: 10px 16px;
+    }
+  }
+
+  @media (max-width: 900px) {
+    padding: 18px;
+    .form-wrapper {
+      width: 100%;
+    }
+  }
+}

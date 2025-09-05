@@ -1,0 +1,122 @@
+@use "../../styles/variables.scss" as variables;
+
+.about-us-page {
+  padding: 32px;
+  min-height: 100vh;
+  background: variables.$main-bg; // your dark background
+  color: white;
+
+  .header {
+    margin-bottom: 18px;
+
+    h4,
+    h3,
+    h2 {
+      color: variables.$soft-color;
+    }
+  }
+
+  .loading,
+  .error {
+    padding: 20px;
+    text-align: center;
+  }
+
+  .form-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .editor-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .editor-label {
+      color: variables.$soft-color;
+      font-size: 14px;
+    }
+
+    /* RichEditor wrapper styling - ensure the editor content is dark theme friendly */
+    .editor-wrapper {
+      background-color: #1c2535;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 8px;
+
+      .toolbar {
+        background: transparent;
+      }
+
+      .editor-content {
+        background: white; // editable content area white to match site content rendering
+        color: #111;
+        min-height: 200px;
+        padding: 12px;
+        border-radius: 4px;
+      }
+    }
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    button {
+      padding: 10px 18px;
+    }
+  }
+
+  .preview {
+    .preview-box {
+      margin-top: 8px;
+      background: #fff;
+      color: #111;
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid #e6e6e6;
+
+      img {
+        max-width: 100%;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5 {
+        color: #111;
+      }
+
+      p {
+        color: #111;
+      }
+
+      ul,
+      ol {
+        color: #111;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        th,
+        td {
+          border: 1px solid #ddd;
+          padding: 8px;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 900px) {
+    padding: 20px;
+    .form-wrapper {
+      max-width: 100%;
+    }
+  }
+}

@@ -1,3 +1,11 @@
+import { Toaster } from "react-hot-toast";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Outlet,
+  Navigate,
+} from "react-router-dom";
 import Home from "./pages/home/Home";
 import Student from "./pages/student/Student";
 import Students from "./pages/students/Students";
@@ -36,14 +44,6 @@ import AddPYQsPage from "./pages/pyqs/AddPYQPage";
 import MCQs from "./pages/mcqs/mcqs";
 import AddMCQsPage from "./pages/mcqs/AddMcqsPage";
 import ScrollToTop from "./components/ScrollToTop";
-import { Toaster } from "react-hot-toast";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Outlet,
-  Navigate,
-} from "react-router-dom";
 import HomeCarousel from "./pages/home-carousel/HomeCarousel";
 import WhatsNew from "./pages/whatsnew/WhatsNew";
 import Testimonials from "./pages/testimonials/Testimonials";
@@ -55,6 +55,8 @@ import PrivacyPolicy from "./pages/privacy-policy/PrivacyPolicy";
 import Socials from "./pages/socials/Socials";
 import WhyChooseUs from "./pages/why-choose-us/WhyChooseUs";
 import Users from "./pages/users/Users";
+import AboutUs from "./pages/about-us/AboutPage";
+import GetInTouch from "./pages/get-in-touch/GetInTouchPage";
 
 const queryClient = new QueryClient();
 
@@ -253,6 +255,14 @@ const router = createBrowserRouter([
       {
         path: "/testimonials/add",
         element: <AddTestimonialPage />,
+      },
+      {
+        path: "/get-in-touch",
+        element: <GetInTouch />,
+      },
+      {
+        path: "/about-us",
+        element: <AboutUs />,
       },
       {
         path: "/socials",
