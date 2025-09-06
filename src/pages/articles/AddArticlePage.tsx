@@ -25,7 +25,9 @@ const AddArticlePage = () => {
     url: "",
     subHeadline: "",
     content: "",
+    imageAlt: "",
     tags: [] as any[],
+    markAsNew: false,
   });
   const [newTag, setNewTag] = useState("");
   const [useRichEditor, setUseRichEditor] = useState(true);
@@ -60,6 +62,7 @@ const AddArticlePage = () => {
       form.append("url", formData.url);
       form.append("subHeadline", formData.subHeadline);
       form.append("content", formData.content);
+      form.append("imageAlt", formData.imageAlt);
       form.append(
         "tags",
         JSON.stringify(
@@ -68,6 +71,8 @@ const AddArticlePage = () => {
           )
         )
       );
+
+      form.append("markAsNew", formData.markAsNew.toString());
 
       if (image) form.append("image", image);
 
@@ -305,6 +310,30 @@ const AddArticlePage = () => {
                 setImage(e.target.files[0]);
               }
             }}
+          />
+        </div>
+
+        {/* Image Alt */}
+        <div className="item">
+          <label>Image Alt</label>
+          <input
+            type="text"
+            name="imageAlt"
+            value={formData.imageAlt}
+            onChange={handleChange}
+          />
+        </div>
+
+        {/* Mark as New */}
+        <div className="item">
+          <label>Mark as New</label>
+          <input
+            type="checkbox"
+            name="markAsNew"
+            checked={formData.markAsNew}
+            onChange={(e) =>
+              setFormData((prev) => ({ ...prev, markAsNew: e.target.checked }))
+            }
           />
         </div>
 

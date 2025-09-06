@@ -39,6 +39,7 @@ export default function AddMCQsPage() {
     title: "",
     description: "",
     totalTime: 0,
+    markAsNew: false,
     isPaid: false,
     isActive: true,
     showIn: "",
@@ -151,6 +152,7 @@ export default function AddMCQsPage() {
       title: formData.title,
       description: formData.description,
       totalTime: formData.totalTime,
+      markAsNew: formData.markAsNew,
       isPaid: formData.isPaid,
       isActive: formData.isActive,
       showIn: formData.showIn,
@@ -401,6 +403,17 @@ export default function AddMCQsPage() {
           </IconButton>
         </Box>
       ))}
+
+      {/* Mark as New */}
+      <FormControlLabel
+        control={
+          <Switch
+            checked={formData.markAsNew}
+            onChange={(e) => handleChange("markAsNew", e.target.checked)}
+          />
+        }
+        label="Mark as New"
+      />
 
       <div className="button-actions">
         <Button variant="contained" onClick={addQuestion}>

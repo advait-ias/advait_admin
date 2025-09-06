@@ -45,7 +45,7 @@ import MCQs from "./pages/mcqs/mcqs";
 import AddMCQsPage from "./pages/mcqs/AddMcqsPage";
 import ScrollToTop from "./components/ScrollToTop";
 import HomeCarousel from "./pages/home-carousel/HomeCarousel";
-import WhatsNew from "./pages/whatsnew/WhatsNew";
+import WhatsNew from "./pages/whats-new/WhatsNew";
 import Testimonials from "./pages/testimonials/Testimonials";
 import AddTestimonialPage from "./pages/testimonials/AddTestimonialPage";
 import AddFacultyPage from "./pages/faculties/AddFacultyPage";

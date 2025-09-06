@@ -33,6 +33,7 @@ export default function AddQuizPage() {
     title: "",
     description: "",
     totalTime: 0,
+    markAsNew: false,
     isPaid: false,
     isActive: true,
     showIn: "",
@@ -133,6 +134,7 @@ export default function AddQuizPage() {
       title: formData.title,
       description: formData.description,
       totalTime: formData.totalTime,
+      markAsNew: formData.markAsNew,
       isPaid: formData.isPaid,
       isActive: formData.isActive,
       showIn: formData.showIn,
@@ -330,6 +332,17 @@ export default function AddQuizPage() {
           </IconButton>
         </Box>
       ))}
+
+      {/* Mark as New */}
+      <FormControlLabel
+        control={
+          <Switch
+            checked={formData.markAsNew}
+            onChange={(e) => handleChange("markAsNew", e.target.checked)}
+          />
+        }
+        label="Mark as New"
+      />
 
       <div className="button-actions">
         <Button variant="contained" onClick={addQuestion}>

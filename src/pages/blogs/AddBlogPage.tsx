@@ -1,5 +1,4 @@
 import toast from "react-hot-toast";
-import MDEditor from "@uiw/react-md-editor";
 import RichEditor from "../../components/RichEditor/RichEditor";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -14,7 +13,9 @@ const AddBlogPage = () => {
     headline: "",
     url: "",
     content: "",
+    imageAlt: "",
     tags: [] as string[],
+    markAsNew: false,
   });
   const [useRichEditor, setUseRichEditor] = useState(true);
   const [image, setImage] = useState<File | null>(null);
@@ -33,7 +34,9 @@ const AddBlogPage = () => {
       form.append("headline", formData.headline);
       form.append("url", formData.url);
       form.append("content", formData.content);
+      form.append("imageAlt", formData.imageAlt);
       form.append("tags", JSON.stringify(formData.tags));
+      form.append("markAsNew", formData.markAsNew.toString());
       if (image) form.append("image", image);
       return createBlog(form);
     },
@@ -156,6 +159,16 @@ const AddBlogPage = () => {
             }}
           />
         </div>
+        {/* Image Alt */}
+        <div className="item">
+          <label>Image Alt</label>
+          <input
+            type="text"
+            name="imageAlt"
+            value={formData.imageAlt}
+            onChange={handleChange}
+          />
+        </div>
         {/* Markdown Content */}
         <div className="item blog-editor">
           <div className="editor-toggle">
@@ -203,6 +216,18 @@ const AddBlogPage = () => {
               />
             )}
           </div>
+        </div>
+        {/* Mark as New */}
+        <div className="item">
+          <label>Mark as New</label>
+          <input
+            type="checkbox"
+            name="markAsNew"
+            checked={formData.markAsNew}
+            onChange={(e) =>
+              setFormData((prev) => ({ ...prev, markAsNew: e.target.checked }))
+            }
+          />
         </div>
         {/* <div className="item">
           <label>Blog Content</label>
