@@ -10,6 +10,8 @@ import "./add.scss"; // updated stylesheet path
 
 const AddBlogPage = () => {
   const [formData, setFormData] = useState({
+    metaTitle: "",
+    metaDescription: "",
     headline: "",
     url: "",
     content: "",
@@ -17,7 +19,6 @@ const AddBlogPage = () => {
     tags: [] as string[],
     markAsNew: false,
   });
-  const [useRichEditor, setUseRichEditor] = useState(true);
   const [image, setImage] = useState<File | null>(null);
 
   const queryClient = useQueryClient();
@@ -31,6 +32,8 @@ const AddBlogPage = () => {
   const mutation = useMutation({
     mutationFn: () => {
       const form = new FormData();
+      form.append("metaTitle", formData.metaTitle);
+      form.append("metaDescription", formData.metaDescription);
       form.append("headline", formData.headline);
       form.append("url", formData.url);
       form.append("content", formData.content);
@@ -74,9 +77,31 @@ const AddBlogPage = () => {
       </button>
       <h1>Add New Blog</h1>
       <form onSubmit={handleSubmit}>
+        {/* Meta Title */}
+        <div className="item">
+          <label>Meta Title</label>
+          <input
+            type="text"
+            name="metaTitle"
+            value={formData.metaTitle}
+            onChange={handleChange}
+          />
+        </div>
+
+        {/* Meta Description */}
+        <div className="item">
+          <label>Meta Description</label>
+          <input
+            type="text"
+            name="metaDescription"
+            value={formData.metaDescription}
+            onChange={handleChange}
+          />
+        </div>
+
         {/* Headline */}
         <div className="item">
-          <label>Blog Headline</label>
+          <label>Blog Headline*</label>
           <input
             type="text"
             name="headline"
@@ -88,7 +113,7 @@ const AddBlogPage = () => {
 
         {/* URL Slug (Auto-filled from headline, but editable) */}
         <div className="item">
-          <label>URL Slug (Blog URL) </label>
+          <label>URL Slug* (Blog URL) </label>
           <input
             type="text"
             name="url"
@@ -148,7 +173,7 @@ const AddBlogPage = () => {
         </div>
         {/* Image Upload */}
         <div className="item">
-          <label>Blog Image</label>
+          <label>Blog Image*</label>
           <input
             type="file"
             accept="image/*"
@@ -169,56 +194,9 @@ const AddBlogPage = () => {
             onChange={handleChange}
           />
         </div>
-        {/* Markdown Content */}
-        <div className="item blog-editor">
-          <div className="editor-toggle">
-            <label className={`toggle-label ${useRichEditor ? "active" : ""}`}>
-              <input
-                type="radio"
-                name="blogEditorMode"
-                checked={useRichEditor}
-                onChange={() => setUseRichEditor(true)}
-              />
-              Rich Editor
-            </label>
-            <label className={`toggle-label ${!useRichEditor ? "active" : ""}`}>
-              <input
-                type="radio"
-                name="blogEditorMode"
-                checked={!useRichEditor}
-                onChange={() => setUseRichEditor(false)}
-              />
-              Textarea
-            </label>
-          </div>
 
-          <label>Blog Content</label>
-          <div className="editor-body">
-            {useRichEditor ? (
-              <RichEditor
-                content={formData.content}
-                onChange={(html: string) =>
-                  setFormData((prev: any) => ({ ...prev, content: html }))
-                }
-              />
-            ) : (
-              <textarea
-                name="content"
-                value={formData.content}
-                onChange={(e) =>
-                  setFormData((prev: any) => ({
-                    ...prev,
-                    content: e.target.value,
-                  }))
-                }
-                rows={20}
-                className="plain-textarea"
-              />
-            )}
-          </div>
-        </div>
         {/* Mark as New */}
-        <div className="item">
+        <div className="item-checkbox">
           <label>Mark as New</label>
           <input
             type="checkbox"
@@ -229,6 +207,20 @@ const AddBlogPage = () => {
             }
           />
         </div>
+
+        {/* Markdown Content */}
+        <div className="item blog-editor">
+          <label>Blog Content</label>
+          <div className="editor-body">
+            <RichEditor
+              content={formData.content}
+              onChange={(html: string) =>
+                setFormData((prev: any) => ({ ...prev, content: html }))
+              }
+            />
+          </div>
+        </div>
+
         {/* <div className="item">
           <label>Blog Content</label>
           <RichEditor

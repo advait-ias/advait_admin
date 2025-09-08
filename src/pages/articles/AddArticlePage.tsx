@@ -21,7 +21,9 @@ const AddArticlePage = () => {
     category: null as any,
     subCategory: null as any,
     language: null as any,
+    metaTitle: "",
     headline: "",
+    metaDescription: "",
     url: "",
     subHeadline: "",
     content: "",
@@ -30,7 +32,6 @@ const AddArticlePage = () => {
     markAsNew: false,
   });
   const [newTag, setNewTag] = useState("");
-  const [useRichEditor, setUseRichEditor] = useState(true);
   const [image, setImage] = useState<File | null>(null);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -58,6 +59,8 @@ const AddArticlePage = () => {
       form.append("category", formData.category?._id);
       form.append("subCategory", formData.subCategory?._id);
       form.append("language", formData.language?._id);
+      form.append("metaTitle", formData.metaTitle);
+      form.append("metaDescription", formData.metaDescription);
       form.append("headline", formData.headline);
       form.append("url", formData.url);
       form.append("subHeadline", formData.subHeadline);
@@ -126,7 +129,7 @@ const AddArticlePage = () => {
       <form onSubmit={handleSubmit}>
         {/* Category */}
         <div className="item">
-          <label>Article Category</label>
+          <label>Article Category*</label>
           <Autocomplete
             options={categoryOptions}
             getOptionLabel={(opt: any) => opt.name}
@@ -156,7 +159,7 @@ const AddArticlePage = () => {
 
         {/* SubCategory */}
         <div className="item">
-          <label>Article Sub Category</label>
+          <label>Article Sub Category*</label>
           <Autocomplete
             options={subCategoryOptions}
             getOptionLabel={(opt: any) => opt.name}
@@ -186,7 +189,9 @@ const AddArticlePage = () => {
 
         {/* Headline and SubHeadline */}
         {[
-          { name: "headline", label: "Article Headline" },
+          { name: "metaTitle", label: "Meta Title" },
+          { name: "metaDescription", label: "Meta Description" },
+          { name: "headline", label: "Article Headline*" },
           { name: "subHeadline", label: "Subheadline (Optional)" },
         ].map((field) => (
           <div className="item" key={field.name}>
@@ -203,7 +208,7 @@ const AddArticlePage = () => {
 
         {/* URL Slug (Auto-filled from headline, but editable) */}
         <div className="item">
-          <label>URL Slug (Article URL) </label>
+          <label>URL Slug* (Article URL) </label>
           <input
             type="text"
             name="url"
@@ -230,7 +235,7 @@ const AddArticlePage = () => {
 
         {/* Language */}
         <div className="item">
-          <label>Article Language</label>
+          <label>Article Language*</label>
           <Autocomplete
             options={languageOptions}
             getOptionLabel={(opt: any) => opt.name}
@@ -301,7 +306,7 @@ const AddArticlePage = () => {
 
         {/* Image Upload */}
         <div className="item">
-          <label>Article Image</label>
+          <label>Article Image*</label>
           <input
             type="file"
             accept="image/*"
@@ -325,7 +330,7 @@ const AddArticlePage = () => {
         </div>
 
         {/* Mark as New */}
-        <div className="item">
+        <div className="item-checkbox">
           <label>Mark as New</label>
           <input
             type="checkbox"
@@ -339,50 +344,14 @@ const AddArticlePage = () => {
 
         {/* Content */}
         <div className="item content-editor">
-          <div className="editor-toggle">
-            <label className={`toggle-label ${useRichEditor ? "active" : ""}`}>
-              <input
-                type="radio"
-                name="editorMode"
-                checked={useRichEditor}
-                onChange={() => setUseRichEditor(true)}
-              />
-              Rich Editor
-            </label>
-            <label className={`toggle-label ${!useRichEditor ? "active" : ""}`}>
-              <input
-                type="radio"
-                name="editorMode"
-                checked={!useRichEditor}
-                onChange={() => setUseRichEditor(false)}
-              />
-              Textarea
-            </label>
-          </div>
-
-          <label>Article Content</label>
+          <label>Article Content*</label>
           <div className="editor-body">
-            {useRichEditor ? (
-              <RichEditor
-                content={formData.content}
-                onChange={(html: string) =>
-                  setFormData((prev: any) => ({ ...prev, content: html }))
-                }
-              />
-            ) : (
-              <textarea
-                name="content"
-                value={formData.content}
-                onChange={(e) =>
-                  setFormData((prev: any) => ({
-                    ...prev,
-                    content: e.target.value,
-                  }))
-                }
-                rows={20}
-                className="plain-textarea"
-              />
-            )}
+            <RichEditor
+              content={formData.content}
+              onChange={(html: string) =>
+                setFormData((prev: any) => ({ ...prev, content: html }))
+              }
+            />
           </div>
         </div>
         <button type="submit" disabled={mutation.isPending}>

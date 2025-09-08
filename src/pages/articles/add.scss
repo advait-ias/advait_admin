@@ -52,6 +52,23 @@
       }
     }
 
+        .item-checkbox {
+      display: flex;
+      flex-direction: row; /* horizontal */
+      align-items: center; /* vertically align */
+      gap: 10px;
+
+      label {
+        font-size: 14px;
+      }
+
+      input[type="checkbox"] {
+        width: auto; /* prevent checkbox from stretching */
+        height: auto;
+        padding: 0; /* remove extra padding */
+      }
+    }
+
     button {
       padding: 12px;
       background-color: #00d084;
