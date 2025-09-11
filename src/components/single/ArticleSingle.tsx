@@ -256,6 +256,17 @@ const ArticleSingle = ({ article }: any) => {
                   ))}
                 </div>
               </div>
+
+              {["metaTitle", "metaDescription", "imageAlt"].map((field) => (
+                <div className="item" key={field}>
+                  <span className="itemTitle">{field}</span>
+                  <TextField
+                    className="itemInput"
+                    value={editableData[field]}
+                    onChange={(e) => handleChange(field, e.target.value)}
+                  />
+                </div>
+              ))}
             </div>
 
             <button

@@ -13,8 +13,8 @@
         gap: 20px;
 
         img {
-          width: 200px;
-          height: 100px;
+          width: 500px;
+          height: 300px;
           border-radius: 20px;
           object-fit: cover;
         }
@@ -22,7 +22,7 @@
         h1 {
           font-size: 40px;
           font-weight: 500;
-          color: #2a3447;
+          color: white;
           font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
             sans-serif;
         }
@@ -36,7 +36,7 @@
         display: flex;
         flex-direction: column;
         gap: 15px;
-        width: 90%;
+        width: 100%;
         margin: 20px 0;
 
         .items {
@@ -48,6 +48,7 @@
         .item {
           display: flex;
           flex-direction: column;
+          
           gap: 10px;
           margin-bottom: 15px;
           width: 100%;
