@@ -57,6 +57,7 @@ import WhyChooseUs from "./pages/why-choose-us/WhyChooseUs";
 import Users from "./pages/users/Users";
 import AboutUs from "./pages/about-us/AboutPage";
 import GetInTouch from "./pages/get-in-touch/GetInTouchPage";
+import MetaData from "./pages/metaData/MetaDataPage";
 
 const queryClient = new QueryClient();
 
@@ -239,6 +240,10 @@ const router = createBrowserRouter([
       {
         path: "/home-carousel",
         element: <HomeCarousel />,
+      },
+      {
+        path: "/meta-data",
+        element: <MetaData />,
       },
       {
         path: "/why-choose-us",

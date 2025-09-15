@@ -1,0 +1,56 @@
+@use "../../styles/variables.scss" as variables;
+
+.meta-data-page {
+  padding: 32px;
+  background: variables.$main-bg;
+  min-height: 100vh;
+  color: white;
+
+  .title {
+    color: variables.$soft-color;
+    margin-bottom: 20px;
+  }
+
+  .form-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .image-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    label {
+      color: variables.$soft-color;
+      font-size: 14px;
+    }
+
+    input[type="file"] {
+      margin-top: 6px;
+    }
+
+    .preview {
+      margin-top: 12px;
+      img {
+        width: 200px;
+        height: auto;
+        border-radius: 6px;
+        border: 1px solid #555;
+        object-fit: cover;
+      }
+      button {
+        margin-top: 8px;
+      }
+    }
+  }
+
+  .actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 12px;
+  }
+}

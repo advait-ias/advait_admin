@@ -1,4 +1,3 @@
-// src/api/services/getInTouchService.ts
 import api from "../axiosConfig";
 import { endpoints } from "../endpoints";
 

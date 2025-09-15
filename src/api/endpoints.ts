@@ -33,4 +33,5 @@ export const endpoints = {
   termsAndConditions: createCrudEndpoints("/terms-and-conditions"),
   privacyPolicy: createCrudEndpoints("/privacy-policy"),
   socials: createCrudEndpoints("/socials"),
+  metaData: createCrudEndpoints("/meta-data"),
 };
