@@ -1,7 +1,7 @@
-import UserSingle from "../../components/single/UserSingle";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getBlogById } from "../../api/services/blogService";
+import BlogSingle from "../../components/single/BlogSingle";
 import "./blog.scss";
 
 const Blog = () => {
@@ -18,7 +18,7 @@ const Blog = () => {
 
   return (
     <div className="blog">
-      <UserSingle user={data?.data} />
+      <BlogSingle blog={data?.data} />
     </div>
   );
 };
