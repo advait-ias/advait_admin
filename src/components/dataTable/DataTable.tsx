@@ -9,12 +9,12 @@ type Props = {
   rows: object[];
   slug: string;
   route: string;
-  rowCount: number;
-  page: number;
-  pageSize: number;
-  loading: boolean;
-  onPageChange: (newPage: number) => void;
-  onPageSizeChange: (newPageSize: number) => void;
+  rowCount?: number;
+  page?: number;
+  pageSize?: number;
+  loading?: boolean;
+  onPageChange?: (newPage: number) => void;
+  onPageSizeChange?: (newPageSize: number) => void;
 };
 
 const DataTable = (props: Props) => {
@@ -63,21 +63,14 @@ const DataTable = (props: Props) => {
         columns={[...props.columns, actionColumn]}
         rowCount={props.rowCount}
         loading={props.loading} // ✅ spinner overlay
-        paginationMode="server"
+        paginationMode={props.page !== undefined ? "server" : "client"}
         paginationModel={{
-          page: props.page,
-          pageSize: props.pageSize,
+          page: props.page ?? 0,
+          pageSize: props.pageSize ?? 10,
         }}
         onPaginationModelChange={(model) => {
-          props.onPageChange(model.page); // stays 0-based
-          props.onPageSizeChange(model.pageSize);
-        }}
-        slots={{ toolbar: GridToolbar }}
-        slotProps={{
-          toolbar: {
-            showQuickFilter: true,
-            quickFilterProps: { debounceMs: 500 },
-          },
+          props.onPageChange?.(model.page);
+          props.onPageSizeChange?.(model.pageSize);
         }}
         checkboxSelection
         disableRowSelectionOnClick
