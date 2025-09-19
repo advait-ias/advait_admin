@@ -9,6 +9,12 @@ type Props = {
   rows: object[];
   slug: string;
   route: string;
+  rowCount: number;
+  page: number;
+  pageSize: number;
+  loading: boolean;
+  onPageChange: (newPage: number) => void;
+  onPageSizeChange: (newPageSize: number) => void;
 };
 
 const DataTable = (props: Props) => {
@@ -37,18 +43,16 @@ const DataTable = (props: Props) => {
     field: "action",
     headerName: "Action",
     width: 100,
-    renderCell: (params) => {
-      return (
-        <div className="action">
-          <Link to={`/${props.slug}/${params.row.id}`}>
-            <img src="/view.svg" alt="View" />
-          </Link>
-          <div className="delete" onClick={() => handleDelete(params.row.id)}>
-            <img src="/delete.svg" alt="Delete" />
-          </div>
+    renderCell: (params) => (
+      <div className="action">
+        <Link to={`/${props.slug}/${params.row.id}`}>
+          <img src="/view.svg" alt="View" />
+        </Link>
+        <div className="delete" onClick={() => handleDelete(params.row.id)}>
+          <img src="/delete.svg" alt="Delete" />
         </div>
-      );
-    },
+      </div>
+    ),
   };
 
   return (
@@ -57,12 +61,16 @@ const DataTable = (props: Props) => {
         className="dataGrid"
         rows={props.rows}
         columns={[...props.columns, actionColumn]}
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 10,
-            },
-          },
+        rowCount={props.rowCount}
+        loading={props.loading} // ✅ spinner overlay
+        paginationMode="server"
+        paginationModel={{
+          page: props.page,
+          pageSize: props.pageSize,
+        }}
+        onPaginationModelChange={(model) => {
+          props.onPageChange(model.page); // stays 0-based
+          props.onPageSizeChange(model.pageSize);
         }}
         slots={{ toolbar: GridToolbar }}
         slotProps={{
@@ -71,7 +79,6 @@ const DataTable = (props: Props) => {
             quickFilterProps: { debounceMs: 500 },
           },
         }}
-        pageSizeOptions={[5]}
         checkboxSelection
         disableRowSelectionOnClick
         disableColumnFilter

@@ -14,9 +14,11 @@ export interface Article extends Document {
   isActive: boolean;
 }
 
-export const fetchAllArticles = async () => {
-  const res = await api.get(endpoints.article.list);
-  return res.data;
+export const fetchAllArticles = async (page: number, limit: number) => {
+  const res = await api.get(
+    `${endpoints.article.list}/order-by?page=${page}&limit=${limit}`
+  );
+  return res.data; // { data: [...], pagination: {...} }
 };
 
 export const getArticleById = (id: string) =>
