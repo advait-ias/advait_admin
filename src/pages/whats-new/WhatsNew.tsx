@@ -1,6 +1,5 @@
 import { toast } from "react-hot-toast";
 import { useEffect, useState } from "react";
-import { fetchAllArticles } from "../../api/services/articleService";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   addWhatsNew,
@@ -15,8 +14,8 @@ const WhatsNewPage = () => {
 
   // Get all articles
   const { data: articles = [], isLoading: loadingArticles } = useQuery({
-    queryKey: ["articles"],
-    queryFn: fetchAllArticles,
+    queryKey: ["whatsNewArticles"],
+    queryFn: fetchAllWhatsNew,
   });
 
   // Get existing WhatsNew
