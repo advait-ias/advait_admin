@@ -58,6 +58,7 @@ import Users from "./pages/users/Users";
 import AboutUs from "./pages/about-us/AboutPage";
 import GetInTouch from "./pages/get-in-touch/GetInTouchPage";
 import MetaData from "./pages/metaData/MetaDataPage";
+import Contact from "./pages/contact/ContactPage";
 
 const queryClient = new QueryClient();
 
@@ -284,6 +285,10 @@ const router = createBrowserRouter([
       {
         path: "/faq",
         element: <Faqs />,
+      },
+      {
+        path: "/contact",
+        element: <Contact />,
       },
     ],
   },

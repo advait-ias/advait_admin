@@ -1,0 +1,27 @@
+@use "../../styles/variables.scss" as variables;
+
+.contact-page {
+  padding: 32px;
+  background: variables.$main-bg;
+  min-height: 100vh;
+  color: white;
+
+  .title {
+    color: variables.$soft-color;
+    margin-bottom: 20px;
+  }
+
+  .form-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 12px;
+  }
+}

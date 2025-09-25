@@ -34,4 +34,5 @@ export const endpoints = {
   privacyPolicy: createCrudEndpoints("/privacy-policy"),
   socials: createCrudEndpoints("/socials"),
   metaData: createCrudEndpoints("/meta-data"),
+  contact: createCrudEndpoints("/contact"),
 };

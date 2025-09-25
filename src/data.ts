@@ -195,6 +195,12 @@ export const menu = [
         url: "/faq",
         icon: "element.svg",
       },
+      {
+        id: 12,
+        title: "Contact",
+        url: "/contact",
+        icon: "element.svg",
+      },
     ],
   },
   // {
