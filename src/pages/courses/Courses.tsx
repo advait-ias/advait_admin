@@ -1,24 +1,16 @@
-import AddCourseDialog from "./AddCoursePage";
 import DataTable from "../../components/dataTable/DataTable";
 import { useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
 import { fetchAllCourses } from "../../api/services/courseService";
-import "./courses.scss";
 import { Link } from "react-router-dom";
+import "./courses.scss";
 
 const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 250 },
-  {
-    field: "coverImage",
-    headerName: "Cover Image",
-    width: 75,
-    renderCell: () => <img src={"/noavatar.png"} alt="" />,
-  },
+  { field: "id", headerName: "ID", width: 200 },
   { field: "title", headerName: "Title", width: 200 },
-  { field: "description", headerName: "Description", width: 200 },
-  { field: "price", headerName: "Price", width: 120 },
-  { field: "duration", headerName: "Duration", width: 120 },
+  { field: "price", headerName: "Price", width: 100 },
+  { field: "duration", headerName: "Duration", width: 100 },
   { field: "startDate", headerName: "Start Date", width: 120 },
   { field: "endDate", headerName: "End Date", width: 120 },
   {
