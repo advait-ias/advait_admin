@@ -9,7 +9,7 @@ import "./courses.scss";
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 200 },
   { field: "title", headerName: "Title", width: 200 },
-  { field: "price", headerName: "Price", width: 100 },
+  { field: "type", headerName: "Type", width: 100 },
   { field: "duration", headerName: "Duration", width: 100 },
   { field: "startDate", headerName: "Start Date", width: 120 },
   { field: "endDate", headerName: "End Date", width: 120 },
@@ -40,7 +40,7 @@ const Courses = () => {
       coverImage: article.coverImage,
       title: article.title,
       description: article.description,
-      price: article.price,
+      type: article.courseType,
       duration: article.duration,
       startDate: new Date(article.startDate).toLocaleDateString("en-GB"),
       endDate: new Date(article.endDate).toLocaleDateString("en-GB"),

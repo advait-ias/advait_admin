@@ -3,9 +3,9 @@ import {
   Autocomplete,
   CircularProgress,
   TextField,
-  Checkbox,
-  FormControlLabel,
+  IconButton,
 } from "@mui/material";
+import { AddCircle, RemoveCircle } from "@mui/icons-material";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { fetchAllExams } from "../../api/services/examService";
@@ -30,13 +30,16 @@ const AddCoursePage = () => {
     startDate: "",
     endDate: "",
     includes: [] as string[],
+    newInclude: "",
     exams: [] as string[],
     faculty: [] as string[],
+    courseType: "paid", // new field
   });
 
   const [thumbnail, setThumbnail] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
 
+  // Queries
   const { data: examOptions = [], isLoading: loadingExams } = useQuery({
     queryKey: ["exams"],
     queryFn: fetchAllExams,
@@ -47,21 +50,22 @@ const AddCoursePage = () => {
     queryFn: fetchAllFaculty,
   });
 
-  // Duration logic updates
+  // 🕒 Duration logic updates
   useEffect(() => {
     const durationNum = Number(formData.duration);
 
-    // If duration = 0, clear start and end
+    // Lifetime Course (0 Days)
     if (durationNum === 0) {
+      const today = new Date().toISOString().split("T")[0];
       setFormData((prev) => ({
         ...prev,
-        startDate: "",
-        endDate: "",
+        startDate: prev.startDate || today, // default today if empty
+        endDate: "", // clear and disable
       }));
       return;
     }
 
-    // If duration > 0 and startDate not set, default to today
+    // If duration > 0 and startDate not set, set to today
     if (durationNum > 0 && !formData.startDate) {
       const start = new Date();
       const end = new Date(start);
@@ -74,7 +78,7 @@ const AddCoursePage = () => {
       }));
     }
 
-    // If startDate exists, update endDate based on duration
+    // Update end date when duration changes
     if (formData.startDate && durationNum > 0) {
       const end = new Date(formData.startDate);
       end.setDate(end.getDate() + durationNum);
@@ -85,7 +89,6 @@ const AddCoursePage = () => {
     }
   }, [formData.duration]);
 
-  // When startDate changes, update endDate if duration > 0
   useEffect(() => {
     if (formData.startDate && Number(formData.duration) > 0) {
       const end = new Date(formData.startDate);
@@ -97,9 +100,7 @@ const AddCoursePage = () => {
     }
   }, [formData.startDate]);
 
-  // When endDate changes manually, recalc duration only if user really changed it
   useEffect(() => {
-    // Don't recalc duration for lifetime courses or missing dates
     if (Number(formData.duration) === 0) return;
     if (!formData.startDate || !formData.endDate) return;
 
@@ -109,22 +110,19 @@ const AddCoursePage = () => {
       (end.getTime() - start.getTime()) / (1000 * 3600 * 24)
     );
 
-    // Only update if changed
     if (diff !== Number(formData.duration)) {
-      setFormData((prev) => ({
-        ...prev,
-        duration: diff.toString(),
-      }));
+      setFormData((prev) => ({ ...prev, duration: diff.toString() }));
     }
   }, [formData.endDate]);
 
+  // Mutation
   const mutation = useMutation({
     mutationFn: () => {
       const form = new FormData();
       Object.entries(formData).forEach(([key, val]) => {
         if (["exams", "faculty", "includes"].includes(key)) {
           form.append(key, JSON.stringify(val));
-        } else {
+        } else if (key !== "newInclude") {
           form.append(key, val as string);
         }
       });
@@ -137,6 +135,7 @@ const AddCoursePage = () => {
     },
   });
 
+  // Handlers
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -146,18 +145,25 @@ const AddCoursePage = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleIncludesChange = (item: string) => {
-    setFormData((prev) => {
-      const includes = prev.includes.includes(item)
-        ? prev.includes.filter((i) => i !== item)
-        : [...prev.includes, item];
-      return { ...prev, includes };
-    });
-  };
-
   const handleThumbnail = (file: File) => {
     setThumbnail(file);
     setPreview(URL.createObjectURL(file));
+  };
+
+  const handleAddInclude = () => {
+    if (!formData.newInclude.trim()) return;
+    setFormData((prev) => ({
+      ...prev,
+      includes: [...prev.includes, prev.newInclude.trim()],
+      newInclude: "",
+    }));
+  };
+
+  const handleRemoveInclude = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      includes: prev.includes.filter((_, i) => i !== index),
+    }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -175,147 +181,9 @@ const AddCoursePage = () => {
       <h1>Add New Course</h1>
 
       <form onSubmit={handleSubmit}>
-        {/* Required Fields */}
+        {/* Exams (Required and Moved to Top) */}
         <div className="item required">
-          <label>Course Title</label>
-          <input
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="item required">
-          <label>Description</label>
-          <textarea
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="item required">
-          <label>Price</label>
-          <input
-            type="number"
-            name="price"
-            value={formData.price}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        {/* Discount Section */}
-        <div className="discount-section">
-          <h3>Discount (Optional)</h3>
-          <div className="item">
-            <label>Discount Type</label>
-            <select
-              name="discountType"
-              value={formData.discountType}
-              onChange={handleChange}
-            >
-              <option value="flat">Flat</option>
-              <option value="percent">Percent</option>
-            </select>
-          </div>
-
-          <div className="item">
-            <label>Discount {discountSuffix}</label>
-            <input
-              type="number"
-              name="discount"
-              value={formData.discount}
-              onChange={handleChange}
-              placeholder={`Enter value in ${discountSuffix}`}
-            />
-          </div>
-
-          <div className="item">
-            <label>Discount Start Date (Optional)</label>
-            <input
-              type="date"
-              name="discountStartDate"
-              value={formData.discountStartDate}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="item">
-            <label>Discount End Date (Optional)</label>
-            <input
-              type="date"
-              name="discountEndDate"
-              value={formData.discountEndDate}
-              onChange={handleChange}
-            />
-          </div>
-        </div>
-
-        {/* Duration */}
-        <div className="item required">
-          <label>Course Duration (Days, 0 for Lifetime)</label>
-          <input
-            type="number"
-            name="duration"
-            value={formData.duration}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="item">
-          <label>Start Date</label>
-          <input
-            type="date"
-            name="startDate"
-            value={formData.startDate}
-            onChange={handleChange}
-            disabled={Number(formData.duration) === 0}
-          />
-        </div>
-
-        <div className="item">
-          <label>End Date</label>
-          <input
-            type="date"
-            name="endDate"
-            value={formData.endDate}
-            onChange={handleChange}
-            disabled={Number(formData.duration) === 0}
-          />
-        </div>
-
-        {/* Includes */}
-        <div className="item">
-          <label>Course Includes</label>
-          <div className="checkbox-group">
-            {[
-              "Live Class",
-              "Recorded Class",
-              "Prelims Test Series",
-              "Downloadable Resources",
-            ].map((item) => (
-              <FormControlLabel
-                key={item}
-                control={
-                  <Checkbox
-                    checked={formData.includes.includes(item)}
-                    onChange={() => handleIncludesChange(item)}
-                    sx={{ color: "white" }}
-                  />
-                }
-                label={item}
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* Exams */}
-        <div className="item">
-          <label>Exams (Optional)</label>
+          <label>Exams</label>
           <Autocomplete
             multiple
             options={examOptions}
@@ -341,9 +209,160 @@ const AddCoursePage = () => {
                     </>
                   ),
                 }}
+                // ✅ Custom visual error when exams not selected
+                error={mutation.isError && formData.exams.length === 0}
+                helperText={
+                  formData.exams.length === 0
+                    ? "Please select at least one exam"
+                    : ""
+                }
               />
             )}
           />
+        </div>
+
+        {/* Course Type */}
+        <div className="item required">
+          <label>Course Type</label>
+          <select
+            name="courseType"
+            value={formData.courseType}
+            onChange={handleChange}
+          >
+            <option value="paid">Paid</option>
+            <option value="free">Free</option>
+          </select>
+        </div>
+
+        {/* Required Fields */}
+        <div className="item required">
+          <label>Course Title</label>
+          <input
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="item required">
+          <label>Description</label>
+          <textarea
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        {/* Show price/discount only for paid courses */}
+        {formData.courseType === "paid" && (
+          <>
+            <div className="item required">
+              <label>Price</label>
+              <input
+                type="number"
+                name="price"
+                value={formData.price}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            {/* Discount Section */}
+            <div className="discount-section">
+              <h3>Discount (Optional)</h3>
+              <div className="item">
+                <label>Discount Type</label>
+                <select
+                  name="discountType"
+                  value={formData.discountType}
+                  onChange={handleChange}
+                >
+                  <option value="flat">Flat</option>
+                  <option value="percent">Percent</option>
+                </select>
+              </div>
+
+              <div className="item">
+                <label>Discount {discountSuffix}</label>
+                <input
+                  type="number"
+                  name="discount"
+                  value={formData.discount}
+                  onChange={handleChange}
+                  placeholder={`Enter value in ${discountSuffix}`}
+                />
+              </div>
+            </div>
+          </>
+        )}
+
+        {/* Duration */}
+        <div className="item required">
+          <label>Course Duration (Days, 0 for Lifetime)</label>
+          <input
+            type="number"
+            name="duration"
+            value={formData.duration}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="item">
+          <label>Start Date</label>
+          <input
+            type="date"
+            name="startDate"
+            value={formData.startDate}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="item">
+          <label>End Date</label>
+          <input
+            type="date"
+            name="endDate"
+            value={formData.endDate}
+            onChange={handleChange}
+            disabled={Number(formData.duration) === 0} // ✅ Only End Date disabled
+          />
+        </div>
+
+        {/* Course Includes (Dynamic) */}
+        <div className="item">
+          <label>Course Includes</label>
+          <div className="includes-input">
+            <input
+              type="text"
+              placeholder="Add inclusion (e.g. Live Class)"
+              name="newInclude"
+              value={formData.newInclude}
+              onChange={handleChange}
+              onKeyDown={(e) =>
+                e.key === "Enter" && (e.preventDefault(), handleAddInclude())
+              }
+            />
+            <IconButton color="success" onClick={handleAddInclude}>
+              <AddCircle />
+            </IconButton>
+          </div>
+          <ul className="includes-list">
+            {formData.includes.map((item, index) => (
+              <li key={index}>
+                {item}
+                <IconButton
+                  color="error"
+                  size="small"
+                  onClick={() => handleRemoveInclude(index)}
+                >
+                  <RemoveCircle />
+                </IconButton>
+              </li>
+            ))}
+          </ul>
         </div>
 
         {/* Faculty */}
